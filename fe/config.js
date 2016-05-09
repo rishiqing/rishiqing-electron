@@ -1,6 +1,5 @@
 ;(function(){
   var package = require('../package.json');
-  console.log('package', package);
   var env = package.env;//dev是开发环境，release是发布环境, beta是beta环境
   var PREFIX_URL = {
     dev:"http://beta.rishiqing.com",
