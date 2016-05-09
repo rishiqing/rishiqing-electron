@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>日事清</title>
+        <link rel="stylesheet" type="text/css" href="css/core.css">
+    </head>
+    <body>
+    	<iframe id="main-iframe" allowFullscreen="true"></iframe>
+      <div id="loading">
+        <div class="loading-splash">
+          <img class="tip animated rotate infinite" src="./img/arrow-2.png">
+        </div>
+        <div class="network-error" title="点击重试" style="display: none;">
+          <span class="tip">无法连接服务器，请检查网络后再试</span>
+          <img class="reload" src="./img/arrow-1.png" alt="点击重试">
+        </div>
+      </div>
+      <div id="alert">
+        <div class="content" style="display: none;"></div>
+      </div>
+      <script type="text/javascript" src="./eleManage.js"></script>
+      <script type="text/javascript" src="./main.js"></script>
+      <!-- <script type="text/javascript" src="./tray.js"></script>
+      <script type="text/javascript" src="./menu.js"></script> -->
+    </body>
+</html>
