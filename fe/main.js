@@ -16,9 +16,6 @@
   var platform       = process.platform;
   var alertTipTimer  = null;
 
-  console.log('config', config);
-
-
   // win.showDevTools();
 
   mainWindow.onerror = function () {
@@ -68,7 +65,7 @@
     });
   });
 
-  $mainIframe.src = config.ACCOUNT_URL;
+  $mainIframe.src = config.ACCOUNT_URL + '?_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
 
   // 在local页面监听键盘，刷新
   var localHandleBar = function (pressed) {
