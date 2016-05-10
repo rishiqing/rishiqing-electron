@@ -20,6 +20,8 @@ function createWindow () {
   webContents.setUserAgent(userAgent);
   mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
   // 打开调试窗口
-  webContents.openDevTools();
+  if (package.env === 'dev') {
+    webContents.openDevTools();
+  }
 }
 app.on('ready', createWindow);
