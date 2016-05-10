@@ -9,7 +9,11 @@
   "scripts": {
     "start": "electron main.js",
     "build-mac-beta": "grunt --env=beta && node ./build.js --arch=x64 --platform=darwin",
-    "build-mac-release": "grunt --env=release && node ./build.js --arch=x64 --platform=darwin"
+    "build-mac-release": "grunt --env=release && node ./build.js --arch=x64 --platform=darwin",
+    "build-win64-beta": "grunt --env=beta && node ./build.js --arch=x64 --platform=win32",
+    "build-win64-release": "grunt --env=release && node ./build.js --arch=x64 --platform=win32",
+    "build-win32-beta": "grunt --env=beta && node ./build.js --arch=ia32 --platform=win32",
+    "build-win32-release": "grunt --env=release && node ./build.js --arch=ia32 --platform=win32"
   },
   "dependencies": {
     "jquery": "2.2.0",
