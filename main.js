@@ -16,7 +16,7 @@ function createWindow () {
     }
   });
   webContents = mainWindow.webContents;
-  const userAgent = webContents.getUserAgent() + ' rishiqing-pc';
+  const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
   webContents.setUserAgent(userAgent);
   mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
   // 打开调试窗口
