@@ -1,6 +1,7 @@
 var packager = require('electron-packager');
 var yargs    = require('yargs');
 var fs       = require('fs');
+var package  = require('./package.json');
 var argv     = yargs.argv;
 
 var arch = argv.arch,
@@ -11,7 +12,7 @@ var arch = argv.arch,
   name = 'rishiqing',
   out  = './package/release/',
   overwrite = true,
-  version = '0.37.8',
+  version = package.electronVersion,
   app_bundle_id = 'release.rishiqing.electron'
 try {
   var outDirState = fs.lstatSync(out);

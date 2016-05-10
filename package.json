@@ -1,12 +1,13 @@
 {
   "name": "rishiqing",
   "version": "2.1.0",
+  "electronVersion": "0.37.8",
   "main": "main.js",
   "env": "dev",
   "MIN_WINDOW_WIDTH": 1218,
   "MIN_WINDOW_HEIGHT": 620,
   "scripts": {
-    "start": "electron main.js",    
+    "start": "electron main.js",
     "build-mac-beta": "grunt --env=beta && node ./build.js --arch=x64 --platform=darwin",
     "build-mac-release": "grunt --env=release && node ./build.js --arch=x64 --platform=darwin"
   },
