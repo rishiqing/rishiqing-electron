@@ -8,7 +8,7 @@
     "build": "electron-packager . MyApp",
     "buildMac": "electron-packager . rishiqing --platform=darwin --arch=x64 --version=0.37.8  --out=./package/release/ --icon=./res/app.icns --app-bundle-id=release.rishiqing.electron --overwrite --ignore",
     "buildWin32": "electron-packager . rishiqing --platform=win32 --arch=ia32",
-    "build-test": "node ./build.js --arch=x64 --platform=darwin"
+    "build-test": "grunt && node ./build.js --arch=x64 --platform=darwin"
   },
   "dependencies": {
     "jquery": "2.2.0",

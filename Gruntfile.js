@@ -93,9 +93,15 @@ module.exports = function (grunt) {
           {expand: true, src: 'node_modules/jquery/**', dest: destPath},
           {expand: true, src: 'node_modules/winreg/**', dest: destPath}
         ]
+      },
+      mainJs: {
+        files: [
+          {expand: true, src: 'main.js', dest: destPath},
+          {expand: true, src: 'config.js', dest: destPath}
+        ]
       }
     },
-    clean: [destPath]
+    clean: [destPath, 'package']
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-compass');

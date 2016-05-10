@@ -4,7 +4,7 @@ var fs       = require('fs');
 var argv     = yargs.argv;
 
 var arch = argv.arch,
-  dir    = '.',
+  dir    = './dir/',
   platform = argv.platform,
   asar = false,
   icon = './res/app.icns',
