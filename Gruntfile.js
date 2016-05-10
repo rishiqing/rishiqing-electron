@@ -11,24 +11,8 @@ var platform = process.platform;
 if (argv.ia32 && platform === 'win32') {
   platform += '-ia32';
 }
-var infoJson = {
-  'win32':{
-    appPackage: 'package.nw',
-    appDestPath: 'rishiqing-nw-sdk-x64'
-  },
-  'win32-ia32':{
-    appPackage: 'package.nw',
-    appDestPath: 'rishiqing-nw-sdk-ia32'
-  },
-  'darwin':{
-    appPackage: 'app.nw',
-    appDestPath: 'rishiqing-nw-sdk-osx/日事清.app/Contents/Resources'
-  }
-};
-var appPackage = infoJson[platform].appPackage,
-  appDestPath  = infoJson[platform].appDestPath,
-  destPath     = 'dir',
-  env          = argv.env ? argv.env : 'release';
+var destPath = 'dir',
+  env        = argv.env ? argv.env : 'release';
 
 module.exports = function (grunt) {
 	grunt.initConfig({
@@ -79,6 +63,7 @@ module.exports = function (grunt) {
             packageJson.name = '日事清';
             delete packageJson.devDependencies;
             delete packageJson.dependencies;
+            delete packageJson.scripts;
             return JSON.stringify(packageJson);
           }
         }
@@ -96,8 +81,7 @@ module.exports = function (grunt) {
       },
       mainJs: {
         files: [
-          {expand: true, src: 'main.js', dest: destPath},
-          {expand: true, src: 'config.js', dest: destPath}
+          {expand: true, src: 'main.js', dest: destPath}
         ]
       }
     },
