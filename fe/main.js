@@ -16,8 +16,6 @@
   var platform       = process.platform;
   var alertTipTimer  = null;
 
-  console.log('re load load begin');
-
   mainWindow.onerror = function () {
     console.log('onerror');
   }
