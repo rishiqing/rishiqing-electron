@@ -12,11 +12,7 @@ var arch = argv.arch,
   out  = './package/release/',
   overwrite = true,
   version = '0.37.8',
-  app_bundle_id = 'release.rishiqing.electron',
-  ignore = function (path) {
-    if (path.indexOf('/'))
-    console.log('ignore', path);
-  };
+  app_bundle_id = 'release.rishiqing.electron'
 try {
   var outDirState = fs.lstatSync(out);
 } catch (e) {
@@ -37,8 +33,7 @@ packager({
   out: out,
   overwrite: overwrite,
   version: version,
-  'app-bundle-id': app_bundle_id,
-  ignore: ignore
+  'app-bundle-id': app_bundle_id
 }, function (err, appPaths) {
   console.log('err', err);
   console.log('appPaths', appPaths);
