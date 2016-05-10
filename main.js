@@ -3,7 +3,7 @@ const config = require("./config");
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
-let mainWindow;
+let mainWindow, webContents;
 function createWindow () {
   mainWindow = new BrowserWindow({
     width: config.MIN_WINDOW_WIDTH,
@@ -15,11 +15,11 @@ function createWindow () {
       "nodeIntegration":true
     }
   });
-  const userAgent = mainWindow.webContents.getUserAgent() + ' rishiqing-pc';
-  mainWindow.webContents.setUserAgent(userAgent);
+  webContents = mainWindow.webContents;
+  const userAgent = webContents.getUserAgent() + ' rishiqing-pc';
+  webContents.setUserAgent(userAgent);
   mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
   // 打开调试窗口
-  mainWindow.webContents.openDevTools();
-
+  webContents.openDevTools();
 }
 app.on('ready', createWindow);

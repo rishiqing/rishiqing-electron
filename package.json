@@ -6,7 +6,7 @@
   "scripts": {
     "start": "electron main.js",
     "build": "electron-packager . MyApp",
-    "buildRelease": "electron-packager . rishiqing --platform=darwin --arch=x64 --version=0.36.4  --out=./package/release/ --icon=./res/icon.icns --app-bundle-id=release.rishiqing.electron --overwrite"
+    "buildRelease": "electron-packager . rishiqing --platform=darwin --arch=x64 --version=0.37.8  --out=./package/release/ --icon=./res/app.icns --app-bundle-id=release.rishiqing.electron --overwrite"
   },
   "dependencies": {
     "jquery": "2.2.0",

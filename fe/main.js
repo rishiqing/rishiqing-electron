@@ -16,7 +16,7 @@
   var platform       = process.platform;
   var alertTipTimer  = null;
 
-  // win.showDevTools();
+  console.log('re load load begin');
 
   mainWindow.onerror = function () {
     console.log('onerror');
@@ -34,8 +34,9 @@
         } else {
           loading.hide();
         }
-        var host = mainWindow.location.host;
+        var host = mainWindow.location.host, isInThirdLoginPage;
         if (config.THIRD_LOGIN_HOST[host]) {
+          isInThirdLoginPage = true;
           var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
           alertTip.show(config.THIRD_LOGIN_HOST[host] + '登录页面 可按 ' + keyTip + ' 键返回');
           if (alertTipTimer) {
@@ -57,6 +58,9 @@
               loading.show();
               mainWindow.location.reload();
             }
+          }
+          if (pressed.which === 8 && isInThirdLoginPage) { // 如果在第三方登陆页，并且按了delete键，则倒退
+            mainWindow.history.back();
           }
         };
         mainWindow.document.removeEventListener('keydown', handleBar);
