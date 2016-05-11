@@ -58,10 +58,12 @@ const template = [
     ]
   }
 ];
-function Menu (menu) {
-  if (process.platform === 'darwin') {
-    const m = menu.buildFromTemplate(template);
-    menu.setApplicationMenu(m);
+class Menu {
+  constructor (menu) {
+    if (process.platform === 'darwin') {
+      const m = menu.buildFromTemplate(template);
+      menu.setApplicationMenu(m);
+    }
   }
 }
 module.exports = Menu;
