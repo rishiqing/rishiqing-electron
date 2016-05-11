@@ -1,18 +1,16 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
-* @Last Modified by:   apple
-* @Last Modified time: 2016-02-19 10:50:47
+* @Last Modified by:   qinyang
+* @Last Modified time: 2016-05-11 10:28:04
 */
 
 var path     = require('path');
 var argv    = require('yargs').argv;
-var platform = process.platform;
-if (argv.ia32 && platform === 'win32') {
-  platform += '-ia32';
-}
+
 var destPath = 'dir',
-  env        = argv.env ? argv.env : 'release';
+  env        = argv.env ? argv.env : 'release',
+  platform   = argv.platform;
 
 module.exports = function (grunt) {
 	grunt.initConfig({

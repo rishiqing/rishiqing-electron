@@ -13,7 +13,8 @@ var arch = argv.arch,
   out  = './package/release/',
   overwrite = true,
   version = package.electronVersion,
-  app_bundle_id = 'release.rishiqing.electron'
+  app_bundle_id = 'release.rishiqing.electron',
+  build_version = package.version
 try {
   var outDirState = fs.lstatSync(out);
 } catch (e) {
@@ -34,7 +35,15 @@ packager({
   out: out,
   overwrite: overwrite,
   version: version,
-  'app-bundle-id': app_bundle_id
+  'app-bundle-id': app_bundle_id,
+  'build-version': build_version,
+  'version-string': { // for windows
+    CompanyName: package.CompanyName,
+    FileDescription: package.FileDescription,
+    OriginalFilename: package.OriginalFilename,
+    ProductName: package.ProductName,
+    InternalName: package.InternalName
+  }
 }, function (err, appPaths) {
   console.log('err', err);
   console.log('appPaths', appPaths);
