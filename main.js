@@ -1,5 +1,6 @@
 const electron = require('electron');
-const package = require("./package.json");
+const package  = require("./package.json");
+const Menu     = require('./native/menu.js');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -24,7 +25,10 @@ function createWindow () {
     webContents.openDevTools();
   }
 }
-app.on('ready', createWindow);
+app.on('ready', function () {
+  const m = new Menu(electron.Menu);
+  createWindow();
+});
 app.on('window-all-closed', function () {
   app.quit();
 });

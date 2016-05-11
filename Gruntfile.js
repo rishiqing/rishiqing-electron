@@ -79,7 +79,8 @@ module.exports = function (grunt) {
       },
       mainJs: {
         files: [
-          {expand: true, src: 'main.js', dest: destPath}
+          {expand: true, src: 'main.js', dest: destPath},
+          {expand: true, src: 'native/*.js', dest: destPath}
         ]
       }
     },
