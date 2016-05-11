@@ -3,7 +3,7 @@
 
 #define MyAppName "日事清-beta"
 #define MyAppVersion "2.0.3"
-#define MyAppPublisher "北京创仕科锐有限责任公司"
+#define MyAppPublisher "北京创仕科锐信息技术有限责任公司"
 #define MyAppURL "https://www.rishiqing.com/"
 #define MyAppExeName "rishiqing.exe"
 #define SourceDir "..\rishiqing-nw-sdk-ia32"
