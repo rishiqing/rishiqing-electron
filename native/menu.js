@@ -1,4 +1,5 @@
 const electron = require('electron');
+const Menu     = electron.Menu;
 const shell    = electron.shell;
 const app      = electron.app;
 const template = [
@@ -58,12 +59,12 @@ const template = [
     ]
   }
 ];
-class Menu {
-  constructor (menu) {
+class MenuClass {
+  constructor () {
     if (process.platform === 'darwin') {
-      const m = menu.buildFromTemplate(template);
-      menu.setApplicationMenu(m);
+      const m = Menu.buildFromTemplate(template);
+      Menu.setApplicationMenu(m);
     }
   }
 }
-module.exports = Menu;
+module.exports = MenuClass;

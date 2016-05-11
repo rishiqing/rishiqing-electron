@@ -26,7 +26,7 @@ function createWindow () {
   }
 }
 app.on('ready', function () {
-  const m = new Menu(electron.Menu);
+  const m = new Menu();
   createWindow();
 });
 app.on('window-all-closed', function () {
