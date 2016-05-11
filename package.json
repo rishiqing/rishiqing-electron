@@ -1,7 +1,7 @@
 {
   "name": "rishiqing",
   "version": "2.1.0",
-  "electronVersion": "0.37.8",
+  "electronVersion": "1.0.0",
   "main": "main.js",
   "env": "dev",
   "MIN_WINDOW_WIDTH": 1218,
@@ -26,7 +26,7 @@
   },
   "devDependencies": {
     "electron-packager": "7.0.1",
-    "electron-prebuilt": "0.37.8",
+    "electron-prebuilt": "1.0.0",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compass": "^1.1.0",
