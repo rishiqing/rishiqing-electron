@@ -10,6 +10,7 @@ class TrayClass {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
     this.initAppIcon();
+    this.initEvent();
     this.initMenuList();
   }
   initAppIcon () {
@@ -17,6 +18,15 @@ class TrayClass {
     this.appIcon.setToolTip('日事清');
     this.appIcon.on("clicked",() => {
       this.mainWindow.show();
+    });
+  }
+  initEvent () {
+    this.appIcon.on('click', () => {
+      if (this.mainWindow.isVisible()) {
+        this.mainWindow.hide();
+      } else {
+        this.mainWindow.show();
+      }
     });
   }
   initMenuList () {
@@ -51,7 +61,7 @@ class TrayClass {
           bootMenu.checked = false;
         }
         this.menuList.unshift(bootMenu);
-        const contextMenu = Menu.buildFromTemplate(menuList);
+        const contextMenu = Menu.buildFromTemplate(this.menuList);
         this.appIcon.setContextMenu(contextMenu);
       })
     }
