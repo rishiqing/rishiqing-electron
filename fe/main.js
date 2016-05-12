@@ -16,11 +16,6 @@
   var platform       = process.platform;
   var alertTipTimer  = null;
 
-  mainWindow.onerror = function () {
-    console.log('onerror');
-  }
-
-
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
       if (err) {
