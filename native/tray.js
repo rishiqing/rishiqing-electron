@@ -50,7 +50,7 @@ class TrayClass {
           if(value){
             startOnBoot.disableAutoStart('rishiqing_startOnBoot');
           }else{
-            startOnBoot.enableAutoStart('rishiqing_startOnBoot', __dirname.replace("resources\\app","rishiqing.exe"));
+            startOnBoot.enableAutoStart('rishiqing_startOnBoot', process.execPath);
           }
         })
       }};
