@@ -74,7 +74,8 @@ module.exports = function (grunt) {
       module: {
         files: [
           {expand: true, src: 'node_modules/jquery/**', dest: destPath},
-          {expand: true, src: 'node_modules/winreg/**', dest: destPath}
+          {expand: true, src: 'node_modules/winreg/**', dest: destPath},
+          {expand: true, src: 'node_modules/request/**', dest: destPath}
         ]
       },
       mainJs: {

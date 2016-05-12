@@ -2,6 +2,7 @@ const electron = require('electron');
 const package  = require("./package.json");
 const Menu     = require('./native/menu.js');
 const Tray     = require('./native/tray.js');
+const Update   = require('./native/update');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 
@@ -28,7 +29,9 @@ function createWindow () {
   }
 }
 app.on('ready', function () {
+
   createWindow();
+  const u = new Update(mainWindow);
   const m = new Menu();
   const t = new Tray(mainWindow);
 });

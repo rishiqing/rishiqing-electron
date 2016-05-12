@@ -89,32 +89,4 @@
   };
   document.removeEventListener('keydown', localHandleBar);
   document.addEventListener('keydown', localHandleBar, false);
-
-  $.ajax({
-      url: config.VERSIONURL,
-      type: 'POST',
-      dataType: 'json',
-      success: function (data) {
-          var versionCode = data.versionInfo.version_code;
-          if(versionCode > config.VERSION){
-              // var gui = require('nw.gui');
-              // var host = window.location.host;
-              // gui.Window.open('app://rishiqing/fe/autoUpdate.html?version=' + versionCode, {
-              //   "title":"日事清PC端有版本更新啦~~",
-              //   "width": 500,//300
-              //   "height": 100,//100
-              //   "always_on_top": true,
-              //   "focus": true,
-              //   "frame": true,
-              //   "show": true,
-              //   "icon":"./res/icon.png",
-              //   "toolbar": false,
-              //   "max_width": 500,
-              //   "max_height": 100,
-              //   "min_width": 500,
-              //   "min_height": 100,
-              // });
-          }
-      }
-  })
 })();
