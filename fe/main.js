@@ -11,6 +11,7 @@
   var loading        = require('./loading')(window);
   var alertTip       = require('./alertTip')(window);
   var config         = require('./config');
+  var wxAuthPatch    = require('./wxAuthPatch');
   var $mainIframe    = document.querySelector('#main-iframe');
   var mainWindow     = $mainIframe.contentWindow;
   var platform       = process.platform;
@@ -29,6 +30,14 @@
         }
         var host = mainWindow.location.host, isInThirdLoginPage;
         if (config.THIRD_LOGIN_HOST[host]) {
+          // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
+          // 而情况就是这么巧，electron在file协议下加载的index.html，host是空的
+          // 期间就想各种办法，看能不能恢复host，各种试了protocol自定义，结果还是徒劳，
+          // 相对这一点，nw就做得要好一些，至少他们的自定义protocol的Host不是空的，所以之前在nw里，微信登录才能用
+          // 纠结之纠结，终于找到了这么个奇淫技巧，拦截微信授权页下面的ajax请求，我们自己控制跳转.
+          if (host === config.weixinOauthUrl) {
+            wxAuthPatch(mainWindow, config.WX_REDIRECT);
+          }
           isInThirdLoginPage = true;
           var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
           alertTip.show(config.THIRD_LOGIN_HOST[host] + '登录页面 可按 ' + keyTip + ' 键返回');
