@@ -35,6 +35,19 @@ function createWindow () {
     }
   });
 }
+
+const shouldQuit = app.makeSingleInstance(function (argv, workingDirectory) {
+  if (mainWindow) {
+    if (mainWindow.isMinimized()) mainWindow.restore();
+    if (!mainWindow.isVisible()) mainWindow.show();
+    mainWindow.focus();
+  }
+});
+if (shouldQuit) {
+  app.quit();
+  return;
+}
+
 app.on('ready', function () {
   createWindow();
   const u = new Update(mainWindow);

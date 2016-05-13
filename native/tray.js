@@ -22,11 +22,16 @@ class TrayClass {
   }
   initEvent () {
     this.appIcon.on('click', () => {
-      if (this.mainWindow.isVisible()) {
-        this.mainWindow.hide();
-      } else {
+      if (!this.mainWindow.isVisible()) {
         this.mainWindow.show();
+        return;
       }
+      if (this.mainWindow.isMinimized()) {
+        this.mainWindow.restore();
+        return;
+      }
+      this.mainWindow.hide();
+      return;
     });
   }
   initMenuList () {
