@@ -17,7 +17,7 @@ function createWindow () {
       'webSecurity':false,
       "nodeIntegration":true
     },
-    icon: './res/256x256.ico'
+    icon: './res/icon_256x256.png'
   });
   webContents = mainWindow.webContents;
   const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
