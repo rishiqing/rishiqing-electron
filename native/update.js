@@ -1,6 +1,7 @@
 const request = require('request');
 const config = require('../fe/config');
 const BrowserWindow = require('electron').BrowserWindow;
+const nativeImage   = require('electron').nativeImage;
 class Update {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
@@ -20,6 +21,7 @@ class Update {
             webPreferences: {
               nodeIntegration: true
             },
+            icon: nativeImage.createFromPath(__dirname + '/../res/icon_256x256.png')
           });
           win.loadURL('file://' + __dirname + '/../fe/autoUpdate.html');
         }
