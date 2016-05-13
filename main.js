@@ -5,6 +5,7 @@ const Tray     = require('./native/tray.js');
 const Update   = require('./native/update');
 const app = electron.app;
 const BrowserWindow = electron.BrowserWindow;
+const nativeImage   = electron.nativeImage;
 
 let mainWindow, webContents;
 function createWindow () {
@@ -17,7 +18,7 @@ function createWindow () {
       'webSecurity':false,
       "nodeIntegration":true
     },
-    icon: './res/icon_256x256.png'
+    icon: nativeImage.createFromPath(__dirname + '/res/icon_256x256.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
   });
   webContents = mainWindow.webContents;
   const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
