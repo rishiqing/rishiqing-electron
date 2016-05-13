@@ -34,7 +34,7 @@ class TrayClass {
       { label: 'Item2', type: 'separator' },
       { label: '显示主窗口', type: 'normal', click:() => { this.mainWindow.show(); }},
       { label: 'Item2', type: 'separator' },
-      { label: '退出', type: 'normal',click:() => {app.quit();}}
+      { label: '退出', type: 'normal',click:() => { global.force_close = true; app.quit(); }}
     ];
     if (platform === 'darwin') { // 如果是在os x系统
       const contextMenu = Menu.buildFromTemplate(this.menuList);

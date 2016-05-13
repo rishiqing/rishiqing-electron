@@ -27,9 +27,14 @@ function createWindow () {
   if (package.env === 'dev') {
     webContents.openDevTools();
   }
+  mainWindow.on('close', function (e) {
+    if (!global.force_close) { // 这个force_close是在native/tray.js里设置的，当时点击托盘里的退出按钮时，被置为true
+      mainWindow.hide();
+      e.preventDefault();
+    }
+  });
 }
 app.on('ready', function () {
-
   createWindow();
   const u = new Update(mainWindow);
   const m = new Menu();
