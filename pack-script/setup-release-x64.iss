@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "日事清"
-#define MyAppVersion "2.0.3"
+#define MyAppVersion "2.1.0"
 #define MyAppPublisher "北京创仕科锐信息技术有限责任公司"
 #define MyAppURL "https://www.rishiqing.com/"
 #define MyAppExeName "rishiqing.exe"
-#define SourceDir "..\rishiqing-nw-sdk-x64"
+#define SourceDir "..\package\release\rishiqing-win32-x64"
 #define OutputFileName "日事清-release-win-x64"
 
 [Code]
