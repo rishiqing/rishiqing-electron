@@ -14,7 +14,8 @@ var arch = argv.arch,
   overwrite = true,
   version = package.electronVersion,
   app_bundle_id = 'release.rishiqing.electron',
-  build_version = package.version
+  build_version = package.version,
+  app_version   = package.version;
 try {
   var outDirState = fs.lstatSync(out);
 } catch (e) {
@@ -35,6 +36,7 @@ packager({
   out: out,
   overwrite: overwrite,
   version: version,
+  'app-version': app_version,
   'app-bundle-id': app_bundle_id,
   'build-version': build_version,
   'version-string': { // for windows
