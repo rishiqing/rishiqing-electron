@@ -30,7 +30,11 @@ function createWindow () {
   }
   mainWindow.on('close', function (e) {
     if (!global.force_close) { // 这个force_close是在native/tray.js里设置的，当时点击托盘里的退出按钮时，被置为true
-      mainWindow.hide();
+      if (process.platform === 'darwin') {
+        app.hide();
+      } else {
+        mainWindow.hide();
+      }
       e.preventDefault();
     }
   });
