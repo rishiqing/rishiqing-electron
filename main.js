@@ -34,6 +34,9 @@ function createWindow () {
       e.preventDefault();
     }
   });
+  webContents.on('new-window', function (event, url, frameName, disposition, options) {
+    options.webPreferences.nodeIntegration = false;
+  });
 }
 
 const shouldQuit = app.makeSingleInstance(function (argv, workingDirectory) {
