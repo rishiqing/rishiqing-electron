@@ -36,6 +36,7 @@ function createWindow () {
   });
   webContents.on('new-window', function (event, url, frameName, disposition, options) {
     options.webPreferences.nodeIntegration = false;
+    options.icon = nativeImage.createFromPath(__dirname + '/res/icon_256x256.png');
   });
 }
 
