@@ -4,6 +4,9 @@
   "electronVersion": "1.0.0",
   "main": "main.js",
   "env": "dev",
+  "build": {
+    "app-bundle-id": "release.rishiqing.electron"
+  },
   "MIN_WINDOW_WIDTH": 1218,
   "MIN_WINDOW_HEIGHT": 620,
   "CompanyName": "北京创仕科锐信息技术有限责任公司",
@@ -13,6 +16,8 @@
   "InternalName": "rishiqing.exe",
   "scripts": {
     "start": "electron main.js",
+    "postinstall": "install-app-deps",
+    "dist": "build",
     "package-mac-beta": "grunt --env=beta --platform=darwin && node ./package.js --arch=x64 --platform=darwin",
     "package-mac-release": "grunt --env=release --platform=darwin && node ./package.js --arch=x64 --platform=darwin",
     "package-win32-x64-beta": "grunt --env=beta --platform=win32 && node ./package.js --arch=x64 --platform=win32",
@@ -26,6 +31,7 @@
     "winreg": "0.0.12"
   },
   "devDependencies": {
+    "electron-builder": "^3.20.0",
     "electron-packager": "7.0.1",
     "electron-prebuilt": "1.0.0",
     "grunt": "^0.4.5",
