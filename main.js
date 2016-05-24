@@ -23,9 +23,13 @@ function createWindow () {
   webContents = mainWindow.webContents;
   const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
   webContents.setUserAgent(userAgent);
-  mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
+  if (package.env === 'debug') {
+    mainWindow.loadURL(package['debug-url']);
+  } else {
+    mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
+  }
   // 打开调试窗口
-  if (package.env === 'dev') {
+  if (package.env === 'dev' || package.env === 'debug') {
     webContents.openDevTools();
   }
   mainWindow.on('close', function (e) {

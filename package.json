@@ -3,7 +3,8 @@
   "version": "2.1.1",
   "electronVersion": "1.0.0",
   "main": "main.js",
-  "env": "dev",
+  "env": "debug",
+  "debug-url": "http://localhost:99/app",
   "build": {
     "app-bundle-id": "release.rishiqing.electron"
   },
