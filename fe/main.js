@@ -67,6 +67,13 @@
         };
         mainWindow.document.removeEventListener('keydown', handleBar);
         mainWindow.document.addEventListener('keydown', handleBar, false);
+        // 由于electron iframe 下面，不支持 confirm 和 alert ,这里就把外层的confirm 和 alert 方法赋值给iframe里面
+        mainWindow.confirm = function (message) {
+          return window.confirm(message, '日事清');
+        };
+        mainWindow.alert   = function (message) {
+          return window.alert(message, '日事清');
+        };
       }
     });
   });
