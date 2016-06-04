@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "日事清"
-#define MyAppVersion "2.1.1"
+#define MyAppVersion "2.1.2"
 #define MyAppPublisher "北京创仕科锐信息技术有限责任公司"
 #define MyAppURL "https://www.rishiqing.com/"
 #define MyAppExeName "rishiqing.exe"

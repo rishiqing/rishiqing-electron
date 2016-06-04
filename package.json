@@ -1,6 +1,6 @@
 {
   "name": "rishiqing",
-  "version": "2.1.1",
+  "version": "2.1.2",
   "electronVersion": "1.0.0",
   "main": "main.js",
   "env": "dev",
