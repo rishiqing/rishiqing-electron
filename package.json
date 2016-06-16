@@ -1,7 +1,7 @@
 {
   "name": "rishiqing",
   "version": "2.1.2",
-  "electronVersion": "1.0.0",
+  "electronVersion": "1.2.3",
   "main": "main.js",
   "env": "dev",
   "debug-url": "http://localhost:99/app",
@@ -34,7 +34,7 @@
   "devDependencies": {
     "electron-builder": "^3.20.0",
     "electron-packager": "7.0.1",
-    "electron-prebuilt": "1.0.0",
+    "electron-prebuilt": "1.2.3",
     "electron-winstaller": "^2.3.0",
     "grunt": "^0.4.5",
     "grunt-contrib-clean": "^1.0.0",
