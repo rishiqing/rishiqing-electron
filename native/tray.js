@@ -1,7 +1,7 @@
 const electron  = require('electron');
 const Tray      = electron.Tray;
 const platform  = process.platform;
-const tray_icon = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.png';32
+const tray_icon = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.png';
 const app       = electron.app;
 const Menu      = electron.Menu;
 const path      = require('path');
