@@ -2,7 +2,7 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "日事清-beta"
-#define MyAppVersion "2.1.2"
+#define MyAppVersion "2.1.3"
 #define MyAppPublisher "北京创仕科锐信息技术有限责任公司"
 #define MyAppURL "https://www.rishiqing.com/"
 #define MyAppExeName "rishiqing.exe"
@@ -51,6 +51,7 @@ OutputDir=..\pack
 OutputBaseFilename={#OutputFileName}-{#MyAppVersion}
 SetupIconFile=256x256.ico
 UninstallDisplayIcon={app}\{#MyAppExeName}
+VersionInfoCopyright={#MyAppPublisher}
 [Languages]
 Name: "Chinese"; MessagesFile: "compiler:Chinese.isl"
 
