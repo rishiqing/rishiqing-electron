@@ -18,7 +18,7 @@ function createWindow () {
       'webSecurity':false,
       "nodeIntegration":true
     },
-    icon: nativeImage.createFromPath(__dirname + '/res/icon_256x256.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
+    icon: nativeImage.createFromPath(__dirname + '/res/rishiqing.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
   });
   webContents = mainWindow.webContents;
   const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
@@ -44,7 +44,7 @@ function createWindow () {
   });
   webContents.on('new-window', function (event, url, frameName, disposition, options) {
     options.webPreferences.nodeIntegration = false;
-    options.icon = nativeImage.createFromPath(__dirname + '/res/icon_256x256.png');
+    options.icon = nativeImage.createFromPath(__dirname + '/res/rishiqing.png');
   });
 }
 
