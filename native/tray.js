@@ -1,10 +1,11 @@
-const electron  = require('electron');
-const Tray      = electron.Tray;
-const platform  = process.platform;
-const tray_icon = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.png';
-const app       = electron.app;
-const Menu      = electron.Menu;
-const path      = require('path');
+const electron    = require('electron');
+const Tray        = electron.Tray;
+const platform    = process.platform;
+const tray_icon   = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.ico';
+const app         = electron.app;
+const Menu        = electron.Menu;
+const path        = require('path');
+const nativeImage = electron.nativeImage;
 
 class TrayClass {
   constructor (mainWindow) {
@@ -14,7 +15,7 @@ class TrayClass {
     this.initMenuList();
   }
   initAppIcon () {
-    this.appIcon = new Tray(path.join(__dirname, tray_icon));
+    this.appIcon = new Tray(nativeImage.createFromPath(path.join(__dirname, tray_icon)));
     this.appIcon.setToolTip('日事清');
     this.appIcon.on("clicked",() => {
       this.mainWindow.show();
