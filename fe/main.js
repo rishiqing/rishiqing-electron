@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-16 21:03:20
+* @Last Modified time: 2016-11-16 21:40:58
 */
 
 ;(function () {
@@ -13,6 +13,7 @@
   var package        = require('../package.json');
   var config         = require('./config');
   var wxAuthPatch    = require('./wxAuthPatch');
+  var notification   = require('./notification');
   var $mainIframe    = document.querySelector('#main-iframe');
   var mainWindow     = $mainIframe.contentWindow;
   var platform       = process.platform;
@@ -75,6 +76,8 @@
         mainWindow.alert   = function (message) {
           return window.alert(message, '日事清');
         };
+        // 替换我们基于windows.Notification开发的通知模块，主要针对在win7下，只能使用balloon进行通知的问题
+        mainWindow.Notification = notification;
       }
     });
   });
