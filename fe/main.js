@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   apple
-* @Last Modified time: 2016-02-26 17:32:59
+* @Last Modified by:   qinyang
+* @Last Modified time: 2016-11-16 21:03:20
 */
 
 ;(function () {
@@ -10,6 +10,7 @@
   var $              = require('jquery');
   var loading        = require('./loading')(window);
   var alertTip       = require('./alertTip')(window);
+  var package        = require('../package.json');
   var config         = require('./config');
   var wxAuthPatch    = require('./wxAuthPatch');
   var $mainIframe    = document.querySelector('#main-iframe');
@@ -78,7 +79,11 @@
     });
   });
 
-  $mainIframe.src = config.ACCOUNT_URL + '?_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
+  if (package.env === 'debug') {
+    $mainIframe.src = package['debug-url'];
+  } else {
+    $mainIframe.src = config.ACCOUNT_URL + '?_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
+  }
 
   // 在local页面监听键盘，刷新
   var localHandleBar = function (pressed) {
