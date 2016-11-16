@@ -7,6 +7,8 @@ const Menu        = electron.Menu;
 const path        = require('path');
 const nativeImage = electron.nativeImage;
 
+const IconImage   = nativeImage.createFromPath(path.join(__dirname, tray_icon));
+
 class TrayClass {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
@@ -15,7 +17,7 @@ class TrayClass {
     this.initMenuList();
   }
   initAppIcon () {
-    this.appIcon = new Tray(nativeImage.createFromPath(path.join(__dirname, tray_icon)));
+    this.appIcon = new Tray(IconImage);
     this.appIcon.setToolTip('日事清');
     this.appIcon.on("clicked",() => {
       this.mainWindow.show();
