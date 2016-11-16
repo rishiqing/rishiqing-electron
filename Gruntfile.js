@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-05-11 10:28:04
+* @Last Modified time: 2016-11-16 16:37:55
 */
 
 var path     = require('path');
@@ -58,9 +58,8 @@ module.exports = function (grunt) {
           process: function (content, srcpath) {
             var packageJson = JSON.parse(content);
             packageJson.env = env;
-            packageJson.name = '日事清';
+            packageJson.name = 'rishiqing';
             delete packageJson.devDependencies;
-            delete packageJson.dependencies;
             delete packageJson.scripts;
             return JSON.stringify(packageJson);
           }
@@ -71,13 +70,13 @@ module.exports = function (grunt) {
           {expand: true, src: 'res/*', dest: destPath}
         ]
       },
-      module: {
-        files: [
-          {expand: true, src: 'node_modules/jquery/**', dest: destPath},
-          {expand: true, src: 'node_modules/winreg/**', dest: destPath},
-          {expand: true, src: 'node_modules/request/**', dest: destPath}
-        ]
-      },
+      // module: {
+      //   files: [
+      //     {expand: true, src: 'node_modules/jquery/**', dest: destPath},
+      //     {expand: true, src: 'node_modules/winreg/**', dest: destPath},
+      //     {expand: true, src: 'node_modules/request/**', dest: destPath}
+      //   ]
+      // },
       mainJs: {
         files: [
           {expand: true, src: 'main.js', dest: destPath},
@@ -98,7 +97,7 @@ module.exports = function (grunt) {
 
   grunt.registerTask('jsTask', ['uglify:main']);
   grunt.registerTask('cssTask', ['cssmin']);
-  grunt.registerTask('copyTask', ['copy:fe', 'copy:pkg', 'copy:res', 'copy:module']);
+  grunt.registerTask('copyTask', ['copy:fe', 'copy:pkg', 'copy:res']);
 
   grunt.registerTask('default', ['clean', 'uglify:main', 'cssmin', 'copy']);
 }
