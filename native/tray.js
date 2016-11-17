@@ -1,4 +1,5 @@
 const electron    = require('electron');
+const {ipcMain}   = require('electron');
 const Tray        = electron.Tray;
 const platform    = process.platform;
 const tray_icon   = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.ico';
@@ -6,12 +7,14 @@ const app         = electron.app;
 const Menu        = electron.Menu;
 const path        = require('path');
 const nativeImage = electron.nativeImage;
+const EVENTS      = require('../common/notification_event');
 
 const IconImage   = nativeImage.createFromPath(path.join(__dirname, tray_icon));
 
 class TrayClass {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
+    this.webContents = mainWindow.webContents;
     this.initAppIcon();
     this.initEvent();
     this.initMenuList();
@@ -22,20 +25,34 @@ class TrayClass {
     this.appIcon.on("clicked",() => {
       this.mainWindow.show();
     });
+    this.initNotificationEvent();
+    this.initBalloonEvent();
+  }
+  initNotificationEvent () {
+    ipcMain.on(EVENTS.Notification_Show_Message, this.onNotificationShow.bind(this));
+  }
+  initBalloonEvent () {
+    this.appIcon.on('balloon-show', this.onBalloonShow.bind(this));
+    this.appIcon.on('balloon-click', this.onBalloonClick.bind(this));
+    this.appIcon.on('balloon-closed', this.onBalloonClosed.bind(this));
   }
   initEvent () {
     this.appIcon.on('click', () => {
-      if (!this.mainWindow.isVisible()) {
-        this.mainWindow.show();
-        return;
-      }
-      if (this.mainWindow.isMinimized()) {
-        this.mainWindow.restore();
-        return;
-      }
-      this.mainWindow.hide();
+      const result = this.showWindow();
+      if (!result) this.mainWindow.hide();
       return;
     });
+  }
+  showWindow () {
+    if (!this.mainWindow.isVisible()) {
+      this.mainWindow.show();
+      return true;
+    }
+    if (this.mainWindow.isMinimized()) {
+      this.mainWindow.restore();
+      return true;
+    }
+    return false;
   }
   initMenuList () {
     this.menuList = [
@@ -72,6 +89,28 @@ class TrayClass {
         const contextMenu = Menu.buildFromTemplate(this.menuList);
         this.appIcon.setContextMenu(contextMenu);
       })
+    }
+  }
+  // 显示 tray 通知
+  showBalloon (title, content) {
+    this.appIcon.displayBalloon({
+      title: title || '',
+      content: content || ''
+    });
+  }
+  onBalloonShow () {
+    this.webContents.send(EVENTS.Notification_Show_reply, 'show');
+  }
+  onBalloonClick () {
+    this.showWindow();
+    this.webContents.send(EVENTS.Notification_Click_reply, 'click');
+  }
+  onBalloonClosed () {
+    this.webContents.send(EVENTS.Notification_Close_reply, 'close');
+  }
+  onNotificationShow (event, arg) {
+    if (arg) {
+      this.showBalloon(arg.title || '', arg.content || '');
     }
   }
 }
