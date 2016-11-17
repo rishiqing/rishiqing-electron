@@ -2,11 +2,11 @@
 ; SEE THE DOCUMENTATION FOR DETAILS ON CREATING INNO SETUP SCRIPT FILES!
 
 #define MyAppName "日事清-beta"
-#define MyAppVersion "2.1.3"
+#define MyAppVersion "2.1.4"
 #define MyAppPublisher "北京创仕科锐信息技术有限责任公司"
 #define MyAppURL "https://www.rishiqing.com/"
 #define MyAppExeName "rishiqing.exe"
-#define SourceDir "..\package\release\rishiqing-win32-ia32"
+#define SourceDir "..\package\beta-ia32\rishiqing-win32-ia32"
 #define OutputFileName "日事清-beta-win-ia32"
 
 [Code]
