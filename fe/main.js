@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 22:26:23
+* @Last Modified time: 2016-11-17 23:19:57
 */
 
 ;(function () {
@@ -87,7 +87,6 @@
           } else { // 如果是win10
             mainWindow.Notification = notification;
           }
-          // mainWindow.Notification = nativeNotify; 
         }
       }
     });

@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2016-11-16 21:08:26
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 13:52:34
+* @Last Modified time: 2016-11-17 23:16:31
 */
 var ipcRenderer = require('electron').ipcRenderer;
 
@@ -34,6 +34,7 @@ NativeNotify.prototype.initEvents = function () {
 }
 
 NativeNotify.prototype.onNotificationShow = function () {
+	this.sound();
 	if (this.onshow) this.onshow();
 }
 
@@ -43,6 +44,10 @@ NativeNotify.prototype.onNotificationClick = function () {
 
 NativeNotify.prototype.onNotificationClose = function () {
 	if (this.onclose) this.onclose();
+}
+
+NativeNotify.prototype.sound = function () {
+	document.getElementById('notification-sound').play();
 }
 
 NativeNotify.prototype.close = function () {}

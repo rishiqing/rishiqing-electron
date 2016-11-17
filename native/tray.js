@@ -30,6 +30,7 @@ class TrayClass {
   }
   initNotificationEvent () {
     ipcMain.on(EVENTS.Notification_Show_Message, this.onNotificationShow.bind(this));
+    ipcMain.on(EVENTS.Notification_Show_Window, this.onNotificationShowWindow.bind(this));
   }
   initBalloonEvent () {
     this.appIcon.on('balloon-show', this.onBalloonShow.bind(this));
@@ -47,10 +48,12 @@ class TrayClass {
     let show = false;
     if (!this.mainWindow.isVisible()) {
       this.mainWindow.show();
+      this.mainWindow.focus();
       show = true;
     }
     if (this.mainWindow.isMinimized()) {
       this.mainWindow.restore();
+      this.mainWindow.focus();
       show = true;
     }
     if (!show && !this.mainWindow.isFocused()) {
@@ -118,6 +121,9 @@ class TrayClass {
     if (arg) {
       this.showBalloon(arg.title || '', arg.content || '');
     }
+  }
+  onNotificationShowWindow () {
+    this.showWindow();
   }
 }
 
