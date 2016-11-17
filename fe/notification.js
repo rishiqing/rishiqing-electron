@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2016-11-17 21:29:37
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-18 00:20:30
+* @Last Modified time: 2016-11-18 00:33:32
 */
 
 const EVENTS = require('../common/notification_event');
@@ -12,10 +12,10 @@ class Notification2 extends window.Notification {
 	constructor (title, opt) {
 		opt.silent = true; // 保持安静
 		super(title, opt);
+		this.sound();
 		// 在实例化完成之后，对onclick等方法进行改造
 		setTimeout(() => {
 			this.replaceOnClick();
-			this.replaceOnShow();
 		}, 16);
 	}
 
@@ -33,20 +33,6 @@ class Notification2 extends window.Notification {
 		} else {
 			this.onclick = () => {
 				ipcRenderer.send(EVENTS.Notification_Show_Window, 'show_window');
-			};
-		}
-	}
-
-	replaceOnShow () {
-		if (this.onshow && typeof this.onshow === 'function') {
-			const _onshow = this.onshow;
-			this.onshow = () => {
-				this.sound();
-				_onshow.call(this);
-			};
-		} else {
-			this.onshow = () => {
-				this.sound();
 			};
 		}
 	}
