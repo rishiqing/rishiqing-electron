@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 22:22:10
+* @Last Modified time: 2016-11-18 00:13:20
 */
 
 var path     = require('path');
@@ -47,7 +47,8 @@ module.exports = function (grunt) {
       fe: {
         files: [
           {expand: true, src: 'fe/img/*', dest: destPath},
-          {expand: true, src: 'fe/*.html', dest: destPath}
+          {expand: true, src: 'fe/*.html', dest: destPath},
+          {expand: true, src: 'fe/sound/*', dest: destPath},
         ]
       },
       notification: {
