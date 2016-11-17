@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 13:47:22
+* @Last Modified time: 2016-11-17 22:22:10
 */
 
 var path     = require('path');
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
             drop_console: true
           }
         },
-        files: [{expand: true, src: 'fe/*.js', dest: destPath}]
+        files: [{expand: true, src: ['fe/*.js', '!fe/notification.js'], dest: destPath}]
       }
     },
     cssmin: {
@@ -48,6 +48,11 @@ module.exports = function (grunt) {
         files: [
           {expand: true, src: 'fe/img/*', dest: destPath},
           {expand: true, src: 'fe/*.html', dest: destPath}
+        ]
+      },
+      notification: {
+        files: [
+          {expand: true, src: 'fe/notification.js', dest: destPath}
         ]
       },
       pkg: {
@@ -88,6 +93,7 @@ module.exports = function (grunt) {
     clean: [destPath, 'package']
 	});
 
+  grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');

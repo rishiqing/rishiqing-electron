@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 21:49:53
+* @Last Modified time: 2016-11-17 22:26:23
 */
 
 ;(function () {
@@ -20,7 +20,6 @@
   var platform       = process.platform;
   var alertTipTimer  = null;
   var os             = require('os');
-  var player         = require('play-sound')();
 
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
