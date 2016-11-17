@@ -44,15 +44,20 @@ class TrayClass {
     });
   }
   showWindow () {
+    let show = false;
     if (!this.mainWindow.isVisible()) {
       this.mainWindow.show();
-      return true;
+      show = true;
     }
     if (this.mainWindow.isMinimized()) {
       this.mainWindow.restore();
-      return true;
+      show = true;
     }
-    return false;
+    if (!show && !this.mainWindow.isFocused()) {
+      this.mainWindow.focus();
+      show = true;
+    }
+    return show;
   }
   initMenuList () {
     this.menuList = [
