@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-16 21:40:58
+* @Last Modified time: 2016-11-17 21:49:53
 */
 
 ;(function () {
@@ -13,11 +13,14 @@
   var package        = require('../package.json');
   var config         = require('./config');
   var wxAuthPatch    = require('./wxAuthPatch');
+  var nativeNotify   = require('./nativeNotify');
   var notification   = require('./notification');
   var $mainIframe    = document.querySelector('#main-iframe');
   var mainWindow     = $mainIframe.contentWindow;
   var platform       = process.platform;
   var alertTipTimer  = null;
+  var os             = require('os');
+  var player         = require('play-sound')();
 
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
@@ -77,7 +80,16 @@
           return window.alert(message, '日事清');
         };
         // 替换我们基于windows.Notification开发的通知模块，主要针对在win7下，只能使用balloon进行通知的问题
-        mainWindow.Notification = notification;
+        if (platform === 'win32') {
+          var release = os.release();
+          var first = parseInt(release.split('.')[0], 10);
+          if (first !== 10) { // 判断在windows以下都用自己开发的Notification来进行通知
+            mainWindow.Notification = nativeNotify; 
+          } else { // 如果是win10
+            mainWindow.Notification = notification;
+          }
+          // mainWindow.Notification = nativeNotify; 
+        }
       }
     });
   });

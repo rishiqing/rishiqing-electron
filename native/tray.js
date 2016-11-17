@@ -114,6 +114,7 @@ class TrayClass {
     this.webContents.send(EVENTS.Notification_Close_reply, 'close');
   }
   onNotificationShow (event, arg) {
+    if (this.mainWindow.isFocused()) return;
     if (arg) {
       this.showBalloon(arg.title || '', arg.content || '');
     }

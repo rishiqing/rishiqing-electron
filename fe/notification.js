@@ -1,50 +1,16 @@
 /*
 * @Author: qinyang
-* @Date:   2016-11-16 21:08:26
+* @Date:   2016-11-17 21:29:37
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 13:52:34
+* @Last Modified time: 2016-11-17 21:49:14
 */
-var ipcRenderer = require('electron').ipcRenderer;
 
-var EVENTS = require('../common/notification_event');
+var Notification2 = function (title, opt) {
+	return window.Notification.apply(this, arguments);
+};
 
-var NativeNotify = function (title, options) {
-	this.offEvents();
-	this.initEvents();
-	this.showNotification(title, options.body);
-}
+Notification2.__proto__ = window.Notification;
+Notification2.prototype.__proto__ = window.Notification.prototype;
 
-NativeNotify.requestPermission = function () {};
-NativeNotify.permission = 'granted';
+module.exports = Notification2;
 
-NativeNotify.prototype.showNotification = function (title, content) {
-	ipcRenderer.send(EVENTS.Notification_Show_Message, { title: title, content: content });
-}
-
-NativeNotify.prototype.offEvents = function () {
-	ipcRenderer.removeAllListeners(EVENTS.Notification_Show_reply);
-	ipcRenderer.removeAllListeners(EVENTS.Notification_Click_reply);
-	ipcRenderer.removeAllListeners(EVENTS.Notification_Close_reply);
-}
-
-NativeNotify.prototype.initEvents = function () {
-	ipcRenderer.on(EVENTS.Notification_Show_reply, this.onNotificationShow.bind(this));
-	ipcRenderer.on(EVENTS.Notification_Click_reply, this.onNotificationClick.bind(this));
-	ipcRenderer.on(EVENTS.Notification_Close_reply, this.onNotificationClose.bind(this));
-}
-
-NativeNotify.prototype.onNotificationShow = function () {
-	if (this.onshow) this.onshow();
-}
-
-NativeNotify.prototype.onNotificationClick = function () {
-	if (this.onclick) this.onclick();
-}
-
-NativeNotify.prototype.onNotificationClose = function () {
-	if (this.onclose) this.onclose();
-}
-
-NativeNotify.prototype.close = function () {}
-
-module.exports = NativeNotify;
