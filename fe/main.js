@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 23:19:57
+* @Last Modified by:   qin yang
+* @Last Modified time: 2016-11-18 13:41:51
 */
 
 ;(function () {
@@ -87,6 +87,9 @@
           } else { // 如果是win10
             mainWindow.Notification = notification;
           }
+        }
+        if (platform === 'darwin') {
+          mainWindow.Notification = notification;
         }
       }
     });
