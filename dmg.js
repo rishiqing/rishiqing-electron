@@ -3,7 +3,7 @@
 * @Author: qin yang
 * @Date:   2016-11-18 16:21:58
 * @Last Modified by:   qin yang
-* @Last Modified time: 2016-11-18 17:26:03
+* @Last Modified time: 2016-11-18 20:51:39
 */
 
 var appdmg = require('appdmg');
@@ -31,10 +31,12 @@ var dmg = appdmg({
 	specification: {
 		"title": "日事清",
 		"icon": "./res/app.icns",
-		"background": "./res/dmg.jpg",
 		"contents": [
-			{ "x": 448, "y": 344, "type": "link", "path": "/Applications" },
-			{ "x": 192, "y": 344, "type": "file", "path": appPath }
-		]
+			{ "x": 200, "y": 120, "type": "link", "path": "/Applications" },
+			{ "x": 0, "y": 120, "type": "file", "path": appPath }
+		],
+		"window": {
+			"size": { "width": 400, "height": 300 }
+		}
 	}
 });
