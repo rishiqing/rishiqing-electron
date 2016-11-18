@@ -17,8 +17,8 @@
   "InternalName": "rishiqing.exe",
   "scripts": {
     "start": "electron main.js",
-    "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin",
-    "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin",
+    "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
+    "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin && node ./dmg.js --env=release",
     "package-win32-x64-beta": "grunt --env=beta --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=win32",
     "package-win32-x64-release": "grunt --env=release --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=win32",
     "package-win32-ia32-beta": "grunt --env=beta --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=ia32 --platform=win32",
@@ -30,6 +30,7 @@
     "winreg": "0.0.12"
   },
   "devDependencies": {
+    "appdmg": "^0.4.5",
     "electron-builder": "^7.14.1",
     "electron-packager": "8.1.0",
     "electron-winstaller": "^2.3.4",
