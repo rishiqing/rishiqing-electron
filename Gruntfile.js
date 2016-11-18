@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
-* @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-18 00:13:20
+* @Last Modified by:   qin yang
+* @Last Modified time: 2016-11-18 15:33:14
 */
 
 var path     = require('path');
@@ -94,7 +94,6 @@ module.exports = function (grunt) {
     clean: [destPath, 'package']
 	});
 
-  grunt.loadNpmTasks('grunt-babel');
 	grunt.loadNpmTasks('grunt-contrib-compass');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
