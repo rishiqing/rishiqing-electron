@@ -2,24 +2,25 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qin yang
-* @Last Modified time: 2016-11-21 11:19:31
+* @Last Modified time: 2016-11-21 11:44:08
 */
 
 ;(function () {
-  var dns            = require('dns');
-  var $              = require('jquery');
-  var loading        = require('./loading')(window);
-  var alertTip       = require('./alertTip')(window);
-  var package        = require('../package.json');
-  var config         = require('./config');
-  var wxAuthPatch    = require('./wxAuthPatch');
-  var nativeNotify   = require('./nativeNotify');
-  var notification   = require('./notification');
-  var $mainIframe    = document.querySelector('#main-iframe');
-  var mainWindow     = $mainIframe.contentWindow;
-  var platform       = process.platform;
-  var alertTipTimer  = null;
-  var os             = require('os');
+  var dns                 = require('dns');
+  var $                   = require('jquery');
+  var loading             = require('./loading')(window);
+  var alertTip            = require('./alertTip')(window);
+  var package             = require('../package.json');
+  var config              = require('./config');
+  var wxAuthPatch         = require('./wxAuthPatch');
+  var nativeNotify        = require('./nativeNotify');
+  var notification        = require('./notification');
+  var checkThirdLoginPage = require('./checkThirdLoginPage');
+  var $mainIframe         = document.querySelector('#main-iframe');
+  var mainWindow          = $mainIframe.contentWindow;
+  var platform            = process.platform;
+  var alertTipTimer       = null;
+  var os                  = require('os');
 
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
@@ -33,7 +34,7 @@
           loading.hide();
         }
         var host = mainWindow.location.host, isInThirdLoginPage;
-        if (config.THIRD_LOGIN_HOST[host]) {
+        if (checkThirdLoginPage(mainWindow.location)) {
           // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
           // 而情况就是这么巧，electron在file协议下加载的index.html，host是空的
           // 期间就想各种办法，看能不能恢复host，各种试了protocol自定义，结果还是徒劳，
@@ -44,12 +45,13 @@
           }
           isInThirdLoginPage = true;
           var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
-          alertTip.show(config.THIRD_LOGIN_HOST[host] + '登录页面 可按 ' + keyTip + ' 键返回');
+          alertTip.show((config.THIRD_LOGIN_HOST[host] || '第三方') + '登录页面 可按 ' + keyTip + ' 键返回');
           if (alertTipTimer) {
             clearTimeout(alertTipTimer);
             alertTipTimer = null;
           }
           alertTipTimer = setTimeout(function () {
+            alertTipTimer = null;
             alertTip.hide();
           }, 4000);
         }
