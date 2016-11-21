@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qin yang
-* @Last Modified time: 2016-11-18 13:41:51
+* @Last Modified time: 2016-11-21 11:19:31
 */
 
 ;(function () {
@@ -66,7 +66,14 @@
             }
           }
           if (pressed.which === 8 && isInThirdLoginPage) { // 如果在第三方登陆页，并且按了delete键，则倒退
-            mainWindow.history.back();
+            const type = pressed.target.type;
+            const readonly = pressed.target.readOnly;
+            const contentEditable = pressed.target.contentEditable;
+            if (type !== 'textarea' && type !== 'text' && type !== 'password' && contentEditable !== 'true') {
+              mainWindow.history.back();
+            } else if (readonly) {
+              mainWindow.history.back();
+            }
           }
         };
         mainWindow.document.removeEventListener('keydown', handleBar);
