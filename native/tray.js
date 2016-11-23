@@ -3,6 +3,7 @@ const {ipcMain}   = require('electron');
 const Tray        = electron.Tray;
 const platform    = process.platform;
 const tray_icon   = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.ico';
+const tray_icon_pressed = '../res/tray_mac_pressed@2x.png';
 const app         = electron.app;
 const Menu        = electron.Menu;
 const path        = require('path');
@@ -10,6 +11,7 @@ const nativeImage = electron.nativeImage;
 const EVENTS      = require('../common/notification_event');
 
 const IconImage   = nativeImage.createFromPath(path.join(__dirname, tray_icon));
+const IconImagePressed = nativeImage.createFromPath(path.join(__dirname, tray_icon_pressed));
 
 class TrayClass {
   constructor (mainWindow) {
@@ -22,9 +24,9 @@ class TrayClass {
   initAppIcon () {
     this.appIcon = new Tray(IconImage);
     this.appIcon.setToolTip('日事清');
-    this.appIcon.on("clicked",() => {
-      this.mainWindow.show();
-    });
+    if (platform === 'darwin') {
+      this.appIcon.setPressedImage(IconImagePressed);
+    }
     this.initNotificationEvent();
     this.initBalloonEvent();
   }
@@ -40,8 +42,9 @@ class TrayClass {
   initEvent () {
     this.appIcon.on('click', () => {
       const result = this.showWindow();
-      if (!result) this.mainWindow.hide();
-      return;
+      if (platform === 'win32') {
+        if (!result) this.mainWindow.hide();
+      }
     });
   }
   showWindow () {
@@ -69,10 +72,6 @@ class TrayClass {
       { label: 'Item2', type: 'separator' },
       { label: '退出', type: 'normal',click:() => { global.force_close = true; app.quit(); }}
     ];
-    if (platform === 'darwin') { // 如果是在os x系统
-      const contextMenu = Menu.buildFromTemplate(this.menuList);
-      this.appIcon.setContextMenu(contextMenu);
-    }
     this.initStartOnBoot();
   }
   initStartOnBoot () {
