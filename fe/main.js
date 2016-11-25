@@ -1,13 +1,14 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   qin yang
-* @Last Modified time: 2016-11-21 11:44:08
+* @Last Modified by:   qinyang
+* @Last Modified time: 2016-11-25 11:08:56
 */
 
 ;(function () {
   var dns                 = require('dns');
   var $                   = require('jquery');
+  var querystring         = require('querystring');
   var loading             = require('./loading')(window);
   var alertTip            = require('./alertTip')(window);
   var package             = require('../package.json');
@@ -41,7 +42,9 @@
           // 相对这一点，nw就做得要好一些，至少他们的自定义protocol的Host不是空的，所以之前在nw里，微信登录才能用
           // 纠结之纠结，终于找到了这么个奇淫技巧，拦截微信授权页下面的ajax请求，我们自己控制跳转.
           if (host === config.weixinOauthUrl) {
-            wxAuthPatch(mainWindow, config.WX_REDIRECT);
+            var query = querystring.parse(mainWindow.location.search.split('?')[1]);
+            var state = query.state;
+            wxAuthPatch(mainWindow, { redirect: config.WX_REDIRECT, state: state });
           }
           isInThirdLoginPage = true;
           var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';

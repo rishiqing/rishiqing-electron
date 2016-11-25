@@ -22,7 +22,7 @@
   var WX_REDIRECT = {
     dev: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin',
     beta: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin',
-    release: 'http://www.rishiqing.com/task/weixinOauth/afterLogin',
+    release: 'https://www.rishiqing.com/task/weixinOauth/afterLogin',
     demo: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin'
   };
   //获取版本号的链接
