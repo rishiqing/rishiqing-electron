@@ -5,10 +5,14 @@ const nativeImage   = require('electron').nativeImage;
 class Update {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
+    this.webContents = mainWindow.webContents;
     this.initUpdate();
   }
   initUpdate () {
-    request.post(config.VERSIONURL, (err, res, body) => {
+    request.post({ 
+      url: config.VERSIONURL, 
+      headers: { 'User-Agent': this.webContents.getUserAgent() }
+    }, (err, res, body) => {
       try {
         const versionInfo = JSON.parse(body).versionInfo;
         const version_code = versionInfo.version_code;
@@ -25,9 +29,7 @@ class Update {
           });
           win.loadURL('file://' + __dirname + '/../fe/autoUpdate.html');
         }
-      } catch (e) {
-
-      }
+      } catch (e) {  }
     });
   }
 }
