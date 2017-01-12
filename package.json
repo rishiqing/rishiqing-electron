@@ -1,9 +1,9 @@
 {
   "name": "rishiqing",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "electronVersion": "1.4.6",
   "main": "main.js",
-  "env": "debug",
+  "env": "dev",
   "debug-url": "http://localhost:99/app",
   "build": {
     "app-bundle-id": "release.rishiqing.electron"
@@ -28,7 +28,7 @@
   "dependencies": {
     "jquery": "2.2.0",
     "request": "2.72.0",
-    "winreg": "0.0.12"
+    "winreg": "1.2.2"
   },
   "devDependencies": {
     "appdmg": "^0.4.5",
