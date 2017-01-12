@@ -4,6 +4,7 @@
   var PREFIX_URL = {
     dev:"http://beta.rishiqing.com",
     beta:"http://beta.rishiqing.com",
+    debug: "http://beta.rishiqing.com",
     release:"https://www.rishiqing.com",
     demo:"http://192.168.1.106"
   }
