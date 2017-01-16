@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-25 11:08:56
+* @Last Modified time: 2017-01-16 12:34:30
 */
 
 ;(function () {
@@ -89,6 +89,10 @@
         };
         mainWindow.alert   = function (message) {
           return window.alert(message, '日事清');
+        };
+        mainWindow.VERSIONSTAMP = {
+          version: package.version,
+          time: package.releaseTime || (new Date()).toString()
         };
         // 替换我们基于windows.Notification开发的通知模块，主要针对在win7下，只能使用balloon进行通知的问题
         if (platform === 'win32') {

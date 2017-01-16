@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
-* @Last Modified by:   qin yang
-* @Last Modified time: 2016-11-18 15:33:14
+* @Last Modified by:   qinyang
+* @Last Modified time: 2017-01-16 12:31:37
 */
 
 var path     = require('path');
@@ -65,6 +65,7 @@ module.exports = function (grunt) {
             var packageJson = JSON.parse(content);
             packageJson.env = env;
             packageJson.name = 'rishiqing';
+            packageJson.releaseTime = (new Date()).toString();
             delete packageJson.devDependencies;
             delete packageJson.scripts;
             return JSON.stringify(packageJson);
