@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-01-16 12:34:30
+* @Last Modified time: 2017-05-08 15:49:09
 */
 
 ;(function () {
@@ -23,17 +23,26 @@
   var alertTipTimer       = null;
   var os                  = require('os');
 
+  // 判断mainWindow是不是 app page
+  function isAppPage () {
+    var href = mainWindow.location.href;
+    if (href && href.indexOf(config.WEBSITE + 'app') === 0) {
+      return true;
+    } else return false;
+  }
+
+  function loadingShow () {
+    if (isAppPage()) loading.show('pureColor');
+    else loading.show();
+  }
+
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
       if (err) {
         loading.show('networkError');
       } else {
         var href = mainWindow.location.href;
-        if (href === config.ACCOUNT_URL) {
-          loading.hide();
-        } else {
-          loading.hide();
-        }
+        loading.hide();
         var host = mainWindow.location.host, isInThirdLoginPage;
         if (checkThirdLoginPage(mainWindow.location)) {
           // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
@@ -61,12 +70,12 @@
         var handleBar = function (pressed) {
           if (platform === 'win32') {
             if (pressed.which === 116) {
-              loading.show();
+              loadingShow();
               mainWindow.location.reload();
             }
           } else if (platform === 'darwin') {
             if (pressed.metaKey && pressed.which === 82) {
-              loading.show();
+              loadingShow();
               mainWindow.location.reload();
             }
           }
@@ -114,19 +123,19 @@
   if (package.env === 'debug') {
     $mainIframe.src = package['debug-url'];
   } else {
-    $mainIframe.src = config.ACCOUNT_URL + '?_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
+    $mainIframe.src = config.ACCOUNT_URL + '?port=2&_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
   }
 
   // 在local页面监听键盘，刷新
   var localHandleBar = function (pressed) {
     if (platform === 'win32') {
       if (pressed.which === 116) {
-        loading.show();
+        loadingShow();
         mainWindow.location.reload();
       }
     } else if (platform === 'darwin') {
       if (pressed.metaKey && pressed.which === 82) {
-        loading.show();
+        loadingShow();
         mainWindow.location.reload();
       }
     }
