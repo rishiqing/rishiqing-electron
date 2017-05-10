@@ -31,7 +31,11 @@ function createWindow () {
   mainWindow.on('close', function (e) {
     if (!global.force_close) { // 这个force_close是在native/tray.js里设置的，当时点击托盘里的退出按钮时，被置为true
       if (process.platform === 'darwin') {
-        app.hide();
+        if (mainWindow.isFullScreen()) {
+          mainWindow.setFullScreen(false); // 如果是全屏状态，先退出全屏
+        } else {
+          app.hide();
+        }
       } else {
         mainWindow.hide();
       }

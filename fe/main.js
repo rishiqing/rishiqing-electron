@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qin yang
-* @Last Modified time: 2017-05-10 12:12:09
+* @Last Modified time: 2017-05-10 15:05:52
 */
 
 ;(function () {
@@ -26,7 +26,6 @@
 
   (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
     (win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
-      console.log('e, props', e, props);
       let menuTpl = [
         {
           label: '前进',
