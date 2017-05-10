@@ -307,7 +307,7 @@ body {
 }
 /* line 24, ../scss/core.scss */
 #loading.pure-color {
-  background-color: #DDF1FF;
+  background: linear-gradient(0deg, #D8ECFF, #E4EDF5);
 }
 /* line 26, ../scss/core.scss */
 #loading.pure-color .bg-header {

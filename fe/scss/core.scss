@@ -22,7 +22,7 @@ body {
   -webkit-user-select: none;
   background-color: #fff;
   &.pure-color {
-    background-color: #DDF1FF;
+    background: linear-gradient(0deg, #D8ECFF, #E4EDF5);
     .bg-header {
       display: none;
     }

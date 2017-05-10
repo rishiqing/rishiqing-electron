@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   qinyang
-* @Last Modified time: 2017-05-08 15:49:09
+* @Last Modified by:   qin yang
+* @Last Modified time: 2017-05-10 12:12:09
 */
 
 ;(function () {
@@ -22,6 +22,83 @@
   var platform            = process.platform;
   var alertTipTimer       = null;
   var os                  = require('os');
+  var electron            = require('electron');
+
+  (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
+    (win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
+      console.log('e, props', e, props);
+      let menuTpl = [
+        {
+          label: '前进',
+          visible: true,
+          click: function () {
+            forwardWindow();
+          }
+        }, {
+          label: '后退',
+          visible: true,
+          click: function () {
+            backWindow();
+          }
+        }, {
+          label: '刷新',
+          visible: true,
+          click: function () {
+            reloadWindow();
+          }
+        }
+      ];
+      const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+      menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+    });
+  });
+
+  // contextMenu({
+  //   prepend: function (params, browserWindow) {
+  //     return [
+  //       {
+  //         label: '前进',
+  //         visible: true,
+  //         click: function () {
+  //           forwardWindow();
+  //         }
+  //       }, {
+  //         label: '后退',
+  //         visible: true,
+  //         click: function () {
+  //           backWindow();
+  //         }
+  //       }, {
+  //         label: '刷新',
+  //         visible: true,
+  //         click: function () {
+  //           reloadWindow();
+  //         }
+  //       }
+  //     ];
+  //   },
+  //   labels: {
+  //     cut: '剪切',
+  //     copy: '复制',
+  //     paste: '粘贴',
+  //     // save: '图片存储为...',
+  //     // copyLink: '复制链接'
+  //   },
+  //   showInspectElement: package.env === 'dev' || package.env === 'debug'
+  // });
+
+  function reloadWindow () {
+    loadingShow();
+    mainWindow.location.reload();
+  }
+
+  function backWindow () {
+    mainWindow.history.back();
+  }
+
+  function forwardWindow () {
+    mainWindow.history.forward();
+  }
 
   // 判断mainWindow是不是 app page
   function isAppPage () {
@@ -130,13 +207,11 @@
   var localHandleBar = function (pressed) {
     if (platform === 'win32') {
       if (pressed.which === 116) {
-        loadingShow();
-        mainWindow.location.reload();
+        reloadWindow();
       }
     } else if (platform === 'darwin') {
       if (pressed.metaKey && pressed.which === 82) {
-        loadingShow();
-        mainWindow.location.reload();
+        reloadWindow();
       }
     }
   };
