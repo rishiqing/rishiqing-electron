@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qin yang
-* @Last Modified time: 2017-05-10 15:05:52
+* @Last Modified time: 2017-05-13 11:45:03
 */
 
 ;(function () {
@@ -24,9 +24,9 @@
   var os                  = require('os');
   var electron            = require('electron');
 
-  (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(win => {
-    (win.webContents || win.getWebContents()).on('context-menu', (e, props) => {
-      let menuTpl = [
+  (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(function (win) {
+    (win.webContents || win.getWebContents()).on('context-menu', function (e, props) {
+      var menuTpl = [
         {
           label: '前进',
           visible: true,
@@ -47,7 +47,7 @@
           }
         }
       ];
-      const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+      var menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
       menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
     });
   });
