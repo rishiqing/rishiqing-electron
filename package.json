@@ -9,7 +9,7 @@
     "app-bundle-id": "release.rishiqing.electron"
   },
   "MIN_WINDOW_WIDTH": 1218,
-  "MIN_WINDOW_HEIGHT": 620,
+  "MIN_WINDOW_HEIGHT": 630,
   "CompanyName": "北京创仕科锐信息技术有限责任公司",
   "FileDescription": "rishiqing",
   "OriginalFilename": "rishiqing.exe",

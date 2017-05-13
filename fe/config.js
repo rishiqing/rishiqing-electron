@@ -42,6 +42,7 @@
     weixinOauthUrl:"open.weixin.qq.com",
     qqOauthUrl:"openapi.qzone.qq.com",
     sinaOauthUrl:"api.weibo.com",
+    ddOauthUrl: "oapi.dingtalk.com",
     WEBSITE:WEBSITE,
     isOauthPage:function(pageUrl){
       if(pageUrl.indexOf(this.weixinOauthUrl) != -1 ){
@@ -51,6 +52,9 @@
         return true;
       }
       if(pageUrl.indexOf(this.sinaOauthUrl) != -1){
+        return true;
+      }
+      if (pageUrl.indexOf(this.ddOauthUrl) != -1) {
         return true;
       }
       return false;
@@ -65,7 +69,8 @@
     THIRD_LOGIN_HOST: {
       'open.weixin.qq.com': '微信',
       'graph.qq.com'      : 'QQ',
-      'api.weibo.com'     : '微博'
+      'api.weibo.com'     : '微博',
+      'oapi.dingtalk.com' : '钉钉'
     },
     WX_REDIRECT: WX_REDIRECT[env]
   }
