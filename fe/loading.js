@@ -1,9 +1,10 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 18:18:27
-* @Last Modified by:   apple
-* @Last Modified time: 2016-02-18 15:40:43
+* @Last Modified by:   qinyang
+* @Last Modified time: 2017-05-08 15:42:42
 */
+
 var Loading = function (window) {
   this.document       = window.document;
   this.window         = window;
@@ -58,8 +59,14 @@ Loading.prototype.show = function (type) {
     this.$loading.addClass(this.fadeInStr);
   }
 
+  this.$networkError.hide();
+  this.$loadingSplash.hide();
+  this.$loading.removeClass('pure-color');
+
   if (type === 'networkError') {
     this.showNetworkError();
+  } else if (type === 'pureColor') {
+    this.showPureColor();
   } else {
     this.showSplash();
   }
@@ -74,6 +81,10 @@ Loading.prototype.showSplash = function () {
 Loading.prototype.showNetworkError = function () {
   this.$networkError.show();
   this.$loadingSplash.hide();
+}
+// 显示一个纯色
+Loading.prototype.showPureColor = function () {
+  this.$loading.addClass('pure-color');
 }
 
 module.exports = function (window) {

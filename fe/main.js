@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   qinyang
-* @Last Modified time: 2017-01-16 12:34:30
+* @Last Modified by:   qin yang
+* @Last Modified time: 2017-05-13 11:45:03
 */
 
 ;(function () {
@@ -22,6 +22,95 @@
   var platform            = process.platform;
   var alertTipTimer       = null;
   var os                  = require('os');
+  var electron            = require('electron');
+
+  (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(function (win) {
+    (win.webContents || win.getWebContents()).on('context-menu', function (e, props) {
+      var menuTpl = [
+        {
+          label: '前进',
+          visible: true,
+          click: function () {
+            forwardWindow();
+          }
+        }, {
+          label: '后退',
+          visible: true,
+          click: function () {
+            backWindow();
+          }
+        }, {
+          label: '刷新',
+          visible: true,
+          click: function () {
+            reloadWindow();
+          }
+        }
+      ];
+      var menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+      menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
+    });
+  });
+
+  // contextMenu({
+  //   prepend: function (params, browserWindow) {
+  //     return [
+  //       {
+  //         label: '前进',
+  //         visible: true,
+  //         click: function () {
+  //           forwardWindow();
+  //         }
+  //       }, {
+  //         label: '后退',
+  //         visible: true,
+  //         click: function () {
+  //           backWindow();
+  //         }
+  //       }, {
+  //         label: '刷新',
+  //         visible: true,
+  //         click: function () {
+  //           reloadWindow();
+  //         }
+  //       }
+  //     ];
+  //   },
+  //   labels: {
+  //     cut: '剪切',
+  //     copy: '复制',
+  //     paste: '粘贴',
+  //     // save: '图片存储为...',
+  //     // copyLink: '复制链接'
+  //   },
+  //   showInspectElement: package.env === 'dev' || package.env === 'debug'
+  // });
+
+  function reloadWindow () {
+    loadingShow();
+    mainWindow.location.reload();
+  }
+
+  function backWindow () {
+    mainWindow.history.back();
+  }
+
+  function forwardWindow () {
+    mainWindow.history.forward();
+  }
+
+  // 判断mainWindow是不是 app page
+  function isAppPage () {
+    var href = mainWindow.location.href;
+    if (href && href.indexOf(config.WEBSITE + 'app') === 0) {
+      return true;
+    } else return false;
+  }
+
+  function loadingShow () {
+    if (isAppPage()) loading.show('pureColor');
+    else loading.show();
+  }
 
   $mainIframe.addEventListener('load', function () {
     dns.lookup('www.rishiqing.com', function (err) {
@@ -29,11 +118,7 @@
         loading.show('networkError');
       } else {
         var href = mainWindow.location.href;
-        if (href === config.ACCOUNT_URL) {
-          loading.hide();
-        } else {
-          loading.hide();
-        }
+        loading.hide();
         var host = mainWindow.location.host, isInThirdLoginPage;
         if (checkThirdLoginPage(mainWindow.location)) {
           // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
@@ -61,12 +146,12 @@
         var handleBar = function (pressed) {
           if (platform === 'win32') {
             if (pressed.which === 116) {
-              loading.show();
+              loadingShow();
               mainWindow.location.reload();
             }
           } else if (platform === 'darwin') {
             if (pressed.metaKey && pressed.which === 82) {
-              loading.show();
+              loadingShow();
               mainWindow.location.reload();
             }
           }
@@ -114,20 +199,18 @@
   if (package.env === 'debug') {
     $mainIframe.src = package['debug-url'];
   } else {
-    $mainIframe.src = config.ACCOUNT_URL + '?_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
+    $mainIframe.src = config.ACCOUNT_URL + '?port=2&_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
   }
 
   // 在local页面监听键盘，刷新
   var localHandleBar = function (pressed) {
     if (platform === 'win32') {
       if (pressed.which === 116) {
-        loading.show();
-        mainWindow.location.reload();
+        reloadWindow();
       }
     } else if (platform === 'darwin') {
       if (pressed.metaKey && pressed.which === 82) {
-        loading.show();
-        mainWindow.location.reload();
+        reloadWindow();
       }
     }
   };

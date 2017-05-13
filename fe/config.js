@@ -31,7 +31,7 @@
   var DOWNLOADURL = PREFIX_URL[env] + '/client';
   var BASE_URL = PREFIX_URL[env] + '/task';
   var LOGOUT_URL = PREFIX_URL[env] + '/task/logout/index';
-  var ACCOUNT_URL = PREFIX_URL[env] + '/account';
+  var ACCOUNT_URL = PREFIX_URL[env] + '/i';
 
   var WEBSITE = PREFIX_URL[env] + '/';
   var exportsJson = {
