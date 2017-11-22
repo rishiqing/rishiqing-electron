@@ -1,7 +1,7 @@
 {
   "name": "rishiqing",
-  "version": "2.1.6",
-  "electronVersion": "1.6.6",
+  "version": "2.1.7",
+  "electronVersion": "1.7.9",
   "main": "main.js",
   "env": "dev",
   "debug-url": "http://localhost:99/app",
