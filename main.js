@@ -71,6 +71,10 @@ async function createWindow () {
     options.webPreferences.nodeIntegration = false;
     options.icon = nativeImage.createFromPath(__dirname + '/res/rishiqing.png');
   });
+  webContents.session.on('will-download', (event, item, webContents) => {
+    // 下载项先暂时默认保存到下载路径里，后面需要增加用户修改默认保存路径的功能
+    item.setSavePath(path.join(app.getPath('downloads'), item.getFilename()));
+  });
 }
 
 const shouldQuit = app.makeSingleInstance(function (argv, workingDirectory) {
