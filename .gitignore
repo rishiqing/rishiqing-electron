@@ -37,3 +37,4 @@ dir
 pack
 dmg
 .sass-cache
+.DS_Store
