@@ -1,8 +1,8 @@
 /*
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
-* @Last Modified by:   qin yang
-* @Last Modified time: 2017-05-13 16:57:27
+* @Last Modified by:   qinyang
+* @Last Modified time: 2017-11-27 16:50:48
 */
 
 ;(function () {
@@ -51,40 +51,6 @@
       menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
     });
   });
-
-  // contextMenu({
-  //   prepend: function (params, browserWindow) {
-  //     return [
-  //       {
-  //         label: '前进',
-  //         visible: true,
-  //         click: function () {
-  //           forwardWindow();
-  //         }
-  //       }, {
-  //         label: '后退',
-  //         visible: true,
-  //         click: function () {
-  //           backWindow();
-  //         }
-  //       }, {
-  //         label: '刷新',
-  //         visible: true,
-  //         click: function () {
-  //           reloadWindow();
-  //         }
-  //       }
-  //     ];
-  //   },
-  //   labels: {
-  //     cut: '剪切',
-  //     copy: '复制',
-  //     paste: '粘贴',
-  //     // save: '图片存储为...',
-  //     // copyLink: '复制链接'
-  //   },
-  //   showInspectElement: package.env === 'dev' || package.env === 'debug'
-  // });
 
   function reloadWindow () {
     loadingShow();
@@ -192,6 +158,12 @@
         if (platform === 'darwin') {
           mainWindow.Notification = notification;
         }
+        // 覆盖docment.hidden主要用在通知的判断，因为通知在document。hidden 为 false 的时候不会发通知
+        mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
+          get: function () {
+            return !electron.remote.BrowserWindow.fromId(1).isFocused();
+          }
+        });
       }
     });
   });
