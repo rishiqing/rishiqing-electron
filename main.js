@@ -1,17 +1,30 @@
-const electron = require('electron');
-const package  = require("./package.json");
-const Menu     = require('./native/menu.js');
-const Tray     = require('./native/tray.js');
-const Update   = require('./native/update');
-const app = electron.app;
+const electron  = require('electron');
+const package   = require("./package.json");
+const Menu      = require('./native/menu.js');
+const Tray      = require('./native/tray.js');
+const Update    = require('./native/update');
+const Datastore = require('nedb');
+const path      = require('path');
+const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
 
+const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true })
+async function findOne (query) {
+  return new Promise((resolve, reject) => {
+    db.findOne(query, function (err, doc) {
+      if (err) reject(err);
+      else resolve(doc);
+    });
+  });
+}
+
 let mainWindow, webContents;
-function createWindow () {
+async function createWindow () {
+  let sizeDb = await findOne({ type: 'main-window-size' }) || {};
   mainWindow = new BrowserWindow({
-    width: package.MIN_WINDOW_WIDTH,
-    height: package.MIN_WINDOW_HEIGHT,
+    width: sizeDb.width || package.MIN_WINDOW_WIDTH,
+    height: sizeDb.height || package.MIN_WINDOW_HEIGHT,
     "title":"日事清",
     'webPreferences': {
       'plugins': true,
@@ -42,6 +55,18 @@ function createWindow () {
       e.preventDefault();
     }
   });
+  let resizeTimer = null;
+  mainWindow.on('resize', function (e) {
+    const size = mainWindow.getSize();
+    const width = size[0];
+    const height = size[1];
+    if (resizeTimer) clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      resizeTimer = null;
+      db.update({ type: 'main-window-size' }, { $set: { width, height } }, { upsert: true }, function () {
+      });
+    }, 1000)
+  });
   webContents.on('new-window', function (event, url, frameName, disposition, options) {
     options.webPreferences.nodeIntegration = false;
     options.icon = nativeImage.createFromPath(__dirname + '/res/rishiqing.png');
@@ -60,8 +85,8 @@ if (shouldQuit) {
   return;
 }
 
-app.on('ready', function () {
-  createWindow();
+app.on('ready', async function () {
+  await createWindow();
   const u = new Update(mainWindow);
   const m = new Menu();
   const t = new Tray(mainWindow);
