@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 17:11:07
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-11-27 16:50:48
+* @Last Modified time: 2017-11-30 11:11:52
 */
 
 ;(function () {
@@ -23,6 +23,10 @@
   var alertTipTimer       = null;
   var os                  = require('os');
   var electron            = require('electron');
+  var dragBar             = require('./drag-bar');
+
+  var mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
+  var shell               = electron.shell;
 
   (electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(function (win) {
     (win.webContents || win.getWebContents()).on('context-menu', function (e, props) {
@@ -52,7 +56,10 @@
     });
   });
 
+  var isReloading = false;
+
   function reloadWindow () {
+    isReloading = true;
     loadingShow();
     mainWindow.location.reload();
   }
@@ -79,6 +86,7 @@
   }
 
   $mainIframe.addEventListener('load', function () {
+    isReloading = false;
     dns.lookup('www.rishiqing.com', function (err) {
       if (err) {
         loading.show('networkError');
@@ -161,9 +169,15 @@
         // 覆盖docment.hidden主要用在通知的判断，因为通知在document。hidden 为 false 的时候不会发通知
         mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
           get: function () {
-            return !electron.remote.BrowserWindow.fromId(1).isFocused();
+            return !mainBroswerWindow.isFocused();
           }
         });
+        var beforeunload = function (e) {
+          if (isReloading) return;
+          e.returnValue = false;
+        };
+        mainWindow.removeEventListener('beforeunload', beforeunload);
+        mainWindow.addEventListener('beforeunload', beforeunload);
       }
     });
   });
@@ -188,4 +202,10 @@
   };
   document.removeEventListener('keydown', localHandleBar);
   document.addEventListener('keydown', localHandleBar, false);
+  if (platform === 'win32') {
+    $(document.body).addClass('win');
+  } else if (platform === 'darwin') {
+    $(document.body).addClass('mac');
+  }
+  dragBar(mainBroswerWindow);
 })();

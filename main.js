@@ -8,6 +8,7 @@ const path      = require('path');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
+const shell         = electron.shell;
 
 const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true })
 async function findOne (query) {
@@ -31,6 +32,8 @@ async function createWindow () {
       'webSecurity':false,
       "nodeIntegration":true
     },
+    frame: false,
+    backgroundColor: '#ffffff',
     icon: nativeImage.createFromPath(__dirname + '/res/rishiqing.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
   });
   webContents = mainWindow.webContents;
@@ -68,8 +71,10 @@ async function createWindow () {
     }, 1000)
   });
   webContents.on('new-window', function (event, url, frameName, disposition, options) {
-    options.webPreferences.nodeIntegration = false;
-    options.icon = nativeImage.createFromPath(__dirname + '/res/rishiqing.png');
+    // options.webPreferences.nodeIntegration = false;
+    // options.icon = nativeImage.createFromPath(__dirname + '/res/rishiqing.png');
+    event.preventDefault();
+    shell.openExternal(url);
   });
   webContents.session.on('will-download', (event, item, webContents) => {
     // 下载项先暂时默认保存到下载路径里，后面需要增加用户修改默认保存路径的功能

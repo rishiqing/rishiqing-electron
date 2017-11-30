@@ -6,6 +6,38 @@
         <link rel="stylesheet" type="text/css" href="css/core.css">
     </head>
     <body>
+      <div class="drag-bar-mac">
+        <div class="traffic-lights" style="-webkit-app-region: no-drag;">
+          <span class="close">
+            <img src="./img/mac-traffic-light-close.svg" class="normal">
+            <img src="./img/mac-traffic-light-close-hover.svg" class="hover">
+          </span>
+          <span class="minimize">
+            <img src="./img/mac-traffic-light-minimize.svg" class="normal">
+            <img src="./img/mac-traffic-light-minimize-hover.svg" class="hover">
+          </span>
+          <span class="zoom">
+            <img src="./img/mac-traffic-light-zoom.svg" class="normal">
+            <img src="./img/mac-traffic-light-zoom-hover.svg" class="hover">
+          </span>
+        </div>
+        <div class="drag-bar" style="-webkit-app-region: drag;"></div>
+        <div class="drag-bar-2" style="-webkit-app-region: drag;"></div>
+        <div class="drag-bar-3" style="-webkit-app-region: drag;"></div>
+      </div>
+      <div class="drag-bar-win" style="-webkit-app-region: drag;">
+        <div class="traffic-lights">
+          <span class="minimize">
+            <img src="./img/win-minimize.svg">
+          </span>
+          <span class="zoom">
+            <img src="./img/win-zoom.svg">
+          </span>
+          <span class="close">
+            <img src="./img/win-close.svg">
+          </span>
+        </div>
+      </div>
     	<iframe id="main-iframe" allowFullscreen="true"></iframe>
       <div id="loading">
         <div class="bg-header">

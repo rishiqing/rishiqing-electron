@@ -8,10 +8,16 @@ body {
 }
 #main-iframe {
   position: absolute;
-  left: 0; top: 0; right: 0; bottom: 0;
+  left: 0; top: 0px; right: 0; bottom: 0;
   border: none;
   width: 100%;
   height: 100%;
+}
+body.win {
+  #main-iframe {
+    top: 32px;
+    height: calc(100% -32px);
+  }
 }
 #loading {
   position: absolute;
@@ -112,5 +118,103 @@ body {
     border-radius: 3px;
     color: #f15c5c;
     box-shadow: 0px 0px 3px 0px #ddd;
+  }
+}
+.drag-bar-mac {
+  display: none;
+  .traffic-lights {
+    position: absolute;
+    left: 0; top: 0;
+    height: 56px;
+    display: flex;
+    z-index: 1;
+    justify-content: space-between;
+    width: 76px;
+    align-items: center;
+    padding: 0 12px;
+    & > span {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      border-radius: 50%;
+      img {
+        height: 12px;
+        width: 12px;
+        vertical-align: top;
+      }
+      img.hover {
+        display: none;
+      }
+    }
+    &:hover {
+      img.normal {
+        display: none;
+      }
+      img.hover {
+        display: inline-block;
+      }
+    }
+  }
+
+  .drag-bar {
+    position: absolute;
+    left: 80px;
+    top: 0;
+    height: 56px;
+    width: calc(50% - 285px);
+  }
+
+  .drag-bar-2 {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 10px;
+  }
+
+  .drag-bar-3 {
+    position: absolute;
+    left: 0;
+    top: 46px;
+    right: 0;
+    height: 10px;
+  }
+}
+.drag-bar-win {
+  display: none;
+  position: absolute;
+  left: 0; top: 0; right: 0;
+  height: 32px;
+  background: #5A98D4;
+  .traffic-lights {
+    position: absolute;
+    right: 0;
+    top: 0;
+    height: 32px;
+    display: flex;
+    z-index: 1;
+    justify-content: space-between;
+    width: 130px;
+    align-items: center;
+    padding: 0 12px;
+    & > span {
+      display: inline-block;
+      height: 12px;
+      width: 12px;
+      img {
+        vertical-align: top;
+      }
+    }
+  }
+}
+
+body.mac {
+  .drag-bar-mac {
+    display: block;
+  }
+}
+body.win {
+  .drag-bar-win {
+    display: block;
   }
 }
