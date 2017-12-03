@@ -1,0 +1,35 @@
+/* line 2, ../scss/modal.scss */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1041;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+/* line 10, ../scss/modal.scss */
+.modal-backdrop .modal-content {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  overflow: auto;
+}
+/* line 14, ../scss/modal.scss */
+.modal-backdrop .modal-content.align-center {
+  text-align: center;
+}
+/* line 18, ../scss/modal.scss */
+.modal-backdrop .modal-content.align-middle > * {
+  position: absolute;
+  top: 45%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+/* line 25, ../scss/modal.scss */
+.modal-backdrop .modal-content > * {
+  border-radius: 2px;
+  background: #FFFFFF;
+}

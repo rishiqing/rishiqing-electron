@@ -1,5 +1,12 @@
+@import "icon";
 @import "_base";
 @import "animation";
+@import "welcome-page";
+@import "modal";
+@import "utils/utils";
+html, body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Noto Sans", "Noto Sans CJK SC", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", SimSun, sans-serif;
+}
 *, *::before, *::after {
   box-sizing: border-box;
 }
@@ -123,37 +130,7 @@ body.win {
 .drag-bar-mac {
   display: none;
   .traffic-lights {
-    position: absolute;
-    left: 0; top: 0;
-    height: 56px;
-    display: flex;
-    z-index: 1;
-    justify-content: space-between;
-    width: 76px;
-    align-items: center;
-    padding: 0 12px;
-    & > span {
-      display: inline-block;
-      height: 12px;
-      width: 12px;
-      border-radius: 50%;
-      img {
-        height: 12px;
-        width: 12px;
-        vertical-align: top;
-      }
-      img.hover {
-        display: none;
-      }
-    }
-    &:hover {
-      img.normal {
-        display: none;
-      }
-      img.hover {
-        display: inline-block;
-      }
-    }
+    
   }
 
   .drag-bar {
@@ -178,6 +155,39 @@ body.win {
     top: 46px;
     right: 0;
     height: 10px;
+  }
+}
+.traffic-lights.mac {
+  position: absolute;
+  left: 0; top: 0;
+  height: 56px;
+  display: flex;
+  z-index: 2;
+  justify-content: space-between;
+  width: 76px;
+  align-items: center;
+  padding: 0 12px;
+  & > span {
+    display: inline-block;
+    height: 12px;
+    width: 12px;
+    border-radius: 50%;
+    img {
+      height: 12px;
+      width: 12px;
+      vertical-align: top;
+    }
+    img.hover {
+      display: none;
+    }
+  }
+  &:hover {
+    img.normal {
+      display: none;
+    }
+    img.hover {
+      display: inline-block;
+    }
   }
 }
 .drag-bar-win {
@@ -217,4 +227,11 @@ body.win {
   .drag-bar-win {
     display: block;
   }
+  .traffic-lights.mac {
+    display: none;
+  }
+}
+
+.hide {
+  display: none !important;
 }

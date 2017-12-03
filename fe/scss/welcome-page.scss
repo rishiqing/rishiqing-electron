@@ -1,0 +1,59 @@
+.welcome-page {
+  position: absolute;
+  left: 0; top: 0; right: 0; bottom: 0;
+  background-color: #3b8bd8;
+  z-index: 1;
+  .bg-image {
+    width: 580px;
+    height: 383px;
+    position: absolute;
+    right: 90px; top: 116px;
+  }
+  .word-info {
+    position: absolute;
+    left: 83px;
+    top: 166px;
+    line-height: 1;
+    & > p {
+      color: #fff;
+      margin: 0;
+    }
+    .big {
+      font-size: 48px;
+      letter-spacing: 3.9px;
+    }
+    .small {
+      font-size: 20px;
+      letter-spacing: 1.79px;
+    }
+    p + p {
+      margin-top: 20px;
+    }
+  }
+  .footer {
+    position: absolute;
+    left: 0; right: 0; bottom: 60px;
+    text-align: center;
+    font-size: 0px;
+    .more {
+      line-height: 1;
+    }
+    .operate {
+      margin-bottom: 27px;
+    }
+    .setting-btn {
+      font-size: 14px;
+      color: #FFF;
+      letter-spacing: 0;
+      cursor: pointer;
+    }
+    .login-btn {
+      background-color: #81E71C;
+    }
+    .sign-btn {
+      background-color: #fff;
+      color: #55A8FD;
+      margin-left: 40px;
+    }
+  }
+}

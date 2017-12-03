@@ -10,7 +10,7 @@ const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
 const shell         = electron.shell;
 
-const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true })
+const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true });
 async function findOne (query) {
   return new Promise((resolve, reject) => {
     db.findOne(query, function (err, doc) {
@@ -36,10 +36,11 @@ async function createWindow () {
     backgroundColor: '#ffffff',
     icon: nativeImage.createFromPath(__dirname + '/res/rishiqing.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
   });
+  mainWindow.mainDb = db;
   webContents = mainWindow.webContents;
   const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + package.version;
   webContents.setUserAgent(userAgent);
-  mainWindow.loadURL('file://' + __dirname + '/fe/index.html');
+  mainWindow.loadURL(`file://${__dirname}/fe/index.html`);
   // 打开调试窗口
   if (package.env === 'dev' || package.env === 'debug') {
     webContents.openDevTools();
@@ -66,8 +67,7 @@ async function createWindow () {
     if (resizeTimer) clearTimeout(resizeTimer);
     resizeTimer = setTimeout(() => {
       resizeTimer = null;
-      db.update({ type: 'main-window-size' }, { $set: { width, height } }, { upsert: true }, function () {
-      });
+      db.update({ type: 'main-window-size' }, { $set: { width, height } }, { upsert: true });
     }, 1000)
   });
   webContents.on('new-window', function (event, url, frameName, disposition, options) {

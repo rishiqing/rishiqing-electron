@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-01-16 12:31:37
+* @Last Modified time: 2017-12-03 15:29:45
 */
 
 var path     = require('path');
@@ -35,12 +35,12 @@ module.exports = function (grunt) {
             drop_console: true
           }
         },
-        files: [{expand: true, src: ['fe/*.js', '!fe/notification.js'], dest: destPath}]
+        files: [{expand: true, src: ['fe/*.js'], dest: destPath}]
       }
     },
     cssmin: {
       combine: {
-        files: [{expand: true, src: 'fe/css/*.css', dest: destPath}]
+        files: [{expand: true, src: 'fe/css/**/*.css', dest: destPath}]
       }
     },
     copy: {
@@ -49,11 +49,7 @@ module.exports = function (grunt) {
           {expand: true, src: 'fe/img/*', dest: destPath},
           {expand: true, src: 'fe/*.html', dest: destPath},
           {expand: true, src: 'fe/sound/*', dest: destPath},
-        ]
-      },
-      notification: {
-        files: [
-          {expand: true, src: 'fe/notification.js', dest: destPath}
+          {expand: true, src: 'fe/hbs/*', dest: destPath}
         ]
       },
       pkg: {

@@ -1,0 +1,78 @@
+/* line 1, ../scss/welcome-page.scss */
+.welcome-page {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #3b8bd8;
+  z-index: 1;
+}
+/* line 6, ../scss/welcome-page.scss */
+.welcome-page .bg-image {
+  width: 580px;
+  height: 383px;
+  position: absolute;
+  right: 90px;
+  top: 116px;
+}
+/* line 12, ../scss/welcome-page.scss */
+.welcome-page .word-info {
+  position: absolute;
+  left: 83px;
+  top: 166px;
+  line-height: 1;
+}
+/* line 17, ../scss/welcome-page.scss */
+.welcome-page .word-info > p {
+  color: #fff;
+  margin: 0;
+}
+/* line 21, ../scss/welcome-page.scss */
+.welcome-page .word-info .big {
+  font-size: 48px;
+  letter-spacing: 3.9px;
+}
+/* line 25, ../scss/welcome-page.scss */
+.welcome-page .word-info .small {
+  font-size: 20px;
+  letter-spacing: 1.79px;
+}
+/* line 29, ../scss/welcome-page.scss */
+.welcome-page .word-info p + p {
+  margin-top: 20px;
+}
+/* line 33, ../scss/welcome-page.scss */
+.welcome-page .footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 60px;
+  text-align: center;
+  font-size: 0px;
+}
+/* line 38, ../scss/welcome-page.scss */
+.welcome-page .footer .more {
+  line-height: 1;
+}
+/* line 41, ../scss/welcome-page.scss */
+.welcome-page .footer .operate {
+  margin-bottom: 27px;
+}
+/* line 44, ../scss/welcome-page.scss */
+.welcome-page .footer .setting-btn {
+  font-size: 14px;
+  color: #FFF;
+  letter-spacing: 0;
+  cursor: pointer;
+}
+/* line 50, ../scss/welcome-page.scss */
+.welcome-page .footer .login-btn {
+  background-color: #81E71C;
+}
+/* line 53, ../scss/welcome-page.scss */
+.welcome-page .footer .sign-btn {
+  background-color: #fff;
+  color: #55A8FD;
+  margin-left: 40px;
+}

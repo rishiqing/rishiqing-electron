@@ -6,21 +6,21 @@
         <link rel="stylesheet" type="text/css" href="css/core.css">
     </head>
     <body>
+      <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
+        <span class="close">
+          <img src="./img/mac-traffic-light-close.svg" class="normal">
+          <img src="./img/mac-traffic-light-close-hover.svg" class="hover">
+        </span>
+        <span class="minimize">
+          <img src="./img/mac-traffic-light-minimize.svg" class="normal">
+          <img src="./img/mac-traffic-light-minimize-hover.svg" class="hover">
+        </span>
+        <span class="zoom">
+          <img src="./img/mac-traffic-light-zoom.svg" class="normal">
+          <img src="./img/mac-traffic-light-zoom-hover.svg" class="hover">
+        </span>
+      </div>
       <div class="drag-bar-mac">
-        <div class="traffic-lights" style="-webkit-app-region: no-drag;">
-          <span class="close">
-            <img src="./img/mac-traffic-light-close.svg" class="normal">
-            <img src="./img/mac-traffic-light-close-hover.svg" class="hover">
-          </span>
-          <span class="minimize">
-            <img src="./img/mac-traffic-light-minimize.svg" class="normal">
-            <img src="./img/mac-traffic-light-minimize-hover.svg" class="hover">
-          </span>
-          <span class="zoom">
-            <img src="./img/mac-traffic-light-zoom.svg" class="normal">
-            <img src="./img/mac-traffic-light-zoom-hover.svg" class="hover">
-          </span>
-        </div>
         <div class="drag-bar" style="-webkit-app-region: drag;"></div>
         <div class="drag-bar-2" style="-webkit-app-region: drag;"></div>
         <div class="drag-bar-3" style="-webkit-app-region: drag;"></div>
@@ -56,7 +56,6 @@
         <div class="content" style="display: none;"></div>
       </div>
       <audio src="./sound/Tethys.ogg" id="notification-sound"></audio>
-      <script type="text/javascript" src="./eleManage.js"></script>
       <script type="text/javascript" src="./main.js"></script>
     </body>
 </html>
