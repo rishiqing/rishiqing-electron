@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-03 15:29:45
+* @Last Modified time: 2017-12-03 22:17:22
 */
 
 var path     = require('path');
@@ -35,7 +35,7 @@ module.exports = function (grunt) {
             drop_console: true
           }
         },
-        files: [{expand: true, src: ['fe/*.js'], dest: destPath}]
+        files: [{expand: true, src: ['fe/**/*.js'], dest: destPath}]
       }
     },
     cssmin: {
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
       fe: {
         files: [
           {expand: true, src: 'fe/img/*', dest: destPath},
-          {expand: true, src: 'fe/*.html', dest: destPath},
+          {expand: true, src: 'fe/**/*.html', dest: destPath},
           {expand: true, src: 'fe/sound/*', dest: destPath},
           {expand: true, src: 'fe/hbs/*', dest: destPath}
         ]
