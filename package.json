@@ -29,8 +29,11 @@
   "dependencies": {
     "handlebars": "4.0.11",
     "jquery": "2.2.0",
+    "lodash": "4.17.4",
+    "module-alias": "2.0.3",
     "nedb": "1.8.0",
     "request": "2.72.0",
+    "vue": "2.5.9",
     "winreg": "1.2.2"
   },
   "devDependencies": {

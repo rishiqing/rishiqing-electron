@@ -1,7 +1,9 @@
-const electron = require('electron');
-const Menu     = electron.Menu;
-const shell    = electron.shell;
-const app      = electron.app;
+const electron      = require('electron');
+const download      = require('../download');
+const Menu          = electron.Menu;
+const shell         = electron.shell;
+const app           = electron.app;
+
 const template = [
   {
     label: 'rishiqing',
@@ -9,6 +11,12 @@ const template = [
       {
         label:"日事清官网",
         click: function() { shell.openExternal('https://www.rishiqing.com') }
+      },
+      {
+        label: "下载管理",
+        click: function () {
+          download.open();
+        }
       },
       {
         type: 'separator'

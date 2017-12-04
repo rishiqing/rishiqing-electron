@@ -1,10 +1,11 @@
-const electron  = require('electron');
-const package   = require("./package.json");
-const Menu      = require('./native/menu.js');
-const Tray      = require('./native/tray.js');
-const Update    = require('./native/update');
-const Datastore = require('nedb');
-const path      = require('path');
+const electron      = require('electron');
+const package       = require('./package.json');
+const Menu          = require('./native/menu.js');
+const Tray          = require('./native/tray.js');
+const Update        = require('./native/update');
+const Datastore     = require('nedb');
+const path          = require('path');
+const download      = require('./download');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
@@ -43,7 +44,7 @@ async function createWindow () {
   mainWindow.loadURL(`file://${__dirname}/fe/index.html`);
   // 打开调试窗口
   if (package.env === 'dev' || package.env === 'debug') {
-    webContents.openDevTools();
+    // webContents.openDevTools();
   }
   mainWindow.on('close', function (e) {
     if (!global.force_close) { // 这个force_close是在native/tray.js里设置的，当时点击托盘里的退出按钮时，被置为true
@@ -77,8 +78,7 @@ async function createWindow () {
     shell.openExternal(url);
   });
   webContents.session.on('will-download', (event, item, webContents) => {
-    // 下载项先暂时默认保存到下载路径里，后面需要增加用户修改默认保存路径的功能
-    item.setSavePath(path.join(app.getPath('downloads'), item.getFilename()));
+    download.startDownload(item);
   });
 }
 
@@ -96,6 +96,7 @@ if (shouldQuit) {
 
 app.on('ready', async function () {
   await createWindow();
+  download.initWindow();
   const u = new Update(mainWindow);
   const m = new Menu();
   const t = new Tray(mainWindow);

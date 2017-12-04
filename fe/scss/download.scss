@@ -1,0 +1,116 @@
+@import "_base.scss";
+#download {
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+
+  .list {
+    flex: 1 0 378px;
+    overflow: auto;
+    overflow-x: hidden;
+  }
+
+  ul {
+    padding: 24px 20px 0 20px;
+  }
+
+  .download-item + .download-item {
+    margin-top: 27px;
+  }
+  .footer {
+    height: 40px;
+    border-top: 1px solid #EAEAEA;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    & > a {
+      font-size: 12px;
+      color: #0689DD;
+      cursor: pointer;
+    }
+  }
+}
+
+.download-item {
+  display: flex;
+  align-items: center;
+  height: 28px;
+  & > img {
+    width: 24px;
+    height: 28px;
+  }
+  .info {
+    flex: auto;
+    height: 100%;
+    flex-direction: column;
+    justify-content: space-between;
+    display: flex;
+    padding-left: 16px;
+    max-width: 208px;
+    .name {
+      font-size: 13px;
+      color: #3D3D3D;
+      line-height: 1;
+      white-space: nowrap;
+      overflow: hidden;
+      max-width: 199px;
+      text-overflow: ellipsis;
+    }
+    .open {
+      font-size: 12px;
+      color: #6BC859;
+      line-height: 1;
+      a + a {
+        margin-left: 16px;
+      }
+      & > a {
+        cursor: pointer;
+      }
+    }
+    .progress {
+      width: 102px;
+      height: 6px;
+      border-radius: 3px;
+      background: #EFEFEF;
+      position: relative;
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      background: #5BBBFC;
+      border-radius: 3px;
+    }
+    .percent {
+      font-size: 12px;
+      position: absolute;
+      right: -3em;
+      top: -3px;
+      line-height: 1;
+      color: #1BA4FF;
+    }
+  }
+  .size {
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+    width: 5em;
+    text-align: right;
+  }
+  .operate {
+    padding-left: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .cancel {
+    font-size: 12px;
+    color: #0689DD;
+  }
+  .clear {
+    font-size: 12px;
+    color: #9B9B9B;
+  }
+}
