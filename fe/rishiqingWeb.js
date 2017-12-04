@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-03 22:01:39
+* @Last Modified time: 2017-12-04 12:05:10
 */
 var package      = require('../package.json');
 var os           = require('os');
@@ -12,7 +12,6 @@ var $            = require('jquery');
 var platform     = process.platform;
 
 var dealLogin = function (canAutoLogin) {
-  console.log('canAutoLogin', canAutoLogin);
   if (!canAutoLogin) $('.welcome-page').removeClass('hide');
 };
 
@@ -34,6 +33,10 @@ module.exports = function (mainWindow) {
   }
   if (platform === 'darwin') {
     mainWindow.Notification = notification;
+  }
+
+  mainWindow.onLogout = function () {
+    $('.welcome-page').removeClass('hide');
   }
 
 	// 如果Client_Can_Auto_Login没有被赋值，说明检测是否登录的接口还没有返回
