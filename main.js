@@ -44,7 +44,7 @@ async function createWindow () {
   mainWindow.loadURL(`file://${__dirname}/fe/index.html`);
   // 打开调试窗口
   if (package.env === 'dev' || package.env === 'debug') {
-    // webContents.openDevTools();
+    webContents.openDevTools();
   }
   mainWindow.on('close', function (e) {
     if (!global.force_close) { // 这个force_close是在native/tray.js里设置的，当时点击托盘里的退出按钮时，被置为true

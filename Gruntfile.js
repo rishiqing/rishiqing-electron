@@ -2,15 +2,13 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-04 20:13:17
+* @Last Modified time: 2017-12-05 23:40:06
 */
 
 var path     = require('path');
 var argv    = require('yargs').argv;
 
-var destPath = 'dir',
-  env        = argv.env ? argv.env : 'release',
-  platform   = argv.platform;
+var destPath = 'dir';
 
 module.exports = function (grunt) {
 	grunt.initConfig({
@@ -61,7 +59,7 @@ module.exports = function (grunt) {
         options: {
           process: function (content, srcpath) {
             var packageJson = JSON.parse(content);
-            packageJson.env = env;
+            packageJson.env = 'release';
             packageJson.name = 'rishiqing';
             packageJson.releaseTime = (new Date()).toString();
             delete packageJson.devDependencies;
@@ -85,6 +83,7 @@ module.exports = function (grunt) {
       mainJs: {
         files: [
           {expand: true, src: 'main.js', dest: destPath},
+          {expand: true, src: 'download.js', dest: destPath},
           {expand: true, src: 'native/*.js', dest: destPath},
           {expand: true, src: 'common/*.js', dest: destPath}
         ]

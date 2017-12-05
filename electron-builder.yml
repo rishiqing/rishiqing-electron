@@ -1,0 +1,11 @@
+appId: 'release.rishiqing.electron'
+productName: 'rishiqing'
+electronVersion: '1.7.9'
+directories:
+  output: 'package'
+  app: 'dir'
+mac:
+  category: 'public.app-category.productivity' # 放到生产效率类
+  icon: 'res/app.icns'
+  identity: '72X2RKD3B2'
+  type: 'distribution'

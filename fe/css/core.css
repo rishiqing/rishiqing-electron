@@ -611,7 +611,7 @@ body.win #main-iframe {
   right: 0;
   bottom: 0;
   -webkit-user-select: none;
-  background-color: #fff;
+  background-image: linear-gradient(-179deg, #E4EDF5 0%, #D8ECFF 99%);
 }
 /* line 29, ../scss/core.scss */
 #loading.pure-color {

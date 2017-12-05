@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-04 12:05:10
+* @Last Modified time: 2017-12-05 16:18:30
 */
 var package      = require('../package.json');
 var os           = require('os');
@@ -10,6 +10,7 @@ var nativeNotify = require('./nativeNotify');
 var notification = require('./notification');
 var $            = require('jquery');
 var platform     = process.platform;
+var $mainIframe  = document.querySelector('#main-iframe');
 
 var dealLogin = function (canAutoLogin) {
   if (!canAutoLogin) $('.welcome-page').removeClass('hide');
@@ -37,6 +38,7 @@ module.exports = function (mainWindow) {
 
   mainWindow.onLogout = function () {
     $('.welcome-page').removeClass('hide');
+    $mainIframe.src = '';
   }
 
 	// 如果Client_Can_Auto_Login没有被赋值，说明检测是否登录的接口还没有返回
