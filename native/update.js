@@ -2,11 +2,14 @@ const request = require('request');
 const config = require('../fe/config');
 const BrowserWindow = require('electron').BrowserWindow;
 const nativeImage   = require('electron').nativeImage;
+const autoUpdater = require('electron-updater').autoUpdater;
+
 class Update {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
     this.webContents = mainWindow.webContents;
     this.initUpdate();
+    this.setAutoUpdate();
   }
   initUpdate () {
     request.post({ 
@@ -31,6 +34,15 @@ class Update {
         }
       } catch (e) {  }
     });
+  }
+  setAutoUpdate () {
+    // autoUpdater.on('error', function () {
+    //   console.log('update error', arguments);
+    // });
+    // autoUpdater.on('checking-for-update', function () {
+    //   console.log('checking-for-update', arguments);
+    // });
+    autoUpdater.checkForUpdatesAndNotify();
   }
 }
 module.exports = Update;

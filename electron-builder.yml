@@ -1,5 +1,5 @@
 appId: 'release.rishiqing.electron'
-productName: 'rishiqing'
+productName: '日事清'
 electronVersion: '1.7.9'
 directories:
   output: 'package'
@@ -9,3 +9,6 @@ mac:
   icon: 'res/app.icns'
   identity: '72X2RKD3B2'
   type: 'distribution'
+  publish:
+    provider: 'generic'
+    url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/mac'
