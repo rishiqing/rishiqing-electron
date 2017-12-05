@@ -8,6 +8,11 @@ const downloadData = require('./data');
 const FileUtil     = require('../utils/file');
 
 const shell        = electron.shell;
+const webFrame     = electron.webFrame;
+
+webFrame.setZoomFactor(1);
+webFrame.setVisualZoomLevelLimits(1, 1);
+webFrame.setLayoutZoomLevelLimits(0, 0);
 
 class DownloadPage {
   constructor () {

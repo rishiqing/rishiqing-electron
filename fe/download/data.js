@@ -78,8 +78,9 @@ class DownloadData {
     if (file) {
       file.completed = true;
       this.removeItemById(file.itemId);
-      DownloadedList.unshift(file);
-      db.insert(file);
+      db.insert(file, function (err, newFile) {
+        DownloadedList.unshift(newFile);
+      });
     }
   }
 }

@@ -22,33 +22,74 @@ var dragBar             = require('./drag-bar');
 var mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
 var shell               = electron.shell;
 var db                  = mainBroswerWindow.mainDb;
+const webFrame          = electron.webFrame;
 
-(electron.BrowserWindow || electron.remote.BrowserWindow).getAllWindows().forEach(function (win) {
-  (win.webContents || win.getWebContents()).on('context-menu', function (e, props) {
-    var menuTpl = [
-      {
-        label: '前进',
-        visible: true,
-        click: function () {
-          forwardWindow();
-        }
-      }, {
-        label: '后退',
-        visible: true,
-        click: function () {
-          backWindow();
-        }
-      }, {
-        label: '刷新',
-        visible: true,
-        click: function () {
-          reloadWindow();
-        }
+webFrame.setZoomFactor(1);
+webFrame.setVisualZoomLevelLimits(1, 1);
+webFrame.setLayoutZoomLevelLimits(0, 0);
+
+(mainBroswerWindow.webContents || mainBroswerWindow.getWebContents()).on('context-menu', function (e, props) {
+  var menuTpl = [
+    {
+      label: '撤销',
+      accelerator: 'Command+Z',
+      selector: 'undo:'
+    },
+    {
+      label: '重做',
+      accelerator: 'Shift+Command+Z',
+      selector: 'redo:'
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: '剪切',
+      accelerator: 'Command+X',
+      selector: 'cut:'
+    },
+    {
+      label: '复制',
+      accelerator: 'Command+C',
+      selector: 'copy:'
+    },
+    {
+      label: '粘贴',
+      accelerator: 'Command+V',
+      selector: 'paste:'
+    },
+    {
+      label: '全选',
+      accelerator: 'Command+A',
+      selector: 'selectAll:'
+    },
+    {
+      type: 'separator'
+    },
+    {
+      label: '前进',
+      visible: true,
+      click: function () {
+        forwardWindow();
       }
-    ];
-    var menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
-    menu.popup(electron.remote ? electron.remote.getCurrentWindow() : win);
-  });
+    }, 
+    {
+      label: '后退',
+      visible: true,
+      click: function () {
+        backWindow();
+      }
+    }, 
+    {
+      label: '刷新',
+      visible: true,
+      click: function () {
+        reloadWindow();
+      }
+    }
+  ];
+  var menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl);
+  menu.popup(mainBroswerWindow);
 });
 
 var isReloading = false;

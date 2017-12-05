@@ -21,7 +21,7 @@ class Db {
     this.db.remove({}, { multi: true });
   }
 
-  insert (file) {
+  insert (file, callback) {
     const obj = {
       contentDisposition: file.contentDisposition,
       eTag: file.eTag,
@@ -36,7 +36,7 @@ class Db {
       totalBytes: file.totalBytes,
       urlChain: file.urlChain
     };
-    this.db.insert(obj);
+    this.db.insert(obj, callback);
   }
 }
 
