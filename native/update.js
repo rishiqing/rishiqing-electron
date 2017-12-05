@@ -36,12 +36,6 @@ class Update {
     });
   }
   setAutoUpdate () {
-    // autoUpdater.on('error', function () {
-    //   console.log('update error', arguments);
-    // });
-    // autoUpdater.on('checking-for-update', function () {
-    //   console.log('checking-for-update', arguments);
-    // });
     autoUpdater.checkForUpdatesAndNotify();
   }
 }
