@@ -198,12 +198,6 @@ $mainIframe.addEventListener('load', function () {
 
     if (mainWindow.I_AM_RSQ_WEB) {
       rishiqingWeb(mainWindow);
-      // var beforeunload = function (e) {
-      //   if (isReloading) return;
-      //   e.returnValue = false;
-      // };
-      // mainWindow.removeEventListener('beforeunload', beforeunload);
-      // mainWindow.addEventListener('beforeunload', beforeunload);
     }
   });
 });
@@ -221,10 +215,10 @@ db.findOne({ type: 'server-config' }, (err, _config) => {
     'officiel-server-name': 'https://www.rishiqing.com',
     'server-type': (function () {
       const type = obj['server-type'];
-      if (type !== 'officiel') {
-        return 'custom';
+      if (type !== 'custom') {
+        return 'officiel';
       }
-      return 'officiel';
+      return 'custom';
     })()
   };
   if (package.env === 'debug') {
@@ -234,20 +228,20 @@ db.findOne({ type: 'server-config' }, (err, _config) => {
   }
 });
 
-// 在local页面监听键盘，刷新
-var localHandleBar = function (pressed) {
-  if (platform === 'win32') {
-    if (pressed.which === 116) {
-      reloadWindow();
-    }
-  } else if (platform === 'darwin') {
-    if (pressed.metaKey && pressed.which === 82) {
-      reloadWindow();
-    }
-  }
-};
-document.removeEventListener('keydown', localHandleBar);
-document.addEventListener('keydown', localHandleBar, false);
+// // 在local页面监听键盘，刷新
+// var localHandleBar = function (pressed) {
+//   if (platform === 'win32') {
+//     if (pressed.which === 116) {
+//       reloadWindow();
+//     }
+//   } else if (platform === 'darwin') {
+//     if (pressed.metaKey && pressed.which === 82) {
+//       reloadWindow();
+//     }
+//   }
+// };
+// document.removeEventListener('keydown', localHandleBar);
+// document.addEventListener('keydown', localHandleBar, false);
 if (platform === 'win32') {
   $(document.body).addClass('win');
 } else if (platform === 'darwin') {

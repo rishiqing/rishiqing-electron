@@ -47,10 +47,10 @@ class View extends CommonView {
         'officiel-server-name': 'https://www.rishiqing.com',
         'server-type': (function () {
           const type = obj['server-type'];
-          if (type !== 'officiel') {
-            return 'custom';
+          if (type !== 'custom') {
+            return 'officiel';
           }
-          return 'officiel';
+          return 'custom';
         })()
       };
       this.initModal();
