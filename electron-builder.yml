@@ -12,3 +12,9 @@ mac:
   publish:
     provider: 'generic'
     url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/mac'
+win:
+  target: 'nsis'
+  icon: 'res/256x256.ico'
+  publish:
+    provider: 'generic'
+    url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/win/${arch}'

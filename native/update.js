@@ -37,6 +37,11 @@ class Update {
   }
   setAutoUpdate () {
     autoUpdater.checkForUpdatesAndNotify();
+    // autoUpdater.setFeedURL({
+    //   provider: 'generic', 
+    //   url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/win/x64'
+    // });
+    // autoUpdater.checkForUpdates();
   }
 }
 module.exports = Update;

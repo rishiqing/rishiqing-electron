@@ -104,6 +104,7 @@ app.on('ready', async function () {
 app.on('window-all-closed', function () {
   app.quit();
 });
+// 下面这个地方，before-quit事件是在调用app.quit()之后第一个触发的事件
 app.on('before-quit', function () {
-  if (process.platform === 'darwin') app.exit(0);
+  app.exit(0);
 });
