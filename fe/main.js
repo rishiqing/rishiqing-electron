@@ -32,36 +32,36 @@ webFrame.setLayoutZoomLevelLimits(0, 0);
   var menuTpl = [
     {
       label: '撤销',
-      accelerator: 'Command+Z',
-      selector: 'undo:'
+      accelerator: 'CommandOrControl+Z',
+      role: 'undo'
     },
     {
       label: '重做',
-      accelerator: 'Shift+Command+Z',
-      selector: 'redo:'
+      accelerator: 'CommandOrControl+Y',
+      role: 'redo'
     },
     {
       type: 'separator'
     },
     {
       label: '剪切',
-      accelerator: 'Command+X',
-      selector: 'cut:'
+      accelerator: 'CommandOrControl+X',
+      role: 'cut'
     },
     {
       label: '复制',
-      accelerator: 'Command+C',
-      selector: 'copy:'
+      accelerator: 'CommandOrControl+C',
+      role: 'copy'
     },
     {
       label: '粘贴',
-      accelerator: 'Command+V',
-      selector: 'paste:'
+      accelerator: 'CommandOrControl+V',
+      role: 'paste'
     },
     {
       label: '全选',
-      accelerator: 'Command+A',
-      selector: 'selectAll:'
+      accelerator: 'CommandOrControl+A',
+      role: 'selectall'
     },
     {
       type: 'separator'
@@ -83,6 +83,7 @@ webFrame.setLayoutZoomLevelLimits(0, 0);
     {
       label: '刷新',
       visible: true,
+      accelerator: 'CommandOrControl+R',
       click: function () {
         reloadWindow();
       }
