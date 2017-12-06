@@ -37,7 +37,7 @@ ul {
 }
 /* line 11, ../scss/download.scss */
 #download .list {
-  flex: 1 0 378px;
+  height: calc(100% - 40px);
   overflow: auto;
   overflow-x: hidden;
 }

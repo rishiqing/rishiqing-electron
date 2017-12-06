@@ -15,7 +15,7 @@
 body.win {
   #main-iframe {
     top: 32px;
-    height: calc(100% -32px);
+    height: calc(100% - 32px);
   }
 }
 #loading {
@@ -188,6 +188,7 @@ body.win {
   left: 0; top: 0; right: 0;
   height: 32px;
   background: #5A98D4;
+  z-index: 2;
   .traffic-lights {
     position: absolute;
     right: 0;

@@ -600,7 +600,7 @@ ul {
 /* line 16, ../scss/core.scss */
 body.win #main-iframe {
   top: 32px;
-  height: calc(100% -32px);
+  height: calc(100% - 32px);
 }
 
 /* line 21, ../scss/core.scss */
@@ -795,8 +795,9 @@ body.win #main-iframe {
   right: 0;
   height: 32px;
   background: #5A98D4;
+  z-index: 2;
 }
-/* line 191, ../scss/core.scss */
+/* line 192, ../scss/core.scss */
 .drag-bar-win .traffic-lights {
   position: absolute;
   right: 0;
@@ -809,27 +810,27 @@ body.win #main-iframe {
   align-items: center;
   padding: 0 12px;
 }
-/* line 202, ../scss/core.scss */
+/* line 203, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span {
   display: inline-block;
   height: 12px;
   width: 12px;
 }
-/* line 206, ../scss/core.scss */
+/* line 207, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span img {
   vertical-align: top;
 }
 
-/* line 214, ../scss/core.scss */
+/* line 215, ../scss/core.scss */
 body.mac .drag-bar-mac {
   display: block;
 }
 
-/* line 219, ../scss/core.scss */
+/* line 220, ../scss/core.scss */
 body.win .drag-bar-win {
   display: block;
 }
-/* line 222, ../scss/core.scss */
+/* line 223, ../scss/core.scss */
 body.win .traffic-lights.mac {
   display: none;
 }

@@ -25,6 +25,7 @@ class Download {
       resizable: false,
       maximizable: false,
       minimizable: false,
+      autoHideMenuBar: true,
       show: false // 初始化的时候不显示
     });
     this.window.on('close', this._onWindowClose.bind(this));

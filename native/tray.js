@@ -1,5 +1,6 @@
 const electron    = require('electron');
 const {ipcMain}   = require('electron');
+const download    = require('../download');
 const Tray        = electron.Tray;
 const platform    = process.platform;
 const tray_icon   = platform === 'darwin' ? '../res/tray_mac@2x.png' : '../res/tray_win.ico';
@@ -67,6 +68,8 @@ class TrayClass {
   }
   initMenuList () {
     this.menuList = [
+      { label: 'Item2', type: 'separator' },
+      { label: '下载管理', type: 'normal', click:() => { download.open(); }},
       { label: 'Item2', type: 'separator' },
       { label: '显示主窗口', type: 'normal', click:() => { this.mainWindow.show(); }},
       { label: 'Item2', type: 'separator' },
