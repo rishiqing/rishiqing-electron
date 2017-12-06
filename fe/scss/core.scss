@@ -223,4 +223,7 @@ body.win {
   .traffic-lights.mac {
     display: none;
   }
+  #loading, #alert {
+    top: 32px;
+  }
 }

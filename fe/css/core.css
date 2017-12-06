@@ -834,3 +834,7 @@ body.win .drag-bar-win {
 body.win .traffic-lights.mac {
   display: none;
 }
+/* line 226, ../scss/core.scss */
+body.win #loading, body.win #alert {
+  top: 32px;
+}
