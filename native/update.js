@@ -2,13 +2,14 @@ const request = require('request');
 const config = require('../fe/config');
 const BrowserWindow = require('electron').BrowserWindow;
 const nativeImage   = require('electron').nativeImage;
+const Notification = require('electron').Notification;
 const autoUpdater = require('electron-updater').autoUpdater;
 
 class Update {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
     this.webContents = mainWindow.webContents;
-    this.initUpdate();
+    // this.initUpdate();
     this.setAutoUpdate();
   }
   initUpdate () {
@@ -36,12 +37,14 @@ class Update {
     });
   }
   setAutoUpdate () {
-    autoUpdater.checkForUpdatesAndNotify();
-    // autoUpdater.setFeedURL({
-    //   provider: 'generic', 
-    //   url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/win/x64'
-    // });
-    // autoUpdater.checkForUpdates();
+    autoUpdater.on('update-downloaded', function (info) {
+      const notify = new Notification({
+        title: '日事清PC端有版本更新啦~~',
+        body: `${info.version} 已经发布，退出之后将自动更新`
+      });
+      notify.show();
+    });
+    autoUpdater.checkForUpdates();
   }
 }
 module.exports = Update;

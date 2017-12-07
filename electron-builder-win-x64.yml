@@ -1,5 +1,5 @@
 appId: 'release.rishiqing.electron'
-productName: '日事清'
+productName: 'rishiqing'
 electronVersion: '1.7.9'
 directories:
   output: 'package'
