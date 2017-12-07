@@ -1,6 +1,6 @@
 {
   "name": "rishiqing",
-  "version": "3.0.1",
+  "version": "3.0.0",
   "author": "北京创仕科锐信息技术有限责任公司",
   "electronVersion": "1.7.9",
   "main": "main.js",
@@ -17,9 +17,11 @@
     "start": "electron .",
     "sass": "grunt compassTask",
     "build-mac": "grunt && electron-builder .",
-    "build-x64": "grunt && electron-builder . --x64",
-    "build-ia32": "grunt && electron-builder . --ia32",
+    "build-x64": "grunt && electron-builder . --x64 --config electron-builder-win-x64.yml",
+    "build-ia32": "grunt && electron-builder . --ia32 --config electron-builder-win-ia32.yml",
     "rdp-mac": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac",
+    "rdp-win-x64": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=win-x64",
+    "rdp-win-ia32": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=win-ia32",
     "package-mac": "npm run package-mac-beta && npm run package-mac-release",
     "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
     "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin && node ./dmg.js --env=release",
@@ -40,6 +42,7 @@
     "winreg": "1.2.2"
   },
   "devDependencies": {
+    "cross-env": "^5.1.1",
     "electron-builder": "^19.47.1",
     "electron-packager": "8.1.0",
     "electron-reload": "^1.2.2",

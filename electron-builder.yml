@@ -12,15 +12,3 @@ mac:
   publish:
     provider: 'generic'
     url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/mac'
-win:
-  target: 'nsis'
-  icon: 'res/256x256.ico'
-  publish:
-    provider: 'generic'
-    url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/win/${arch}'
-nsis:
-  artifactName: rishiqing-win-${arch}-${version}.${ext}
-  installerLanguages: 'zh-CN'
-  shortcutName: '日事清'
-  uninstallDisplayName: ${productName} ${version}
-  guid: 'F4BC9A4A-E09B-465E-BC10-A8921C46E672'
