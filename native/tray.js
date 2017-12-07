@@ -77,19 +77,40 @@ class TrayClass {
     ];
     this.initStartOnBoot();
   }
+  getAutoStartValue (callback) {
+    const startOnBoot = require("./startOnBoot");
+    const old_key = 'rishiqing_startOnBoot'; // 之前版本保存自动启动地址的key
+    const new_key = 'rishiqing_V3'; // 新版的自启动key
+    // 先检测是否有老版本的自启动配置
+    startOnBoot.getAutoStartValue(old_key, (old_value, err) => {
+      if (old_value) {
+        // 如果有，就先移除老版本的自启动
+        startOnBoot.disableAutoStart(old_key);
+        // 然后把新版本的自启动配置给写进去
+        startOnBoot.enableAutoStart(new_key, process.execPath);
+        callback(process.execPath);
+      } else {
+        // 如果没有配置老版本的自启动
+        startOnBoot.getAutoStartValue(new_key, (new_value, err) => {
+          callback(new_value);
+        });
+      }
+    });
+  }
   initStartOnBoot () {
     if (platform.indexOf('win32') !== -1) { // 只在windows开启开机启动设置
       const startOnBoot = require("./startOnBoot");
+      const new_key = 'rishiqing_V3'; // 新版的自启动key
       const bootMenu = { label: '开机启动', type: 'checkbox' ,checked:false, click:() => {
-        startOnBoot.getAutoStartValue("rishiqing_startOnBoot",function(value,err){
+        this.getAutoStartValue((value) => {
           if(value){
-            startOnBoot.disableAutoStart('rishiqing_startOnBoot');
+            startOnBoot.disableAutoStart(new_key);
           }else{
-            startOnBoot.enableAutoStart('rishiqing_startOnBoot', process.execPath);
+            startOnBoot.enableAutoStart(new_key, process.execPath);
           }
-        })
+        });
       }};
-      startOnBoot.getAutoStartValue("rishiqing_startOnBoot",(value,err) => {
+      this.getAutoStartValue((value) => {
         if(value){
           bootMenu.checked = true;
         }else{
@@ -98,7 +119,7 @@ class TrayClass {
         this.menuList.unshift(bootMenu);
         const contextMenu = Menu.buildFromTemplate(this.menuList);
         this.appIcon.setContextMenu(contextMenu);
-      })
+      });
     }
   }
   // 显示 tray 通知
