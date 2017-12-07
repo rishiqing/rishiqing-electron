@@ -4,6 +4,7 @@ const BrowserWindow = require('electron').BrowserWindow;
 const nativeImage   = require('electron').nativeImage;
 const Notification = require('electron').Notification;
 const autoUpdater = require('electron-updater').autoUpdater;
+const pkg = require('../package.json');
 
 class Update {
   constructor (mainWindow) {
@@ -44,7 +45,9 @@ class Update {
       });
       notify.show();
     });
-    autoUpdater.checkForUpdates();
+    if (pkg.env !== 'dev' && pkg.env !== 'debug') {
+      autoUpdater.checkForUpdates();
+    }
   }
 }
 module.exports = Update;
