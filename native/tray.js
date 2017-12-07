@@ -92,7 +92,13 @@ class TrayClass {
       } else {
         // 如果没有配置老版本的自启动
         startOnBoot.getAutoStartValue(new_key, (new_value, err) => {
-          callback(new_value);
+          let v = new_value;
+          if (new_value && new_value !== process.execPath) {
+            // 如果当前配置的启动地址，和当前的不一样，就修改掉
+            startOnBoot.enableAutoStart(new_key, process.execPath);
+            v = process.execPath;
+          }
+          callback(v);
         });
       }
     });
