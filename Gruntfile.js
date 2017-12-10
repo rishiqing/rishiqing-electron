@@ -2,13 +2,15 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-05 23:40:06
+* @Last Modified time: 2017-12-10 22:04:05
 */
 
 var path     = require('path');
 var argv    = require('yargs').argv;
 
-var destPath = 'dir';
+var destPath = 'dir', env = argv.env;
+
+if (env !== 'beta') env = 'release'; // 如果env不等于beta, 就置为release，以防出错
 
 module.exports = function (grunt) {
 	grunt.initConfig({
@@ -59,7 +61,7 @@ module.exports = function (grunt) {
         options: {
           process: function (content, srcpath) {
             var packageJson = JSON.parse(content);
-            packageJson.env = 'release';
+            packageJson.env = env;
             packageJson.name = 'rishiqing';
             packageJson.releaseTime = (new Date()).toString();
             delete packageJson.devDependencies;

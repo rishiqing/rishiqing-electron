@@ -39,22 +39,9 @@ class View extends CommonView {
     this.$settingBtn = this.$('.setting-btn');
   }
 
-  initConfig () {
-    db.findOne({ type: 'server-config' }, (err, _config) => {
-      const obj = _config || {};
-      this.config = {
-        'custom-server-name': obj['custom-server-name'] || '',
-        'officiel-server-name': 'https://www.rishiqing.com',
-        'server-type': (function () {
-          const type = obj['server-type'];
-          if (type !== 'custom') {
-            return 'officiel';
-          }
-          return 'custom';
-        })()
-      };
-      this.initModal();
-    });
+  async initConfig () {
+    this.config = await db.getServerConfig();
+    this.initModal();
   }
 
   initModal () {
@@ -92,7 +79,7 @@ class View extends CommonView {
 
   onSave (_cfg) {
     this.config = _cfg;
-    db.update({ type: 'server-config' }, { $set: this.config }, { upsert: true });
+    db.updateServerConfig(this.config);
     this.$settingBtn.modal('hide'); 
   }
 

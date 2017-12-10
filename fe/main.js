@@ -202,31 +202,17 @@ $mainIframe.addEventListener('load', function () {
   });
 });
 
-// if (package.env === 'debug') {
-//   $mainIframe.src = package['debug-url'];
-// } else {
-//   $mainIframe.src = config.ACCOUNT_URL + '?port=2&_=' + new Date().getTime(); // 为了加载首页index的时候，不使用缓存
-// }
-
-db.findOne({ type: 'server-config' }, (err, _config) => {
-  var obj = _config || {};
-  var cfg = {
-    'custom-server-name': obj['custom-server-name'] || '',
-    'officiel-server-name': 'https://www.rishiqing.com',
-    'server-type': (function () {
-      const type = obj['server-type'];
-      if (type !== 'custom') {
-        return 'officiel';
-      }
-      return 'custom';
-    })()
-  };
+async function getServerConfig () {
+  const serverConfig = await db.getServerConfig();
   if (package.env === 'debug') {
     $mainIframe.src = package['debug-url'];
   } else {
-    $mainIframe.src = cfg[`${cfg['server-type']}-server-name`] + '/app';
+    $mainIframe.src = serverConfig[`${serverConfig['server-type']}-server-name`] + '/app';
   }
-});
+}
+
+getServerConfig();
+
 
 // // 在local页面监听键盘，刷新
 // var localHandleBar = function (pressed) {

@@ -16,12 +16,18 @@
   "scripts": {
     "start": "electron .",
     "sass": "grunt compassTask",
-    "build-mac": "grunt && electron-builder .",
-    "build-x64": "grunt && electron-builder . --x64 --config electron-builder-win-x64.yml",
-    "build-ia32": "grunt && electron-builder . --ia32 --config electron-builder-win-ia32.yml",
-    "rdp-mac": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac",
-    "rdp-win-x64": "rishiqing-deploy --env=win-x64",
-    "rdp-win-ia32": "rishiqing-deploy --env=win-ia32",
+    "build-beta": "grunt --env=beta && cross-env CHANNEL=beta electron-builder .",
+    "build-release": "grunt --env=release && cross-env CHANNEL=release electron-builder .",
+
+    "build-ia32-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=ia32 electron-builder . --ia32",
+    "build-ia32-release": "grunt --env=release && cross-env CHANNEL=release ARCH=ia32 electron-builder . --ia32",
+
+    "build-x64-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 electron-builder . --x64",
+    "build-x64-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 electron-builder . --x64",
+
+    "rdp-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-beta",
+    "rdp-release": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-release",
+    
     "package-mac": "npm run package-mac-beta && npm run package-mac-release",
     "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
     "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin && node ./dmg.js --env=release",

@@ -32,7 +32,7 @@ class Download {
     this.window.loadURL(`file://${path.join(__dirname, '/fe/download/index.html')}`);
     this.webContents = this.window.webContents;
     if (packageJson.env === 'dev' || packageJson.env === 'debug'){
-      // this.webContents.openDevTools();
+      this.webContents.openDevTools();
     }
   }
 
