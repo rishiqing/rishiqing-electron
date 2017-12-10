@@ -35,11 +35,16 @@ builder.build({
       title: '日事清 ${version}'
     },
     win: {
-      target: 'nsis',
+      target: [
+        {
+          target: 'nsis',
+          arch: [process.env.ARCH]
+        }
+      ],
       icon: 'res/256x256.ico',
       publish: {
         provider: 'generic',
-        url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/${os}/${env.CHANNEL}/${env.ARCH}',
+        url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/${os}/${env.ARCH}/${env.CHANNEL}',
         channel: '${env.CHANNEL}'
       }
     },

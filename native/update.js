@@ -45,6 +45,13 @@ class Update {
       });
       notify.show();
     });
+    autoUpdater.on('error', function (error) {
+      const notify = new Notification({
+        title: '日事清PC端自动更新出错了!!!',
+        body: error.message
+      });
+      notify.show();
+    });
     if (pkg.env !== 'dev' && pkg.env !== 'debug') {
       autoUpdater.checkForUpdates();
     }
