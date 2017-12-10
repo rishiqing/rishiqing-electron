@@ -53,7 +53,10 @@ builder.build({
       return new Promise (function (resolve, reject) {
         fs.writeFile(path.join(options.appOutDir, 'rishiqing.app/Contents/Resources/zh_CN.lproj/InfoPlist.strings'), zh_CN, (err) => {
           if (err) reject(err);
-          else resolve();
+          else {
+            console.log('成功写入 zh_CN.lproj/InfoPlist.strings');
+            resolve();
+          }
         });
       });
     }
