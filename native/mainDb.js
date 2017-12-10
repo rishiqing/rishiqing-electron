@@ -29,7 +29,6 @@ class MainDb {
 
   async getServerConfig () {
     const _config = await this.findOne({ type: 'server-config' });
-    console.log('pkg.env', pkg.env);
     const obj = _config || {};
     const cfg = {
       'custom-server-name': obj['custom-server-name'] || '',
