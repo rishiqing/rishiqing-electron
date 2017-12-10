@@ -31,7 +31,8 @@ builder.build({
       type: 'distribution'
     },
     dmg: {
-      artifactName: 'rishiqing-mac-${env.CHANNEL}-${version}.${ext}'
+      artifactName: 'rishiqing-mac-${env.CHANNEL}-${version}.${ext}',
+      title: '日事清 ${version}'
     },
     win: {
       target: 'nsis',
