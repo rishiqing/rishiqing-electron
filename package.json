@@ -16,8 +16,8 @@
   "scripts": {
     "start": "electron .",
     "sass": "grunt compassTask",
-    "build-beta": "grunt --env=beta && cross-env CHANNEL=beta electron-builder .",
-    "build-release": "grunt --env=release && cross-env CHANNEL=release electron-builder .",
+    "build-beta": "grunt --env=beta && cross-env CHANNEL=beta node electron-builder.js",
+    "build-release": "grunt --env=release && cross-env CHANNEL=release node electron-builder.js",
 
     "build-ia32-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=ia32 electron-builder . --ia32",
     "build-ia32-release": "grunt --env=release && cross-env CHANNEL=release ARCH=ia32 electron-builder . --ia32",
