@@ -50,11 +50,8 @@ builder.build({
     },
     afterPack: function (options) {
       if (options.electronPlatformName !== 'darwin') return null;
-      // console.log('arguments', arguments);
-      // package/mac/rishiqing.app/Contents/Resources/zh_CN.lproj
       return new Promise (function (resolve, reject) {
         fs.writeFile(path.join(options.appOutDir, 'rishiqing.app/Contents/Resources/zh_CN.lproj/InfoPlist.strings'), zh_CN, (err) => {
-          console.log('write file', err);
           if (err) reject(err);
           else resolve();
         });
