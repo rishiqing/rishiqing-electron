@@ -32,7 +32,19 @@ builder.build({
     },
     dmg: {
       artifactName: 'rishiqing-mac-${env.CHANNEL}-${version}.${ext}',
-      title: '日事清 ${version}'
+      title: '日事清 ${version}',
+      contents: [
+        {
+          x: 30,
+          y: 190
+        },
+        {
+          x: 540 - 30 - 90 - 15 - 15,
+          y: 190,
+          type: 'link',
+          path: '/Applications'
+        }
+      ]
     },
     win: {
       target: [
