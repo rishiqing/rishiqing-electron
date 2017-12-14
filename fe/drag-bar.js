@@ -2,10 +2,11 @@
 * @Author: qinyang
 * @Date:   2017-11-30 10:24:39
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-06 17:59:22
+* @Last Modified time: 2017-12-14 15:59:31
 */
 
 var $ = require('jquery');
+var platform = process.platform;
 
 module.exports = function (broswer) {
 	$('.traffic-lights span').on('click', function (e) {
@@ -16,10 +17,19 @@ module.exports = function (broswer) {
       // 全屏的时候，最小化不能用，这个需要在按钮上显示为灰色
       broswer.minimize();
     } else if ($currentTarget.is('.zoom')) {
-      if (broswer.isFullScreen()) {
-        broswer.setFullScreen(false);
+      // 在windows平台就执行最大化，在其他平台就直接全屏
+      if (platform === 'win32') {
+        if (broswer.isMaximized()) {
+          broswer.unmaximize();
+        } else {
+          broswer.maximize();
+        }
       } else {
-        broswer.setFullScreen(true);
+        if (broswer.isFullScreen()) {
+          broswer.setFullScreen(false);
+        } else {
+          broswer.setFullScreen(true);
+        }
       }
     }
   });
