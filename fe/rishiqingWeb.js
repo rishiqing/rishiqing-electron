@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-11 13:41:23
+* @Last Modified time: 2017-12-14 19:34:53
 */
 var package           = require('../package.json');
 var os                = require('os');
@@ -68,6 +68,15 @@ module.exports = function (mainWindow) {
     // }, function () {
     //   $mainIframe.src = '';
     // });
+  }
+
+  mainWindow.onHeaderDblclick = function () {
+    if (platform !== 'darwin') return;
+    if (mainBroswerWindow.isMaximized()) {
+      mainBroswerWindow.unmaximize();
+    } else {
+      mainBroswerWindow.maximize();
+    }
   }
 
 	// 如果Client_Can_Auto_Login没有被赋值，说明检测是否登录的接口还没有返回
