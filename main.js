@@ -122,7 +122,7 @@ class Main {
     } 
   }
 
-  _onNewWindow (event) {
+  _onNewWindow (event, url) {
     event.preventDefault();
     shell.openExternal(url);
   }
