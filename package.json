@@ -27,6 +27,8 @@
 
     "rdp-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-beta",
     "rdp-release": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-release",
+
+    "rdp-ia32-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=ia32-beta",
     
     "package-mac": "npm run package-mac-beta && npm run package-mac-release",
     "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
