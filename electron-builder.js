@@ -63,7 +63,7 @@ builder.build({
     nsis: {
       artifactName: 'rishiqing-win-${env.ARCH}-${env.CHANNEL}-${version}.exe',
       shortcutName: '日事清',
-      uninstallDisplayName: '${productName} ${version}',
+      uninstallDisplayName: '日事清 ${version}',
       guid: 'F4BC9A4A-E09B-465E-BC10-A8921C46E672'
     },
     afterPack: function (options) {
