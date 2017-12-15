@@ -333,68 +333,119 @@ ul {
   z-index: 1;
 }
 /* line 6, ../scss/_welcome-page.scss */
+.welcome-page .content {
+  position: absolute;
+  top: 21.5%;
+  right: 11.9%;
+  bottom: 16%;
+  left: 7.8%;
+}
+/* line 10, ../scss/_welcome-page.scss */
 .welcome-page .bg-image {
   width: 580px;
   height: 383px;
   position: absolute;
-  right: 90px;
-  top: 116px;
+  right: 0;
+  top: 0;
 }
-/* line 12, ../scss/_welcome-page.scss */
+/* line 16, ../scss/_welcome-page.scss */
 .welcome-page .word-info {
   position: absolute;
-  left: 83px;
-  top: 166px;
+  left: 0;
+  top: 50px;
   line-height: 1;
 }
-/* line 17, ../scss/_welcome-page.scss */
+/* line 21, ../scss/_welcome-page.scss */
 .welcome-page .word-info > p {
   color: #fff;
   margin: 0;
 }
-/* line 21, ../scss/_welcome-page.scss */
+/* line 25, ../scss/_welcome-page.scss */
 .welcome-page .word-info .big {
   font-size: 48px;
   letter-spacing: 3.9px;
 }
-/* line 25, ../scss/_welcome-page.scss */
+/* line 29, ../scss/_welcome-page.scss */
 .welcome-page .word-info .small {
   font-size: 20px;
   letter-spacing: 1.79px;
 }
-/* line 29, ../scss/_welcome-page.scss */
+/* line 33, ../scss/_welcome-page.scss */
 .welcome-page .word-info p + p {
   margin-top: 20px;
 }
-/* line 33, ../scss/_welcome-page.scss */
+@media (min-width: 1900px) {
+  /* line 38, ../scss/_welcome-page.scss */
+  .welcome-page .content {
+    top: 19.1%;
+    right: 8.1%;
+    bottom: 8.5%;
+    left: 8.4%;
+  }
+  /* line 42, ../scss/_welcome-page.scss */
+  .welcome-page .word-info .big {
+    font-size: 68px;
+    letter-spacing: 5.53px;
+  }
+  /* line 46, ../scss/_welcome-page.scss */
+  .welcome-page .word-info .small {
+    font-size: 28px;
+    letter-spacing: 2.5px;
+  }
+  /* line 51, ../scss/_welcome-page.scss */
+  .welcome-page .bg-image {
+    width: 925px;
+    height: 610px;
+  }
+}
+@media (min-width: 1400px) and (max-width: 1900px) {
+  /* line 57, ../scss/_welcome-page.scss */
+  .welcome-page .content {
+    top: 18.9%;
+    right: 10.3%;
+    bottom: 13%;
+    left: 10.8%;
+  }
+  /* line 61, ../scss/_welcome-page.scss */
+  .welcome-page .word-info .big {
+    font-size: 54px;
+    letter-spacing: 4.39px;
+  }
+  /* line 66, ../scss/_welcome-page.scss */
+  .welcome-page .bg-image {
+    width: 717px;
+    height: 473px;
+  }
+}
+/* line 71, ../scss/_welcome-page.scss */
 .welcome-page .footer {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 60px;
+  bottom: 0;
   text-align: center;
   font-size: 0px;
 }
-/* line 38, ../scss/_welcome-page.scss */
+/* line 76, ../scss/_welcome-page.scss */
 .welcome-page .footer .more {
   line-height: 1;
 }
-/* line 41, ../scss/_welcome-page.scss */
+/* line 79, ../scss/_welcome-page.scss */
 .welcome-page .footer .operate {
   margin-bottom: 27px;
 }
-/* line 44, ../scss/_welcome-page.scss */
+/* line 82, ../scss/_welcome-page.scss */
 .welcome-page .footer .setting-btn {
   font-size: 14px;
   color: #FFF;
   letter-spacing: 0;
   cursor: pointer;
 }
-/* line 50, ../scss/_welcome-page.scss */
+/* line 88, ../scss/_welcome-page.scss */
 .welcome-page .footer .login-btn {
   background-color: #81E71C;
 }
-/* line 53, ../scss/_welcome-page.scss */
+/* line 91, ../scss/_welcome-page.scss */
 .welcome-page .footer .sign-btn {
   background-color: #fff;
   color: #55A8FD;

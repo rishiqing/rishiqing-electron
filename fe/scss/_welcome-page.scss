@@ -3,16 +3,20 @@
   left: 0; top: 0; right: 0; bottom: 0;
   background-color: #3b8bd8;
   z-index: 1;
+  .content {
+    position: absolute;
+    top: 21.5%; right: 11.9%; bottom: 16%; left: 7.8%;
+  }
   .bg-image {
     width: 580px;
     height: 383px;
     position: absolute;
-    right: 90px; top: 116px;
+    right: 0; top: 0;
   }
   .word-info {
     position: absolute;
-    left: 83px;
-    top: 166px;
+    left: 0;
+    top: 50px;
     line-height: 1;
     & > p {
       color: #fff;
@@ -30,9 +34,43 @@
       margin-top: 20px;
     }
   }
+  @media (min-width: 1900px) {
+    .content {
+      top: 19.1%; right: 8.1%; bottom: 8.5%; left: 8.4%;
+    }
+    .word-info {
+      .big {
+        font-size: 68px;
+        letter-spacing: 5.53px;
+      }
+      .small {
+        font-size: 28px;
+        letter-spacing: 2.5px;
+      }
+    }
+    .bg-image {
+      width: 925px;
+      height: 610px;
+    }
+  }
+  @media (min-width: 1400px) and (max-width: 1900px) {
+    .content {
+      top: 18.9%; right: 10.3%; bottom: 13%; left: 10.8%;
+    }
+    .word-info {
+      .big {
+        font-size: 54px;
+        letter-spacing: 4.39px;
+      }
+    }
+    .bg-image {
+      width: 717px;
+      height: 473px;
+    }
+  }
   .footer {
     position: absolute;
-    left: 0; right: 0; bottom: 60px;
+    left: 0; right: 0; bottom: 0;
     text-align: center;
     font-size: 0px;
     .more {
