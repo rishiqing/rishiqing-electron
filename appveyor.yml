@@ -34,6 +34,8 @@ for:
     only:
       - beta
 
+  skip_non_tags: true
+
   artifacts:
     - path: package-ia32-beta\*.exe
       name: install ia32
