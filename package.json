@@ -18,22 +18,16 @@
     "sass": "grunt compassTask",
     "build-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 node electron-builder.js",
     "build-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 node electron-builder.js",
-
     "build-ia32-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=ia32 node electron-builder.js",
     "build-ia32-release": "grunt --env=release && cross-env CHANNEL=release ARCH=ia32 node electron-builder.js",
-
     "build-x64-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 node electron-builder.js",
     "build-x64-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 node electron-builder.js",
-
     "rdp-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-beta",
     "rdp-release": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=mac-release",
-
     "rdp-ia32-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=ia32-beta",
     "rdp-ia32-release": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=ia32-release",
-
     "rdp-x64-beta": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=x64-beta",
     "rdp-x64-release": "chmod 755 node_modules/.bin/rishiqing-deploy && rishiqing-deploy --env=x64-release",
-    
     "package-mac": "npm run package-mac-beta && npm run package-mac-release",
     "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
     "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin && node ./dmg.js --env=release",
@@ -59,7 +53,7 @@
     "electron-packager": "8.1.0",
     "electron-reload": "^1.2.2",
     "electron-winstaller": "^2.3.4",
-    "grunt": "^0.4.5",
+    "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
     "grunt-contrib-compass": "^1.1.0",
     "grunt-contrib-copy": "^0.8.2",
