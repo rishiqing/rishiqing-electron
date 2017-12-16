@@ -8,19 +8,23 @@ install:
 
 test: off
 
-# artifacts:
-#   - path: package-$(ARCH)-beta\*.exe
-#     name: install
-#   - path: package-ia32-beta\*.yml
-#     name: update log
-#   - path: package-ia32-release\*.yml
-
-
 for:
 -
-  branches:
-    only:
-      - master
+  # branches:
+  #   only:
+  #     - master
+  # on:
+  #   appveyor_repo_tag: true
+
+  artifacts:
+    - path: package-ia32-release\*.exe
+      name: install ia32
+    - path: package-ia32-release\*.yml
+      name: update log ia32
+    - path: package-x64-release\*.exe
+      name: install x64
+    - path: package-x64-release\*.yml
+      name: update log x64
 
   build_script:
     - npm run rdp-ia32-release
@@ -31,11 +35,16 @@ for:
     only:
       - beta
 
+  artifacts:
+    - path: package-ia32-beta\*.exe
+      name: install ia32
+    - path: package-ia32-beta\*.yml
+      name: update log ia32
+    - path: package-x64-beta\*.exe
+      name: install x64
+    - path: package-x64-beta\*.yml
+      name: update log x64
+
   build_script:
     - npm run rdp-ia32-beta
     - npm run rdp-x64-beta
-
-branches:
-  only:
-    - master
-    - beta

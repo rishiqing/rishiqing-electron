@@ -21,6 +21,7 @@ ia32-beta:
       ignore:
         - 'win-ia32-unpacked'
         - '/.yml$/'
+        - '/.blockmap$/'
       upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
         - type: 'aliyunOss'
           param:
@@ -49,6 +50,7 @@ ia32-release:
       ignore:
         - 'win-ia32-unpacked'
         - '/.yml$/'
+        - '/.blockmap$/'
       upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
         - type: 'aliyunOss'
           param:
@@ -77,6 +79,7 @@ x64-beta:
       ignore:
         - 'win-unpacked'
         - '/.yml$/'
+        - '/.blockmap$/'
       upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
         - type: 'aliyunOss'
           param:
@@ -105,6 +108,7 @@ x64-release:
       ignore:
         - 'win-unpacked'
         - '/.yml$/'
+        - '/.blockmap$/'
       upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
         - type: 'aliyunOss'
           param:
