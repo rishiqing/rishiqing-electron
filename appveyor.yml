@@ -1,11 +1,10 @@
 cache:
   - node_modules
   - '%APPDATA%\npm-cache'
-  - '%USERPROFILE%\.electron'
 
 install:
   - ps: Install-Product node 8 x64
-  - npm i -d
+  - npm i
 
 test: off
 
