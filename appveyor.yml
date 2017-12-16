@@ -1,0 +1,25 @@
+cache:
+  - node_modules
+  - '%APPDATA%\npm-cache'
+  - '%USERPROFILE%\.electron'
+
+install:
+  - ps: Install-Product node 8 x64
+  - npm install
+
+test: off
+
+for:
+-
+  branches:
+    only:
+      - master
+
+  build_script:
+    - npm run build-ia32-release
+    - npm run build-x64-release
+
+branches:
+  only:
+    - master
+    - beta
