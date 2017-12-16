@@ -10,11 +10,10 @@ test: off
 
 for:
 -
-  # branches:
-  #   only:
-  #     - master
-  # on:
-  #   appveyor_repo_tag: true
+  branches:
+    only:
+      - master
+  skip_non_tags: true
 
   artifacts:
     - path: package-ia32-release\*.exe
