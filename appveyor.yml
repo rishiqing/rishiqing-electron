@@ -8,6 +8,13 @@ install:
 
 test: off
 
+artifacts:
+  - path: package\*.exe
+    name: install
+
+  - path: package\*.yml
+    name: update log
+
 for:
 -
   branches:
