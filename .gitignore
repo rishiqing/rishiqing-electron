@@ -38,4 +38,4 @@ pack
 dmg
 .sass-cache
 .DS_Store
-.rishiqing-deploy.yml
+package*

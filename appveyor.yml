@@ -1,0 +1,51 @@
+cache:
+  - node_modules
+  - '%APPDATA%\npm-cache'
+
+install:
+  - ps: Install-Product node 8 x64
+  - npm i
+
+test: off
+
+for:
+-
+  branches:
+    only:
+      - master
+  skip_non_tags: true
+
+  artifacts:
+    - path: package-ia32-release\*.exe
+      name: install ia32
+    - path: package-ia32-release\*.yml
+      name: update log ia32
+    - path: package-x64-release\*.exe
+      name: install x64
+    - path: package-x64-release\*.yml
+      name: update log x64
+
+  build_script:
+    - npm run rdp-ia32-release
+    - npm run rdp-x64-release
+
+-
+  branches:
+    only:
+      - beta
+
+  skip_non_tags: true
+
+  artifacts:
+    - path: package-ia32-beta\*.exe
+      name: install ia32
+    - path: package-ia32-beta\*.yml
+      name: update log ia32
+    - path: package-x64-beta\*.exe
+      name: install x64
+    - path: package-x64-beta\*.yml
+      name: update log x64
+
+  build_script:
+    - npm run rdp-ia32-beta
+    - npm run rdp-x64-beta

@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-10 22:04:05
+* @Last Modified time: 2017-12-16 18:32:12
 */
 
 var path     = require('path');
@@ -91,7 +91,7 @@ module.exports = function (grunt) {
         ]
       }
     },
-    clean: [destPath, 'package']
+    clean: [destPath]
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-compass');
