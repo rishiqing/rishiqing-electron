@@ -128,3 +128,63 @@ x64-release:
             bucket: 'rishiqing-client'
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate/win/x64/release'
+
+mac-beta:
+  build:
+    - 'npm run build-beta'
+  resource:
+    - dist: 'package-beta' # 资源所在目录 或者 文件路径
+      ignore:
+        - 'mac'
+        - '/.yml$/'
+        - '/.json/'
+        - '/.blockmap$/'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/mac/beta'
+  fileReplace:
+    - dist: 'package-beta/beta-mac.yml' # 资源所在目录 或者 文件路径
+      target: 'beta-mac.yml'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/mac/beta'
+
+mac-release:
+  build:
+    - 'npm run build-release'
+  resource:
+    - dist: 'package-release' # 资源所在目录 或者 文件路径
+      ignore:
+        - 'mac'
+        - '/.yml$/'
+        - '/.json/'
+        - '/.blockmap$/'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/mac/release'
+  fileReplace:
+    - dist: 'package-release/release-mac.yml' # 资源所在目录 或者 文件路径
+      target: 'release-mac.yml'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/mac/release'
