@@ -8,12 +8,13 @@ install:
 
 test: off
 
-artifacts:
-  - path: package\*.exe
-    name: install
+# artifacts:
+#   - path: package-$(ARCH)-beta\*.exe
+#     name: install
+#   - path: package-ia32-beta\*.yml
+#     name: update log
+#   - path: package-ia32-release\*.yml
 
-  - path: package\*.yml
-    name: update log
 
 for:
 -

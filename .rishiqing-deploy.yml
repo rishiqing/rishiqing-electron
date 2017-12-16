@@ -15,7 +15,7 @@ default:
           user: ${BearyChat_User}
 ia32-beta:
   build:
-    # - 'npm run build-ia32-beta'
+    - 'npm run build-ia32-beta'
   resource:
     - dist: 'package-ia32-beta' # 资源所在目录 或者 文件路径
       ignore:
