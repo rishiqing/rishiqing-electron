@@ -23,8 +23,8 @@ for:
       - master
 
   build_script:
-    - npm run build-ia32-release
-    - npm run build-x64-release
+    - npm run rdp-ia32-release
+    - npm run rdp-x64-release
 
 -
   branches:
