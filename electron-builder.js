@@ -10,13 +10,34 @@ const zh_CN = `
 "CFBundleName" = "日事清";
 `;
 
+const output = process.platform === 'darwin' ? `package-${process.env.CHANNEL}` : `package-${process.env.ARCH}-${process.env.CHANNEL}`;
+
+function deleteall(path) {
+  if(fs.existsSync(path)) {
+      const files = fs.readdirSync(path);
+      files.forEach(function(file, index) {
+          const curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) { // recurse
+              deleteall(curPath);
+          } else { // delete file
+              fs.unlinkSync(curPath);
+          }
+      });
+      fs.rmdirSync(path);
+  }
+}; 
+
+try {
+  deleteall(output); // 删除文件夹
+} catch (e) {}
+
 builder.build({
   config: {
     appId: 'release.rishiqing.electron',
     productName: 'rishiqing',
     electronVersion: '1.7.9',
     directories: {
-      output: 'package',
+      output: output,
       app: 'dir'
     },
     publish: {
