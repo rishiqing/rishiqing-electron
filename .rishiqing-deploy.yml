@@ -17,6 +17,9 @@ default:
 ia32-beta:
   build:
     - 'npm run build-ia32-beta'
+  convert:
+    target: package-ia32-beta/beta.yml
+    dest: package-ia32-beta/beta.json
   resource:
     - dist: 'package-ia32-beta' # 资源所在目录 或者 文件路径
       ignore:
@@ -42,10 +45,23 @@ ia32-beta:
             bucket: 'rishiqing-client'
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate/win/ia32/beta'
+    - dist: 'package-ia32-beta/beta.json' # 资源所在目录 或者 文件路径
+      target: 'beta.json'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/win/ia32/beta'
 
 ia32-release:
   build:
     - 'npm run build-ia32-release'
+  convert:
+    target: package-ia32-release/release.yml
+    dest: package-ia32-release/release.json
   resource:
     - dist: 'package-ia32-release' # 资源所在目录 或者 文件路径
       ignore:
@@ -71,10 +87,23 @@ ia32-release:
             bucket: 'rishiqing-client'
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate/win/ia32/release'
+    - dist: 'package-ia32-release/release.json' # 资源所在目录 或者 文件路径
+      target: 'release.json'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/win/ia32/release'
 
 x64-beta:
   build:
     - 'npm run build-x64-beta'
+  convert:
+    target: package-x64-beta/beta.yml
+    dest: package-x64-beta/beta.json
   resource:
     - dist: 'package-x64-beta' # 资源所在目录 或者 文件路径
       ignore:
@@ -100,10 +129,23 @@ x64-beta:
             bucket: 'rishiqing-client'
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate/win/x64/beta'
+    - dist: 'package-x64-beta/beta.json' # 资源所在目录 或者 文件路径
+      target: 'beta.json'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/win/x64/beta'
 
 x64-release:
   build:
     - 'npm run build-x64-release'
+  convert:
+    target: package-x64-release/release.yml
+    dest: package-x64-release/release.json
   resource:
     - dist: 'package-x64-release' # 资源所在目录 或者 文件路径
       ignore:
@@ -121,6 +163,16 @@ x64-release:
   fileReplace:
     - dist: 'package-x64-release/release.yml' # 资源所在目录 或者 文件路径
       target: 'release.yml'
+      upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_Access_Id}
+            secretAccessKey: ${ALY_OSS_Access_Key}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate/win/x64/release'
+    - dist: 'package-x64-release/release.json' # 资源所在目录 或者 文件路径
+      target: 'release.json'
       upload: # 以下指定上传资源文件要用的方式，如果指定多个，会依次使用上传
         - type: 'aliyunOss'
           param:
