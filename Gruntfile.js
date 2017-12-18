@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-16 18:32:12
+* @Last Modified time: 2017-12-18 11:35:52
 */
 
 var path     = require('path');
@@ -36,7 +36,12 @@ module.exports = function (grunt) {
           }
         },
         files: [
-          {expand: true, src: ['fe/**/*.js'], dest: destPath}
+          {expand: true, src: ['fe/**/*.js'], dest: destPath},
+          {expand: true, src: ['utils/**/*.js'], dest: destPath},
+          {expand: true, src: ['native/**/*.js'], dest: destPath},
+          {expand: true, src: ['common/**/*.js'], dest: destPath},
+          {expand: true, src: 'main.js', dest: destPath},
+          {expand: true, src: 'download.js', dest: destPath}
         ]
       }
     },
@@ -84,10 +89,10 @@ module.exports = function (grunt) {
       // },
       mainJs: {
         files: [
-          {expand: true, src: 'main.js', dest: destPath},
-          {expand: true, src: 'download.js', dest: destPath},
-          {expand: true, src: 'native/*.js', dest: destPath},
-          {expand: true, src: 'common/*.js', dest: destPath}
+          // {expand: true, src: 'main.js', dest: destPath},
+          // {expand: true, src: 'download.js', dest: destPath},
+          // {expand: true, src: 'native/*.js', dest: destPath},
+          // {expand: true, src: 'common/*.js', dest: destPath}
         ]
       }
     },

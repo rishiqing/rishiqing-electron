@@ -39,8 +39,10 @@
   "dependencies": {
     "electron-updater": "2.16.3",
     "handlebars": "4.0.11",
+    "is-gzip": "2.0.0",
     "jquery": "2.2.0",
     "lodash": "4.17.4",
+    "md5-file": "3.2.3",
     "module-alias": "2.0.3",
     "nedb": "1.8.0",
     "request": "2.72.0",
