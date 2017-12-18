@@ -2,13 +2,16 @@ const electron      = require('electron');
 const path          = require('path');
 const packageJson   = require('./package.json');
 const EVENTS        = require('./common/download_event');
+const FileUtil      = require('./utils/file');
 const BrowserWindow = electron.BrowserWindow;
 const ipcMain       = electron.ipcMain;
 const app           = electron.app;
 
 let downloadIdCount = 0;
 
+const DownloadPath = app.getPath('downloads'); // 下载路径
 const DownloadItemIdMap = {}; // 缓存下载对象和itemId之间的映射关系
+const DownloadFileNameMap = {}; // 缓存正在现在的文件名，防止某些文件还没下载完成，又下载同一文件名的文件
 
 class Download {
   constructor () {
@@ -42,11 +45,33 @@ class Download {
     }
   }
 
+  isFileExist (fileName) {
+    const p = path.join(DownloadPath, fileName);
+    return FileUtil.isExist(p) || DownloadFileNameMap[fileName];
+  }
+
+  generateDownloadFileName (fileName) {
+    let isExist = this.isFileExist(fileName);
+    if (!isExist) return fileName;
+    const extname = path.extname(fileName);
+    const basename = path.basename(fileName, extname);
+    
+    let count = 0;
+    
+    while (isExist) {
+      isExist = this.isFileExist(`${basename}(${++count})${extname}`);
+    }
+    return `${basename}(${count})${extname}`;
+  }
+
   startDownload (item) {
+    const fileName = this.generateDownloadFileName(item.getFilename());
     // 下载项先暂时默认保存到下载路径里，后面需要增加用户修改默认保存路径的功能
-    item.setSavePath(path.join(app.getPath('downloads'), item.getFilename()));
+    item.setSavePath(path.join(DownloadPath, fileName));
     item.id = ++downloadIdCount;
+    item.fileName = fileName;
     DownloadItemIdMap[item.id] = item;
+    DownloadFileNameMap[fileName] = true;
     this.open();
     this.webContents.send(EVENTS.Start, {
       savePath: item.getSavePath(),
@@ -54,7 +79,7 @@ class Download {
       originUrl: item.getURL(),
       mimeType: item.getMimeType(),
       hasUserGesture: item.hasUserGesture(),
-      fileName: item.getFilename(),
+      fileName: fileName,
       totalBytes: item.getTotalBytes(),
       receivedBytes: item.getReceivedBytes(),
       contentDisposition: item.getContentDisposition(),
@@ -98,6 +123,7 @@ class Download {
         });
       }
       delete DownloadItemIdMap[item.id];
+      delete DownloadFileNameMap[item.fileName];
     });
   }
 
