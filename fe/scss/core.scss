@@ -159,6 +159,7 @@ body.win {
   width: 76px;
   align-items: center;
   padding: 0 12px;
+  user-select: none;
   & > span {
     display: inline-block;
     height: 12px;
@@ -201,6 +202,7 @@ $bar-win-offset: 4px;
     width: 130px;
     align-items: center;
     padding: 0 12px;
+    user-select: none;
     & > span {
       display: inline-block;
       height: 12px;
