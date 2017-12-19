@@ -810,49 +810,50 @@ body.win #main-iframe {
   width: 76px;
   align-items: center;
   padding: 0 12px;
+  user-select: none;
 }
-/* line 162, ../scss/core.scss */
+/* line 163, ../scss/core.scss */
 .traffic-lights.mac > span {
   display: inline-block;
   height: 12px;
   width: 12px;
   border-radius: 50%;
 }
-/* line 167, ../scss/core.scss */
+/* line 168, ../scss/core.scss */
 .traffic-lights.mac > span img {
   height: 12px;
   width: 12px;
   vertical-align: top;
 }
-/* line 172, ../scss/core.scss */
+/* line 173, ../scss/core.scss */
 .traffic-lights.mac > span img.hover {
   display: none;
 }
-/* line 177, ../scss/core.scss */
+/* line 178, ../scss/core.scss */
 .traffic-lights.mac:hover img.normal {
   display: none;
 }
-/* line 180, ../scss/core.scss */
+/* line 181, ../scss/core.scss */
 .traffic-lights.mac:hover img.hover {
   display: inline-block;
 }
 
-/* line 185, ../scss/core.scss */
+/* line 187, ../scss/core.scss */
 .drag-bar-win {
   display: none;
   position: absolute;
   left: 0;
-  top: 0;
+  top: 4px;
   right: 0;
-  height: 32px;
+  height: 28px;
   background: #5A98D4;
   z-index: 2;
 }
-/* line 192, ../scss/core.scss */
+/* line 194, ../scss/core.scss */
 .drag-bar-win .traffic-lights {
   position: absolute;
   right: 0;
-  top: 0;
+  top: -4px;
   height: 32px;
   display: flex;
   z-index: 1;
@@ -860,32 +861,37 @@ body.win #main-iframe {
   width: 130px;
   align-items: center;
   padding: 0 12px;
+  user-select: none;
 }
-/* line 203, ../scss/core.scss */
+/* line 206, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span {
   display: inline-block;
   height: 12px;
   width: 12px;
 }
-/* line 207, ../scss/core.scss */
+/* line 210, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span img {
   vertical-align: top;
 }
 
-/* line 215, ../scss/core.scss */
+/* line 218, ../scss/core.scss */
 body.mac .drag-bar-mac {
   display: block;
 }
 
-/* line 220, ../scss/core.scss */
+/* line 222, ../scss/core.scss */
+body.win {
+  background: #5A98D4;
+}
+/* line 224, ../scss/core.scss */
 body.win .drag-bar-win {
   display: block;
 }
-/* line 223, ../scss/core.scss */
+/* line 227, ../scss/core.scss */
 body.win .traffic-lights.mac {
   display: none;
 }
-/* line 226, ../scss/core.scss */
+/* line 230, ../scss/core.scss */
 body.win #loading, body.win #alert {
   top: 32px;
 }

@@ -48,7 +48,6 @@ builder.build({
     mac: {
       category: 'public.app-category.productivity', //放到生产效率类
       icon: 'res/app.icns',
-      identity: '72X2RKD3B2',
       type: 'distribution'
     },
     dmg: {

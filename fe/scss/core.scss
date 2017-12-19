@@ -159,6 +159,7 @@ body.win {
   width: 76px;
   align-items: center;
   padding: 0 12px;
+  user-select: none;
   & > span {
     display: inline-block;
     height: 12px;
@@ -182,17 +183,18 @@ body.win {
     }
   }
 }
+$bar-win-offset: 4px;
 .drag-bar-win {
   display: none;
   position: absolute;
-  left: 0; top: 0; right: 0;
-  height: 32px;
+  left: 0; top: $bar-win-offset; right: 0;
+  height: 32px - $bar-win-offset;
   background: #5A98D4;
   z-index: 2;
   .traffic-lights {
     position: absolute;
     right: 0;
-    top: 0;
+    top: -$bar-win-offset;
     height: 32px;
     display: flex;
     z-index: 1;
@@ -200,6 +202,7 @@ body.win {
     width: 130px;
     align-items: center;
     padding: 0 12px;
+    user-select: none;
     & > span {
       display: inline-block;
       height: 12px;
@@ -217,6 +220,7 @@ body.mac {
   }
 }
 body.win {
+  background: #5A98D4;
   .drag-bar-win {
     display: block;
   }
