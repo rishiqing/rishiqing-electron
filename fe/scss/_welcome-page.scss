@@ -5,11 +5,11 @@
   z-index: 1;
   .content {
     position: absolute;
-    top: 21.5%; right: 11.9%; bottom: 16%; left: 7.8%;
+    top: 21.4%; right: 11.7%; bottom: 7.1%; left: 7.7%;
   }
   .bg-image {
-    width: 580px;
-    height: 383px;
+    width: 416px;
+    height: 295px;
     position: absolute;
     right: 0; top: 0;
   }
@@ -23,12 +23,12 @@
       margin: 0;
     }
     .big {
-      font-size: 48px;
-      letter-spacing: 3.9px;
+      font-size: 36px;
+      letter-spacing: 2.9px;
     }
     .small {
-      font-size: 20px;
-      letter-spacing: 1.79px;
+      font-size: 16px;
+      letter-spacing: 1.43px;
     }
     p + p {
       margin-top: 20px;
@@ -53,7 +53,7 @@
       height: 610px;
     }
   }
-  @media (min-width: 1400px) and (max-width: 1900px) {
+  @media (min-width: 1600px) and (max-width: 1900px) {
     .content {
       top: 18.9%; right: 10.3%; bottom: 13%; left: 10.8%;
     }
@@ -62,10 +62,33 @@
         font-size: 54px;
         letter-spacing: 4.39px;
       }
+      .small {
+        font-size: 20px;
+        letter-spacing: 1.79px;
+      }
     }
     .bg-image {
       width: 717px;
       height: 473px;
+    }
+  }
+  @media (min-width: 1300px) and (max-width: 1600px) {
+    .content {
+      top: 21.5%; right: 11.9%; bottom: 13%; left: 7.8%;
+    }
+    .word-info {
+      .big {
+        font-size: 48px;
+        letter-spacing: 3.9px;
+      }
+      .small {
+        font-size: 20px;
+        letter-spacing: 1.79px;
+      }
+    }
+    .bg-image {
+      width: 580px;
+      height: 383px;
     }
   }
   .footer {
