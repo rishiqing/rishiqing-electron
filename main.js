@@ -66,8 +66,9 @@ class Main {
       "title":"日事清",
       'webPreferences': {
         'plugins': true,
-        'webSecurity':false,
-        "nodeIntegration":true
+        'webSecurity': false,
+        'nodeIntegration': true,
+        'minimumFontSize': 12
       },
       frame: false,
       backgroundColor: '#ffffff',
