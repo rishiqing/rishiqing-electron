@@ -15,15 +15,15 @@ for:
       - master
   skip_non_tags: true
 
-  artifacts:
-    - path: package-ia32-release\*.exe
-      name: install ia32
-    - path: package-ia32-release\*.yml
-      name: update log ia32
-    - path: package-x64-release\*.exe
-      name: install x64
-    - path: package-x64-release\*.yml
-      name: update log x64
+  # artifacts:
+  #   - path: package-ia32-release\*.exe
+  #     name: install ia32
+  #   - path: package-ia32-release\*.yml
+  #     name: update log ia32
+  #   - path: package-x64-release\*.exe
+  #     name: install x64
+  #   - path: package-x64-release\*.yml
+  #     name: update log x64
 
   build_script:
     - npm run rdp-ia32-release
@@ -36,15 +36,15 @@ for:
 
   skip_non_tags: true
 
-  artifacts:
-    - path: package-ia32-beta\*.exe
-      name: install ia32
-    - path: package-ia32-beta\*.yml
-      name: update log ia32
-    - path: package-x64-beta\*.exe
-      name: install x64
-    - path: package-x64-beta\*.yml
-      name: update log x64
+  # artifacts:
+  #   - path: package-ia32-beta\*.exe
+  #     name: install ia32
+  #   - path: package-ia32-beta\*.yml
+  #     name: update log ia32
+  #   - path: package-x64-beta\*.exe
+  #     name: install x64
+  #   - path: package-x64-beta\*.yml
+  #     name: update log x64
 
   build_script:
     - npm run rdp-ia32-beta
