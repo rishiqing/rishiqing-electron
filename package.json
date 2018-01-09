@@ -1,6 +1,6 @@
 {
   "name": "rishiqing-electron",
-  "version": "3.0.13",
+  "version": "3.0.14",
   "author": "北京创仕科锐信息技术有限责任公司",
   "electronVersion": "1.7.9",
   "main": "main.js",
@@ -37,7 +37,7 @@
     "package-win32-ia32-release": "grunt --env=release --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=ia32 --platform=win32"
   },
   "dependencies": {
-    "electron-updater": "2.16.3",
+    "electron-updater": "2.18.2",
     "handlebars": "4.0.11",
     "is-gzip": "2.0.0",
     "jquery": "2.2.0",
@@ -51,7 +51,7 @@
   },
   "devDependencies": {
     "cross-env": "^5.1.1",
-    "electron-builder": "^19.47.1",
+    "electron-builder": "19.52.1",
     "electron-packager": "8.1.0",
     "electron-reload": "^1.2.2",
     "electron-winstaller": "^2.3.4",
