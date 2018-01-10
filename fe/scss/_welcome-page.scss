@@ -1,3 +1,16 @@
+body.win .welcome-page {
+  // 解决顶部缝隙
+  &:before {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: #5A98D4;
+  }
+}
 .welcome-page {
   position: absolute;
   left: 0; top: 0; right: 0; bottom: 0;

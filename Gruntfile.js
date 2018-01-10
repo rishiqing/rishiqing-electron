@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-18 11:35:52
+* @Last Modified time: 2018-01-09 16:18:12
 */
 
 var path     = require('path');
@@ -100,7 +100,7 @@ module.exports = function (grunt) {
 	});
 
 	grunt.loadNpmTasks('grunt-contrib-compass');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-clean');

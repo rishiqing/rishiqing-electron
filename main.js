@@ -30,12 +30,13 @@ class Main {
 
   // 检测单个运行实例，如果已经有一个在运行了，再点击软件图标，只会打开当前实例
   detectSingleInstance () {
-    const shouldQuit = app.makeSingleInstance(function (argv, workingDirectory) {
-      if (this.mainWindow) {
-        if (this.mainWindow.isMinimized()) this.mainWindow.restore();
-        if (!this.mainWindow.isVisible()) this.mainWindow.show();
-        this.mainWindow.focus();
-      }
+    const shouldQuit = app.makeSingleInstance((argv, workingDirectory) => {
+      // if (this.mainWindow) {
+      //   if (this.mainWindow.isMinimized()) this.mainWindow.restore();
+      //   if (!this.mainWindow.isVisible()) this.mainWindow.show();
+      //   this.mainWindow.focus();
+      // }
+      if (this.tray) this.tray.showWindow();
     });
     if (shouldQuit) {
       app.quit();
@@ -55,7 +56,7 @@ class Main {
     download.initWindow();
     const u = new Update(this.mainWindow);
     const m = new Menu();
-    const t = new Tray(this.mainWindow);
+    this.tray = new Tray(this.mainWindow);
   }
 
   async _createWindow () {
