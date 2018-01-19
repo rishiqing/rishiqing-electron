@@ -3,10 +3,10 @@ const pkg           = require('./package.json');
 const Menu          = require('./native/menu.js');
 const Tray          = require('./native/tray.js');
 const Update        = require('./native/update');
-const Datastore     = require('nedb');
 const path          = require('path');
 const download      = require('./download');
 const mainDb        = require('./native/mainDb');
+const WhiteUrlList  = require('./common/white_url_list');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
@@ -124,9 +124,19 @@ class Main {
     } 
   }
 
-  _onNewWindow (event, url) {
-    event.preventDefault();
-    shell.openExternal(url);
+  _onNewWindow (event, url, frameName, disposition, options) {
+    if (!WhiteUrlList(url)) {
+      event.preventDefault();
+      shell.openExternal(url);
+    } else {
+      options.frame = true;
+      options.webPreferences = Object.assign({}, options.webPreferences, {
+        plugins: true,
+        webSecurity: false,
+        nodeIntegration: false,
+        minimumFontSize: 12
+      });
+    }
   }
 
   _onWillDownload (event, item) {

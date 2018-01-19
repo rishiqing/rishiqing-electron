@@ -68,6 +68,7 @@ class DownloadData {
   _onProgress (e, progress) {
     const file = this.findItemById(progress.itemId);
     if (file) {
+      file.totalBytes = progress.totalBytes;
       file.receivedBytes = progress.receivedBytes;
       file.percent = Math.ceil(file.receivedBytes / file.totalBytes * 100);
     }
