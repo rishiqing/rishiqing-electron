@@ -28,6 +28,6 @@ script:
 
 branches:
   only:
-    - /^master-deploy-.*$/
+    # - /^master-deploy-.*$/ # 正式版的发布，只在appveyor里进行oss文件复制即可
     - /^check-deploy-.*$/ # 用于审核的tag
     - /^beta-deploy-.*$/

@@ -16,8 +16,7 @@ for:
   skip_non_tags: true
 
   build_script:
-    - npm run rdp-ia32-release
-    - npm run rdp-x64-release
+    - node remoteCopy.js
 
 # 这个是为了给审查打包，其内容和正式版是一样的
 -

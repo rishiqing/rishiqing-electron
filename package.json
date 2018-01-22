@@ -46,6 +46,7 @@
     "winreg": "1.2.2"
   },
   "devDependencies": {
+    "aliyun-sdk": "^1.11.2",
     "cross-env": "^5.1.1",
     "electron-builder": "19.52.1",
     "electron-reload": "^1.2.2",
