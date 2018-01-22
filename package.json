@@ -1,6 +1,6 @@
 {
   "name": "rishiqing-electron",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "author": "北京创仕科锐信息技术有限责任公司",
   "electronVersion": "1.7.9",
   "main": "main.js",
@@ -16,25 +16,21 @@
   "scripts": {
     "start": "electron .",
     "sass": "grunt compassTask",
-    "build-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 node electron-builder.js",
-    "build-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 node electron-builder.js",
+    "build-mac-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 node electron-builder.js",
+    "build-mac-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 node electron-builder.js",
     "build-ia32-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=ia32 node electron-builder.js",
     "build-ia32-release": "grunt --env=release && cross-env CHANNEL=release ARCH=ia32 node electron-builder.js",
     "build-x64-beta": "grunt --env=beta && cross-env CHANNEL=beta ARCH=x64 node electron-builder.js",
     "build-x64-release": "grunt --env=release && cross-env CHANNEL=release ARCH=x64 node electron-builder.js",
-    "rdp-beta": "rishiqing-deploy --env=mac-beta",
-    "rdp-release": "rishiqing-deploy --env=mac-release",
+    "rdp-mac-beta": "rishiqing-deploy --env=mac-beta",
+    "rdp-mac-check": "rishiqing-deploy --env=mac-check",
+    "rdp-mac-release": "rishiqing-deploy --env=mac-release",
     "rdp-ia32-beta": "rishiqing-deploy --env=ia32-beta",
+    "rdp-ia32-check": "rishiqing-deploy --env=ia32-check",
     "rdp-ia32-release": "rishiqing-deploy --env=ia32-release",
     "rdp-x64-beta": "rishiqing-deploy --env=x64-beta",
-    "rdp-x64-release": "rishiqing-deploy --env=x64-release",
-    "package-mac": "npm run package-mac-beta && npm run package-mac-release",
-    "package-mac-beta": "grunt --env=beta --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=darwin && node ./dmg.js --env=beta",
-    "package-mac-release": "grunt --env=release --platform=darwin && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=darwin && node ./dmg.js --env=release",
-    "package-win32-x64-beta": "grunt --env=beta --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=x64 --platform=win32",
-    "package-win32-x64-release": "grunt --env=release --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=x64 --platform=win32",
-    "package-win32-ia32-beta": "grunt --env=beta --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=beta --arch=ia32 --platform=win32",
-    "package-win32-ia32-release": "grunt --env=release --platform=win32 && cd dir && npm i -d && cd .. && node ./package.js --env=release --arch=ia32 --platform=win32"
+    "rdp-x64-check": "rishiqing-deploy --env=x64-check",
+    "rdp-x64-release": "rishiqing-deploy --env=x64-release"
   },
   "dependencies": {
     "electron-updater": "2.18.2",
@@ -50,9 +46,9 @@
     "winreg": "1.2.2"
   },
   "devDependencies": {
+    "aliyun-sdk": "^1.11.2",
     "cross-env": "^5.1.1",
     "electron-builder": "19.52.1",
-    "electron-packager": "8.1.0",
     "electron-reload": "^1.2.2",
     "electron-winstaller": "^2.3.4",
     "grunt": "^1.0.1",
@@ -63,10 +59,8 @@
     "grunt-contrib-sass": "^0.9.2",
     "grunt-contrib-uglify-es": "git+https://github.com/gruntjs/grunt-contrib-uglify.git#harmony",
     "grunt-zip": "^0.17.1",
+    "rimraf": "^2.6.2",
     "rishiqing-deploy": "^1.0.3",
     "yargs": "^4.1.0"
-  },
-  "optionalDependencies": {
-    "appdmg": "^0.4.5"
   }
 }
