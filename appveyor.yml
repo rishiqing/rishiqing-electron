@@ -15,19 +15,21 @@ for:
       - master
   skip_non_tags: true
 
-  # artifacts:
-  #   - path: package-ia32-release\*.exe
-  #     name: install ia32
-  #   - path: package-ia32-release\*.yml
-  #     name: update log ia32
-  #   - path: package-x64-release\*.exe
-  #     name: install x64
-  #   - path: package-x64-release\*.yml
-  #     name: update log x64
-
   build_script:
     - npm run rdp-ia32-release
     - npm run rdp-x64-release
+
+# 这个是为了给审查打包，其内容和正式版是一样的
+-
+  branches:
+    only:
+      - check
+
+  skip_non_tags: true
+
+  build_script:
+    - npm run rdp-ia32-check
+    - npm run rdp-x64-check
 
 -
   branches:
@@ -35,16 +37,6 @@ for:
       - beta
 
   skip_non_tags: true
-
-  # artifacts:
-  #   - path: package-ia32-beta\*.exe
-  #     name: install ia32
-  #   - path: package-ia32-beta\*.yml
-  #     name: update log ia32
-  #   - path: package-x64-beta\*.exe
-  #     name: install x64
-  #   - path: package-x64-beta\*.yml
-  #     name: update log x64
 
   build_script:
     - npm run rdp-ia32-beta

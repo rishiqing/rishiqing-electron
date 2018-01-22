@@ -1,6 +1,7 @@
 const builder = require('electron-builder');
 const fs      = require('fs');
 const path    = require('path');
+const rimraf  = require('rimraf');
 
 // zh_CN.lproj里InfoPlist.strings
 const zh_CN = `
@@ -12,23 +13,8 @@ const zh_CN = `
 
 const output = process.platform === 'darwin' ? `package-${process.env.CHANNEL}` : `package-${process.env.ARCH}-${process.env.CHANNEL}`;
 
-function deleteall(path) {
-  if(fs.existsSync(path)) {
-      const files = fs.readdirSync(path);
-      files.forEach(function(file, index) {
-          const curPath = path + "/" + file;
-          if(fs.statSync(curPath).isDirectory()) { // recurse
-              deleteall(curPath);
-          } else { // delete file
-              fs.unlinkSync(curPath);
-          }
-      });
-      fs.rmdirSync(path);
-  }
-}; 
-
 try {
-  deleteall(output); // 删除文件夹
+  rimraf.sync(output);
 } catch (e) {}
 
 builder.build({

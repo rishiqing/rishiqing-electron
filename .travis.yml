@@ -29,4 +29,5 @@ script:
 branches:
   only:
     - /^master-deploy-.*$/
+    - /^check-deploy-.*$/ # 用于审核的tag
     - /^beta-deploy-.*$/
