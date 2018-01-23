@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2018-01-22 10:24:45
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-01-22 15:23:19
+* @Last Modified time: 2018-01-24 01:14:05
 * @for: remote copy to aliyun oss
 */
 const pkg  = require('./package.json');
@@ -95,18 +95,19 @@ const deal = async function () {
   for (let item of infoList) {
     if (item && item.data && item.data.version === pkg.version) {
       const copyDetail = copySource[item.type];
+      if (!copyDetail) continue;
       for (let file of copyDetail.list) {
         if (/\.json|\.yml$/.test(file)) {
           const result = path.parse(file);
           const base = result.name + '_' + (new Date()).getTime() + result.ext
           await copyObject({
-            CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'release', file),
-            Key: path.join(copyDetail.prefix, 'release', base) // 这个地方不能以 '/' 开头，不然会报签名错误
+            CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'release', file).replace(/\\/g, '/'),
+            Key: path.join(copyDetail.prefix, 'release', base).replace(/\\/g, '/') // 这个地方不能以 '/' 开头，不然会报签名错误
           });
         }
         await copyObject({
-          CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'check', file),
-          Key: path.join(copyDetail.prefix, 'release', file)
+          CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'check', file).replace(/\\/g, '/'),
+          Key: path.join(copyDetail.prefix, 'release', file).replace(/\\/g, '/')
         });
       }
     }
