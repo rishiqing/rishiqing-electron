@@ -14,15 +14,9 @@ const shell         = electron.shell;
 
 if (process.platform !== 'darwin') app.setAppUserModelId('release.rishiqing.electron'); // 在这里设置appId，win10才能正常推送通知
 
-// const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true });
-// async function findOne (query) {
-//   return new Promise((resolve, reject) => {
-//     db.findOne(query, function (err, doc) {
-//       if (err) reject(err);
-//       else resolve(doc);
-//     });
-//   });
-// }
+process.on('uncaughtException', (err) => {
+  console.log('err', err);
+});
 
 class Main {
   constructor () {
