@@ -24,6 +24,8 @@ var shell               = electron.shell;
 var db                  = mainBroswerWindow.mainDb;
 const webFrame          = electron.webFrame;
 
+var SERVER_URL          = 'https://www.rishiqing.com'; // 服务器地址默认官网地址
+
 webFrame.setZoomFactor(1);
 webFrame.setVisualZoomLevelLimits(1, 1);
 webFrame.setLayoutZoomLevelLimits(0, 0);
@@ -141,7 +143,7 @@ $mainIframe.addEventListener('load', function () {
       if (host === config.weixinOauthUrl) {
         var query = querystring.parse(mainWindow.location.search.split('?')[1]);
         var state = query.state;
-        wxAuthPatch(mainWindow, { redirect: config.WX_REDIRECT, state: state });
+        wxAuthPatch(mainWindow, { redirect: `${SERVER_URL}/task/weixinOauth/afterLogin`, state: state });
       }
       isInThirdLoginPage = true;
       var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
@@ -205,10 +207,11 @@ $mainIframe.addEventListener('load', function () {
 async function getServerConfig () {
   const serverConfig = await db.getServerConfig();
   if (package.env === 'debug') {
-    $mainIframe.src = package['debug-url'];
+    SERVER_URL = package['debug-url'];
   } else {
-    $mainIframe.src = serverConfig[`${serverConfig['server-type']}-server-name`] + '/app';
+    SERVER_URL = serverConfig[`${serverConfig['server-type']}-server-name`] + '/app';
   }
+  $mainIframe.src = SERVER_URL
 }
 
 getServerConfig();
