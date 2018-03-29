@@ -5,7 +5,7 @@ const pkg       = require('../package.json');
 const app       = electron.app;
 
 const ServerConfigOfficiel = {
-  beta: 'http://beta.rishiqing.com',
+  beta: 'https://beta.rishiqing.com',
   release: 'https://www.rishiqing.com'
 };
 
