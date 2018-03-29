@@ -143,7 +143,7 @@ $mainIframe.addEventListener('load', function () {
       if (host === config.weixinOauthUrl) {
         var query = querystring.parse(mainWindow.location.search.split('?')[1]);
         var state = query.state;
-        wxAuthPatch(mainWindow, { redirect: `${SERVER_URL}/task/weixinOauth/afterLogin`, state: state });
+        wxAuthPatch(mainWindow, { redirect: SERVER_URL + '/task/weixinOauth/afterLogin', state: state });
       }
       isInThirdLoginPage = true;
       var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
@@ -207,11 +207,11 @@ $mainIframe.addEventListener('load', function () {
 async function getServerConfig () {
   const serverConfig = await db.getServerConfig();
   if (package.env === 'debug') {
-    SERVER_URL = package['debug-url'];
+    SERVER_URL = package['debug-server'];
   } else {
-    SERVER_URL = serverConfig[`${serverConfig['server-type']}-server-name`] + '/app';
+    SERVER_URL = serverConfig[`${serverConfig['server-type']}-server-name`];
   }
-  $mainIframe.src = SERVER_URL
+  $mainIframe.src = SERVER_URL + '/app';
 }
 
 getServerConfig();
