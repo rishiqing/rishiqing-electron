@@ -20,12 +20,6 @@
     release: "182.92.1.117",
     demo: "192.168.1.106"
   };
-  var WX_REDIRECT = {
-    dev: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin',
-    beta: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin',
-    release: 'https://www.rishiqing.com/task/weixinOauth/afterLogin',
-    demo: 'http://beta.rishiqing.com/task/weixinOauth/afterLogin'
-  };
   //获取版本号的链接
   var VERSIONURL = PREFIX_URL[env] + '/task/deskAppVersion/getLastVersionApp';
   var DOWNLOADURL = PREFIX_URL[env] + '/client';
@@ -71,8 +65,7 @@
       'graph.qq.com'      : 'QQ',
       'api.weibo.com'     : '微博',
       'oapi.dingtalk.com' : '钉钉'
-    },
-    WX_REDIRECT: WX_REDIRECT[env]
+    }
   }
 
   try{
