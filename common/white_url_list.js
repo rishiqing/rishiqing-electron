@@ -2,13 +2,14 @@
 * @Author: qinyang
 * @Date:   2018-01-19 12:09:13
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-01-19 17:26:33
+* @Last Modified time: 2018-07-05 14:59:42
 * @for: 用来记录url白名单，在这个白名单里的url，可以直接在pc端里打开
 */
 
 const List = [
   /^blob:/, // 以blob:开头的内置页面
-  /mainCommon\/printView/i // 任务打印
+  /mainCommon\/printView/i, // 任务打印
+  /print\/(task|doc)/i // 新版任务打印和笔记打印
 ];
 
 const whiteUrlList = function (url) {
