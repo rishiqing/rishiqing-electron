@@ -28,7 +28,7 @@ builder.build({
     },
     publish: {
       provider: 'generic',
-      url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/${os}/${env.CHANNEL}',
+      url: 'https://download.timetask.cn/pc-autoupdate/${os}/${env.CHANNEL}',
       channel: '${env.CHANNEL}'
     },
     mac: {
@@ -62,7 +62,7 @@ builder.build({
       icon: 'res/256x256.ico',
       publish: {
         provider: 'generic',
-        url: 'https://rishiqing-client.oss-cn-shenzhen.aliyuncs.com/pc-autoupdate/${os}/${env.ARCH}/${env.CHANNEL}',
+        url: 'https://download.timetask.cn/pc-autoupdate/${os}/${env.ARCH}/${env.CHANNEL}',
         channel: '${env.CHANNEL}'
       }
     },
