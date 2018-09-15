@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2017-12-14 19:34:53
+* @Last Modified time: 2018-09-15 16:45:12
 */
 var package           = require('../package.json');
 var os                = require('os');
@@ -14,11 +14,32 @@ var platform          = process.platform;
 var $mainIframe       = document.querySelector('#main-iframe');
 var mainBroswerWindow = electron.remote.BrowserWindow.fromId(1);
 var webContents       = mainBroswerWindow.webContents;
+var db = mainBroswerWindow.mainDb;
 
 var dealLogin = function (canAutoLogin) {
   if (!canAutoLogin) {
     $mainIframe.src = '';
     $('.welcome-page').removeClass('hide');
+    // var Cookies = webContents.session.cookies
+    // db.getServerConfig()
+    // .then(function(config) {
+    //   console.log(config)
+    //   Cookies.get({
+    //     name: 'version',
+    //     url: config['server-name']
+    //   }, function(error, cookies) {
+    //     console.log('cookies', cookies)
+    //     cookies.forEach(function(cookie) {
+    //       Cookies.remove(config['server-name'], cookie.name, function(err) {
+    //         console.log('err', err)
+    //       })
+    //     })
+    //   })
+    // })
+    
+    webContents.session.clearStorageData({
+      storages: ['cookies'] // 清理cookie
+    });
   }
 };
 
