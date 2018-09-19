@@ -41,6 +41,7 @@ class MainDb {
         return 'custom';
       })()
     };
+    cfg['server-name'] = cfg['server-type'] === 'custom' ? cfg['custom-server-name'] : cfg['officiel-server-name']
     return cfg;
   }
 

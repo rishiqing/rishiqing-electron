@@ -32,8 +32,12 @@ class View extends CommonView {
     var data = this.getFormData();
     var isStateOk = true;
     if (data['server-type'] === 'custom') {
-      var isCustomUrlOk = urlRegex.test(data['custom-server-name']);
-      isStateOk = isCustomUrlOk;
+      isStateOk = urlRegex.test(data['custom-server-name'])
+      try {
+        new URL(data['custom-server-name']);
+      } catch(e) {
+        isStateOk = false;
+      }
     }
     if (!isStateOk) {
       this.$saveBtn.addClass('disabled');
@@ -62,6 +66,12 @@ class View extends CommonView {
   onSave () {
     if (this.isSaveDisable) return;
     var data = this.getFormData();
+    try {
+      data['custom-server-name'] = new URL(data['custom-server-name']).origin;
+    } catch(e) {
+      // 如果上面解析custome-server-name出错，那就把server-type指定为officiel
+      data['server-type'] = 'officiel';
+    }
     this.settings.onSave(data);
   }
 }
