@@ -1,28 +1,29 @@
 const electron      = require('electron');
 const pkg           = require('./package.json');
-const Menu          = require('./native/menu.js');
-const Tray          = require('./native/tray.js');
+const Menu          = require('./native/menu');
 const Update        = require('./native/update');
 const path          = require('path');
 const download      = require('./download');
+const preference    = require('./preference');
 const mainDb        = require('./native/mainDb');
 const WhiteUrlList  = require('./common/white_url_list');
+const Sentry        = require('./native/sentry');
+const { initProxy }   = require('./native/proxy');
+const HotKeyConfig  = require('./native/hotkey');
+const util          = require('./native/util');
 const app           = electron.app;
 const BrowserWindow = electron.BrowserWindow;
 const nativeImage   = electron.nativeImage;
 const shell         = electron.shell;
+const session       = electron.session;
+
+// chrome 66 之后，禁止了自动播放音乐，这会影响到通知铃声的播放
+// 所以这里把这个禁止给解除了
+app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 if (process.platform !== 'darwin') app.setAppUserModelId('release.rishiqing.electron'); // 在这里设置appId，win10才能正常推送通知
 
-// const db = new Datastore({ filename: path.join(app.getPath('userData'), 'nedb-main.json'), autoload: true });
-// async function findOne (query) {
-//   return new Promise((resolve, reject) => {
-//     db.findOne(query, function (err, doc) {
-//       if (err) reject(err);
-//       else resolve(doc);
-//     });
-//   });
-// }
+Sentry.init();
 
 class Main {
   constructor () {
@@ -32,17 +33,12 @@ class Main {
 
   // 检测单个运行实例，如果已经有一个在运行了，再点击软件图标，只会打开当前实例
   detectSingleInstance () {
-    const shouldQuit = app.makeSingleInstance((argv, workingDirectory) => {
-      // if (this.mainWindow) {
-      //   if (this.mainWindow.isMinimized()) this.mainWindow.restore();
-      //   if (!this.mainWindow.isVisible()) this.mainWindow.show();
-      //   this.mainWindow.focus();
-      // }
-      if (this.tray) this.tray.showWindow();
-    });
-    if (shouldQuit) {
+    const gotTheLock = app.requestSingleInstanceLock()
+    if (!gotTheLock) {
       app.quit();
-      return;
+      return
+    } else {
+      util.showWindow();
     }
   }
 
@@ -54,11 +50,13 @@ class Main {
   }
 
   async _onReady () {
+    await HotKeyConfig();
+    await initProxy();
     await this._createWindow();
     download.initWindow();
+    preference.initWindow();
     const u = new Update(this.mainWindow);
-    const m = new Menu();
-    this.tray = new Tray(this.mainWindow);
+    const m = new Menu(this.mainWindow);
   }
 
   async _createWindow () {

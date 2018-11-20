@@ -1,15 +1,18 @@
 const $                 = require('jquery');
 const electron          = require('electron');
 const CommonView        = require('./utils/view');
-const ServerSettingView = require('./serverSetting');
+const Url               = require('url');
 const welcomePageTemplate = require('./hbs/welcomePage.hbs');
+const preference = electron.remote.require('./preference');
+const util = electron.remote.require('./native/util');
 
 const mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
 const db = mainBroswerWindow.mainDb;
+const dialog = electron.remote.dialog;
+const currentWindow = electron.remote.getCurrentWindow();
 
 const DefaultConfig = {
-  onLogin: function () {},
-  onSign: function () {}
+  onOpenUrl: function() {},
 };
 
 class View extends CommonView {
@@ -18,12 +21,11 @@ class View extends CommonView {
       className: 'welcome-page hide',
       events: {
         'click .login-btn': 'onLoginClick',
-        'click .sign-btn': 'onSignClick'
+        'click .sign-btn': 'onSignClick',
       }
     });
     this.settings = Object.assign({}, DefaultConfig, options);
     this.render();
-    this.initConfig();
   }
 
   hide () {
@@ -36,69 +38,60 @@ class View extends CommonView {
 
   render () {
     this.html(welcomePageTemplate());
-    this.$settingBtn = this.$('.setting-btn');
   }
 
-  async initConfig () {
-    this.config = await db.getServerConfig();
-    this.initModal();
-  }
-
-  initModal () {
-    this.$settingBtn.modal({
-      content: () => {
-        const view = new ServerSettingView(this.config, {
-          onSave: this.onSave.bind(this)
-        });
-        return view.$el;
-      }
-    });
-  }
-
-  getUrl () {
-    if (!this.config) return;
-    const type = this.config['server-type'] === 'custom' ? 'custom' : 'officiel';
-    if (type === 'officiel') {
-      return this.config['officiel-server-name'];
+  async getUrl () {
+    const config = await db.getServerConfig();
+    let server;
+    if (config.enablePrivate) {
+      server = config.privateUrl;
     } else {
-      return this.config['custom-server-name'];
+      server = config.officelUrl;
     }
+    // if (!server) return;
+    // const result = await util.testServer(server);
+    // return server;
+    return server;
   }
 
-  getLoginUrl () {
-    const baseUrl = this.getUrl();
+  async getLoginUrl () {
+    const baseUrl = await this.getUrl();
     if (!baseUrl) return;
-    return baseUrl + '/i?port=2';
+    return Url.resolve(baseUrl, '/account/login');
   }
 
-  getSignUrl () {
-    const baseUrl = this.getUrl();
+  async getSignUrl () {
+    const baseUrl = await this.getUrl();
     if (!baseUrl) return;
-    return baseUrl + '/i?port=1';
+    return Url.resolve(baseUrl, '/account/register');
   }
 
-  onSave (_cfg) {
-    this.config = _cfg;
-    db.updateServerConfig(this.config);
-    this.$settingBtn.modal('hide'); 
+  async openUrl(type) {
+    let url;
+    if (type === 'login') {
+      url = await this.getLoginUrl();
+    } else {
+      url = await this.getSignUrl();
+    }
+    if (url) {
+      const result = await util.testServer(url);
+      if (result.alive) {
+        this.hide();
+        this.settings.onOpenUrl(url);
+      } else {
+        util.showNetworkErrorDialog(result.message);
+      }
+    } else {
+      util.showNetworkErrorDialog('自定义服务器不可用');
+    }
   }
 
   onLoginClick () {
-    if (!this.config) return;
-    this.hide();
-    const url = this.getLoginUrl();
-    if (url) {
-      this.settings.onLogin(url);
-    }
+    this.openUrl('login')
   }
 
   onSignClick () {
-    if (!this.config) return;
-    this.hide();
-    const url = this.getSignUrl();
-    if (url) {
-      this.settings.onSign(url);
-    }
+    this.openUrl('sign')
   }
 }
 

@@ -2,7 +2,7 @@
 * @Author: apple
 * @Date:   2016-02-17 11:06:44
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-01-09 16:18:12
+* @Last Modified time: 2018-11-14 12:19:55
 */
 
 var path     = require('path');
@@ -41,7 +41,9 @@ module.exports = function (grunt) {
           {expand: true, src: ['native/**/*.js'], dest: destPath},
           {expand: true, src: ['common/**/*.js'], dest: destPath},
           {expand: true, src: 'main.js', dest: destPath},
-          {expand: true, src: 'download.js', dest: destPath}
+          {expand: true, src: 'page.js', dest: destPath},
+          {expand: true, src: 'download.js', dest: destPath},
+          {expand: true, src: 'preference.js', dest: destPath},
         ]
       }
     },
