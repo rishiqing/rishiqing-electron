@@ -74,6 +74,7 @@ class TrayClass {
       }
     });
     if (on) {
+      console.log('autoLaunch .......')
       autoLaunch.enable();
     }
   }
