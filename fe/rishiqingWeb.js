@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-11-20 20:39:54
+* @Last Modified time: 2018-11-21 20:43:33
 */
 var package           = require('../package.json');
 var os                = require('os');
@@ -58,6 +58,17 @@ module.exports = function (mainWindow) {
   if (platform === 'darwin') {
     mainWindow.Notification = notification;
   }
+
+  mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
+    configurable: true,
+    get: function() {
+      if (!mainBroswerWindow.isVisible()) return true;
+      if (mainBroswerWindow.isMinimized()) return true;
+      if (!mainBroswerWindow.isFocused()) return true;
+      return false;
+    },
+    set: function() {}
+  });
 
   mainWindow.onLogout = function () {
     $('.welcome-page').removeClass('hide');

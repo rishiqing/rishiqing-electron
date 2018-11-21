@@ -17,7 +17,11 @@ class TrayClass {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
     this.webContents = mainWindow.webContents;
+    this.twinkleTimerList = [];
+    this.mainWindow.on('focus', this.onMainWindowFocused.bind(this));
     this.initAppIcon();
+    this.initNotificationEvent();
+    this.initBalloonEvent();
     this.initEvent();
     setTimeout(() => {
       this.clearOldStartConfig();
@@ -29,10 +33,29 @@ class TrayClass {
     if (env.isMac) {
       this.appIcon.setPressedImage(Icon.getPressedImage());
     }
-    this.initNotificationEvent();
-    this.initBalloonEvent();
+  }
+  // 图标闪烁
+  twinkle() {
+    const timer = setInterval(() => {
+      this.appIcon.setImage(Icon.getEmptyImage());
+      setTimeout(() => {
+        this.appIcon.setImage(Icon.getImage());
+      }, 300)
+    }, 600);
+    this.twinkleTimerList.push(timer);
+  }
+  // 停止闪烁
+  stopTwinkle() {
+    if (this.twinkleTimerList.length) {
+      this.twinkleTimerList.forEach((timer) => {
+        clearInterval(timer);
+      })
+      this.twinkleTimerList.length = 0;
+    }
+    this.appIcon.setImage(Icon.getImage());
   }
   initNotificationEvent () {
+    ipcMain.on(EVENTS.Notification_Come, this.onNotificationCome.bind(this));
     ipcMain.on(EVENTS.Notification_Show_Message, this.onNotificationShow.bind(this));
     ipcMain.on(EVENTS.Notification_Show_Window, this.onNotificationShowWindow.bind(this));
   }
@@ -94,6 +117,11 @@ class TrayClass {
   onBalloonClosed () {
     this.webContents.send(EVENTS.Notification_Close_reply, 'close');
   }
+  // 通知来的时候，需要让tray图标闪烁
+  onNotificationCome() {
+    if (this.mainWindow.isFocused()) return;
+    this.twinkle();
+  }
   onNotificationShow (event, arg) {
     if (this.mainWindow.isFocused()) return;
     if (arg) {
@@ -102,6 +130,10 @@ class TrayClass {
   }
   onNotificationShowWindow () {
     util.showWindow();
+  }
+
+  onMainWindowFocused() {
+    this.stopTwinkle();
   }
 }
 

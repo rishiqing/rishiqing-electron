@@ -121,6 +121,7 @@ class Util {
     dialog.showMessageBox(this.mainWindow, {
       type: 'error',
       defaultId: 0,
+      cancelId: 1,
       buttons: ['打开偏好设置', '取消'],
       message: `${message}`
     }, function(result) {

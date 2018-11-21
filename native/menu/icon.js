@@ -42,6 +42,10 @@ class Icon {
     const tray_icon_pressed = '../../res/tray_mac_drak_mode@2x.png';
     return nativeImage.createFromPath(path.join(__dirname, tray_icon_pressed));
   }
+  // 获取一个空白图标，用来做闪烁用
+  getEmptyImage() {
+    return nativeImage.createEmpty();
+  }
 }
 
 module.exports = new Icon();
