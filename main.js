@@ -62,8 +62,8 @@ class Main {
   async _createWindow () {
     let sizeDb = await mainDb.getWindowSize();
     this.mainWindow = new BrowserWindow({
-      width: sizeDb.width || pkg.MIN_WINDOW_WIDTH,
-      height: sizeDb.height || pkg.MIN_WINDOW_HEIGHT,
+      width: sizeDb.width,
+      height: sizeDb.height,
       "title":"日事清",
       'webPreferences': {
         'plugins': true,

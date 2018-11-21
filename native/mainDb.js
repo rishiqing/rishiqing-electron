@@ -44,7 +44,7 @@ async function reformatServerConfig(db) {
     if (config['server-type'] === 'custom') {
       obj.enablePrivate = true;
     }
-    db.resetServerConfig(obj);
+    db.updateServerConfig(obj);
   }
 }
 
@@ -78,11 +78,18 @@ class MainDb {
       officelUrl: ServerConfigOfficiel[pkg.env], // 官网的路径
       enablePrivate: false,
       privateUrl: '',
-    }, config);
+    }, {
+      enablePrivate: config.enablePrivate,
+      privateUrl: config.privateUrl,
+    });
   }
 
   async getWindowSize () {
-    return await this.db.findOne({ type: 'main-window-size' }) || {};
+    const config = await this.db.findOne({ type: 'main-window-size' });
+    return Object.assign({
+      width: pkg.MIN_WINDOW_WIDTH,
+      height: pkg.MIN_WINDOW_HEIGHT,
+    }, config);
   }
 
   // 获取网络代理的配置
@@ -112,18 +119,6 @@ class MainDb {
 
   updateServerConfig (data) {
     this.db.update({ type: 'server-config' }, { $set: Object.assign({ version: VERSION.server }, data) }, { upsert: true });
-  }
-
-  // 重置服务器配置
-  resetServerConfig(data) {
-    this.db.update(
-      { type: 'server-config' },
-      Object.assign({
-        version: VERSION.server,
-        type: 'server-config',
-      }, data),
-      { upsert: true }
-    );
   }
 
   updateProxyConfig (data) {
