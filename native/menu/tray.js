@@ -60,23 +60,18 @@ class TrayClass {
     const startOnBoot = require("./startOnBoot");
     const old_key_1 = 'rishiqing_startOnBoot'; // 之前版本保存自动启动地址的key
     const old_key_2 = 'rishiqing_V3'; // 新版的自启动key
-    let on = false;
     startOnBoot.getAutoStartValue(old_key_1, (value) => {
       if (value) {
-        on = true;
         startOnBoot.disableAutoStart(old_key_1);
+        autoLaunch.enable();
       }
     });
     startOnBoot.getAutoStartValue(old_key_2, (value) => {
       if (value) {
-        on = true;
         startOnBoot.disableAutoStart(old_key_2);
+        autoLaunch.enable();
       }
     });
-    if (on) {
-      console.log('autoLaunch .......')
-      autoLaunch.enable();
-    }
   }
   setContextMenu(m) {
     this.appIcon.setContextMenu(m);
