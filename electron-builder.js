@@ -2,6 +2,7 @@ const builder = require('electron-builder');
 const fs      = require('fs');
 const path    = require('path');
 const rimraf  = require('rimraf');
+const pkg     = require('./package.json');
 
 // zh_CN.lproj里InfoPlist.strings
 const zh_CN = `
@@ -21,7 +22,7 @@ builder.build({
   config: {
     appId: 'release.rishiqing.electron',
     productName: 'rishiqing',
-    electronVersion: '1.7.9',
+    electronVersion: pkg.electronVersion,
     directories: {
       output: output,
       app: 'dir'
