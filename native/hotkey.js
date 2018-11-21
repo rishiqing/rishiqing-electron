@@ -16,13 +16,16 @@ async function hideApp() {
 // 热键和方法的映射
 const HotKeyFunctionMap = {
   active: activeApp,
-  // hide: hideApp,
+  hide: hideApp,
 }
 
 // 有部分快捷键在不同的操作系统注册不一样
 const NotRegisterMap = {
   mac: {
     hide: true
+  },
+  win: {
+    
   }
 };
 

@@ -6,6 +6,7 @@ const TestServerMessage = {
   'net::ERR_CONNECTION_CLOSED': '服务器拒绝访问, 请检查自定义服务器配置',
   'net::ERR_CONNECTION_REFUSED': '服务器拒绝访问, 请检查自定义服务器配置',
   'net::ERR_NO_SUPPORTED_PROXIES': '代理服务器不可用',
+  'net::ERR_PROXY_CONNECTION_FAILED': '代理连接失败',
   'net::ERR_INTERNET_DISCONNECTED': '无网络可用',
 }
 

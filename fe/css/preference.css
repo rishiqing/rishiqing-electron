@@ -129,6 +129,7 @@ ul {
   width: 72px;
   border: 1px solid #d1d1d1;
   border-radius: 2px;
+  background: none;
   font-size: 13px;
   text-align: center;
   color: #b1b1b1;
@@ -136,7 +137,7 @@ ul {
   cursor: pointer;
   outline: none;
 }
-/* line 95, ../scss/preference.scss */
+/* line 96, ../scss/preference.scss */
 .section.restore-setting .content button:hover {
   color: #3B3B3B;
 }

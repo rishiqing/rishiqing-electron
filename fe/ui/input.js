@@ -99,7 +99,7 @@ Vue.component('r-input', {
           }
         }
         if (e.ctrlKey) {
-          fnKeys.push('Control');
+          fnKeys.push('Ctrl');
         }
         if (e.altKey) {
           if (process.platform === 'darwin') {
