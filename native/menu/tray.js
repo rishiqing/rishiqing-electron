@@ -17,7 +17,6 @@ class TrayClass {
   constructor (mainWindow) {
     this.mainWindow = mainWindow;
     this.webContents = mainWindow.webContents;
-    this.twinkleTimerList = [];
     this.mainWindow.on('focus', this.onMainWindowFocused.bind(this));
     this.initAppIcon();
     this.initNotificationEvent();
@@ -36,21 +35,19 @@ class TrayClass {
   }
   // 图标闪烁
   twinkle() {
-    const timer = setInterval(() => {
+    this.stopTwinkle();
+    this.twinkleTimer = setInterval(() => {
       this.appIcon.setImage(Icon.getEmptyImage());
       setTimeout(() => {
         this.appIcon.setImage(Icon.getImage());
       }, 300)
     }, 600);
-    this.twinkleTimerList.push(timer);
   }
   // 停止闪烁
   stopTwinkle() {
-    if (this.twinkleTimerList.length) {
-      this.twinkleTimerList.forEach((timer) => {
-        clearInterval(timer);
-      })
-      this.twinkleTimerList.length = 0;
+    if (this.twinkleTimer) {
+      clearInterval(this.twinkleTimer);
+      this.twinkleTimer = null;
     }
     this.appIcon.setImage(Icon.getImage());
   }
