@@ -50,7 +50,10 @@ class Main {
       app.quit();
       return
     } else {
-      util.showWindow();
+      // 当要运行第二个实例的时候，则打开第一个实例
+      app.on('second-instance', () => {
+        util.showWindow();
+      })
     }
   }
 
