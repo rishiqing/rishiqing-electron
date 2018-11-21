@@ -57,6 +57,7 @@ class TrayClass {
   }
   // 清理windows旧版本的的开机启动配置
   clearOldStartConfig() {
+    if (env.platform !== 'win') return;
     const startOnBoot = require("./startOnBoot");
     const old_key_1 = 'rishiqing_startOnBoot'; // 之前版本保存自动启动地址的key
     const old_key_2 = 'rishiqing_V3'; // 新版的自启动key
