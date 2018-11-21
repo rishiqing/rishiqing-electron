@@ -33,7 +33,7 @@ const VERSION = {
 
 // 重新格式化一下server-config的配置数据
 async function reformatServerConfig(db) {
-  const config = await db.getServerConfig();
+  const config = await db.db.findOne({ type: 'server-config' });
   // 如果配置文件里没有版本号，则说明是之前的，需要重新插入最新的数据
   if (!config.version && config['server-type']) {
     const obj = {
