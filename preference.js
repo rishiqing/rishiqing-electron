@@ -13,9 +13,9 @@ class Preference extends Page {
     return `file://${path.join(__dirname, '/fe/preference/index.html')}`;
   }
 
-  // _canOpenDevTools() {
-  //   return true;
-  // }
+  _canOpenDevTools() {
+    return true;
+  }
 }
 
 module.exports = new Preference();

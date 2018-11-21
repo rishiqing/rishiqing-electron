@@ -34,7 +34,7 @@
     "rdp-x64-release": "rishiqing-deploy --env=x64-release"
   },
   "dependencies": {
-    "@sentry/electron": "0.11.0",
+    "@sentry/electron": "0.13.0",
     "electron-updater": "3.2.3",
     "handlebars": "4.0.11",
     "is-gzip": "2.0.0",

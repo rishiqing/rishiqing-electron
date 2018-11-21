@@ -4,7 +4,9 @@ const preference = require('../preference');
 
 const TestServerMessage = {
   'net::ERR_CONNECTION_CLOSED': '服务器拒绝访问, 请检查自定义服务器配置',
+  'net::ERR_CONNECTION_REFUSED': '服务器拒绝访问, 请检查自定义服务器配置',
   'net::ERR_NO_SUPPORTED_PROXIES': '代理服务器不可用',
+  'net::ERR_INTERNET_DISCONNECTED': '无网络可用',
 }
 
 class Util {
@@ -77,7 +79,7 @@ class Util {
         request.abort();
         resolve({
           alive: false,
-          message: '连接超时',
+          message: '连接超时，请检查网络',
         });
       }, 20000); // 10秒超时
       request.on('response', (response) => {

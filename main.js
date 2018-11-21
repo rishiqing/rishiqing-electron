@@ -1,3 +1,5 @@
+const Sentry = require('./native/sentry');
+Sentry.init();
 const electron      = require('electron');
 const pkg           = require('./package.json');
 const Menu          = require('./native/menu');
@@ -7,15 +9,16 @@ const download      = require('./download');
 const preference    = require('./preference');
 const mainDb        = require('./native/mainDb');
 const WhiteUrlList  = require('./common/white_url_list');
-const Sentry        = require('./native/sentry');
-const { initProxy }   = require('./native/proxy');
+const { initProxy } = require('./native/proxy');
 const HotKeyConfig  = require('./native/hotkey');
 const util          = require('./native/util');
-const app           = electron.app;
-const BrowserWindow = electron.BrowserWindow;
-const nativeImage   = electron.nativeImage;
-const shell         = electron.shell;
-const session       = electron.session;
+const {
+  app,
+  BrowserWindow,
+  nativeImage,
+  shell,
+  dialog
+} = electron;
 
 // chrome 66 之后，禁止了自动播放音乐，这会影响到通知铃声的播放
 // 所以这里把这个禁止给解除了
@@ -23,7 +26,16 @@ app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
 if (process.platform !== 'darwin') app.setAppUserModelId('release.rishiqing.electron'); // 在这里设置appId，win10才能正常推送通知
 
-Sentry.init();
+process.on('uncaughtException', (err) => {
+  if (!app.isReady()) return;
+  // dialog 只能在ready之后才能用
+  dialog.showMessageBox({
+    type: 'error',
+    message: 'A JavaScript error occurred in the main process',
+    detail: err.stack,
+    buttons: ['OK']
+  });
+});
 
 class Main {
   constructor () {

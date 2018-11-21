@@ -10,7 +10,13 @@ const template = `
     </div>
     <div class="item private-server">
       <span class="name">私有服务器地址</span>
-      <input type="text" name="server-config" :readonly="!enablePrivate" v-model.lazy="privateUrl" />
+      <input
+        type="text"
+        name="server-config"
+        :readonly="!enablePrivate"
+        v-model.lazy="privateUrl"
+        placeholder="例: https://www.rishiqing.com"
+      />
     </div>
   </div>
 </div>

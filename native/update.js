@@ -5,6 +5,7 @@ const nativeImage   = require('electron').nativeImage;
 const Notification = require('electron').Notification;
 const autoUpdater = require('electron-updater').autoUpdater;
 const pkg = require('../package.json');
+const Sentry = require('./sentry');
 
 class Update {
   constructor (mainWindow) {
@@ -50,6 +51,7 @@ class Update {
         title: '日事清PC端自动更新出错了!!!',
         body: error.message
       });
+      Sentry.captureException(new Error(error));
       notify.show();
     });
     if (pkg.env !== 'dev' && pkg.env !== 'debug') {

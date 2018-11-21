@@ -33,7 +33,7 @@ const VERSION = {
 
 // 重新格式化一下server-config的配置数据
 async function reformatServerConfig(db) {
-  const config = await db.db.findOne({ type: 'server-config' });
+  const config = await db.db.findOne({ type: 'server-config' }) || {};
   // 如果配置文件里没有版本号，则说明是之前的，需要重新插入最新的数据
   if (!config.version && config['server-type']) {
     const obj = {
@@ -68,12 +68,12 @@ class MainDb {
   }
   constructor () {
     this.db = new Db(path.join(app.getPath('userData'), 'nedb-main.json'));
-    reformatServerConfig(this);
+    reformatServerConfig(this)
     this.event = new EventEmitter();
   }
 
   async getServerConfig () {
-    const config = await this.db.findOne({ type: 'server-config' });
+    const config = await this.db.findOne({ type: 'server-config' }) || {};
     return Object.assign({
       officelUrl: ServerConfigOfficiel[pkg.env], // 官网的路径
       enablePrivate: false,
