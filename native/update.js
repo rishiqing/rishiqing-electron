@@ -41,8 +41,8 @@ class Update {
   setAutoUpdate () {
     autoUpdater.on('update-downloaded', function (info) {
       const notify = new Notification({
-        title: '日事清PC端有版本更新啦~~',
-        body: `${info.version} 已经发布，退出之后将自动更新`
+        title: `日事清V${info.version} 已准备就绪！`,
+        body: `请退出当前应用，以便完成更新！`
       });
       notify.show();
     });
