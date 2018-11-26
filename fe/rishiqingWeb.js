@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-11-21 20:43:33
+* @Last Modified time: 2018-11-26 19:21:03
 */
 var package           = require('../package.json');
 var os                = require('os');
@@ -10,32 +10,15 @@ var nativeNotify      = require('./nativeNotify');
 var notification      = require('./notification');
 var $                 = require('jquery');
 var electron          = require('electron');
-var SentryEvent       = require('../common/sentry_event');
 var platform          = process.platform;
 var $mainIframe       = document.querySelector('#main-iframe');
 var mainBroswerWindow = electron.remote.BrowserWindow.fromId(1);
-var ipcRenderer       = electron.ipcRenderer;
-var webContents       = mainBroswerWindow.webContents;
 var db = mainBroswerWindow.mainDb;
 
 var dealLogin = function (canAutoLogin) {
   if (!canAutoLogin) {
     $('.welcome-page').removeClass('hide');
-    var Cookies = webContents.session.cookies
-    Cookies.get({
-      name: 'version',
-    }, function(error, cookies) {
-      ipcRenderer.send(SentryEvent.Sentry_Add_Breadcrumb, {
-        category: 'version_cookies',
-        message: JSON.stringify(cookies),
-        level: 'error'
-      });
-      ipcRenderer.send(SentryEvent.Sentry_Capture_Message, 'Client_Can_Auto_Login_Error');
-      $mainIframe.src = '';
-    })
-    // webContents.session.clearStorageData({
-    //   storages: ['cookies'] // 清理cookie
-    // });
+    $mainIframe.src = '';
   }
 };
 
