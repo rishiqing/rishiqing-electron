@@ -35,18 +35,18 @@ async function configHotkey(config) {
   Object.keys(config).forEach((key) => {
     if (!HotKeyFunctionMap[key] || NotRegisterMap[env.platform][key]) return; // 如果没有对应的处理函数，则直接返回
     if (!config[key]) return;
-    function registerShortcut() {
-      globalShortcut.register(config[key], HotKeyFunctionMap[key]);
+    function registerShortcut(k) {
+      globalShortcut.register(config[k], HotKeyFunctionMap[k]);
       // mac系统允许注册相同的快捷键
-      const isRegistered = globalShortcut.isRegistered(config[key]);
+      const isRegistered = globalShortcut.isRegistered(config[k]);
       // 如果注册失败，自动再注册
       if (!isRegistered) {
         setTimeout(() => {
-          registerShortcut();
+          registerShortcut(k);
         }, 2000);
       }
     }
-    registerShortcut();
+    registerShortcut(key);
   })
 }
 
