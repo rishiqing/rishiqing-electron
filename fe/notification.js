@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2016-11-17 21:29:37
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-18 00:33:32
+* @Last Modified time: 2018-11-21 21:00:08
 */
 
 const EVENTS = require('../common/notification_event');
@@ -17,6 +17,11 @@ class Notification2 extends window.Notification {
 		setTimeout(() => {
 			this.replaceOnClick();
 		}, 16);
+		this.come();
+	}
+
+	come() {
+		ipcRenderer.send(EVENTS.Notification_Come);
 	}
 
 	sound () {

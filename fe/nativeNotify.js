@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2016-11-16 21:08:26
 * @Last Modified by:   qinyang
-* @Last Modified time: 2016-11-17 23:16:31
+* @Last Modified time: 2018-11-21 17:46:28
 */
 var ipcRenderer = require('electron').ipcRenderer;
 
@@ -12,6 +12,7 @@ var NativeNotify = function (title, options) {
 	this.offEvents();
 	this.initEvents();
 	this.showNotification(title, options.body);
+	this.notificationCome();
 }
 
 NativeNotify.requestPermission = function () {};
@@ -19,6 +20,10 @@ NativeNotify.permission = 'granted';
 
 NativeNotify.prototype.showNotification = function (title, content) {
 	ipcRenderer.send(EVENTS.Notification_Show_Message, { title: title, content: content });
+}
+
+NativeNotify.prototype.notificationCome = function() {
+	ipcRenderer.send(EVENTS.Notification_Come);
 }
 
 NativeNotify.prototype.offEvents = function () {

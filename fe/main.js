@@ -18,8 +18,10 @@ var alertTipTimer       = null;
 var os                  = require('os');
 var electron            = require('electron');
 var dragBar             = require('./drag-bar');
+var Url                 = require('url');
 
 var mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
+const util              = electron.remote.require('./native/util');
 var shell               = electron.shell;
 var db                  = mainBroswerWindow.mainDb;
 const webFrame          = electron.webFrame;
@@ -204,45 +206,42 @@ $mainIframe.addEventListener('load', function () {
   });
 });
 
-async function getServerConfig () {
-  const serverConfig = await db.getServerConfig();
-  if (package.env === 'debug') {
-    SERVER_URL = package['debug-server'];
-  } else {
-    SERVER_URL = serverConfig[`${serverConfig['server-type']}-server-name`];
-  }
-  $mainIframe.src = SERVER_URL + '/app';
-}
-
-getServerConfig();
-
-
-// // 在local页面监听键盘，刷新
-// var localHandleBar = function (pressed) {
-//   if (platform === 'win32') {
-//     if (pressed.which === 116) {
-//       reloadWindow();
-//     }
-//   } else if (platform === 'darwin') {
-//     if (pressed.metaKey && pressed.which === 82) {
-//       reloadWindow();
-//     }
-//   }
-// };
-// document.removeEventListener('keydown', localHandleBar);
-// document.addEventListener('keydown', localHandleBar, false);
 if (platform === 'win32') {
   $(document.body).addClass('win');
 } else if (platform === 'darwin') {
   $(document.body).addClass('mac');
 }
 var welcomPage = new WelcomPageView({
-  onLogin: function (url) {
+  onOpenUrl: function(url) {
     $mainIframe.src = url;
   },
-  onSign: function (url) {
-    $mainIframe.src = url;
-  }
 });
 $(document.body).append(welcomPage.$el);
+
+async function getServerConfig () {
+  const serverConfig = await db.getServerConfig();
+  if (package.env === 'debug') {
+    SERVER_URL = package['debug-server'];
+  } else {
+    if (serverConfig.enablePrivate) {
+      SERVER_URL = serverConfig.privateUrl
+    } else {
+      SERVER_URL = serverConfig.officelUrl
+    }
+  }
+  if (!SERVER_URL) {
+    welcomPage.show();
+    return;
+  }
+  const result = await util.testServer(SERVER_URL);
+  if (!result.alive) {
+    welcomPage.show();
+    util.showNetworkErrorDialog(result.message);
+  } else {
+    $mainIframe.src = Url.resolve(SERVER_URL, '/app');
+  }
+}
+
+getServerConfig();
+
 dragBar(mainBroswerWindow);
