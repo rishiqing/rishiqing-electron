@@ -7,6 +7,8 @@ const EVENTS      = require('../../common/notification_event');
 const env         = require('../../common/env');
 const Icon        = require('./icon');
 const autoLaunch  = require('../autoLaunch');
+const mainDb      = require('../mainDb');
+
 const {
   Tray,
   app,
@@ -76,8 +78,14 @@ class TrayClass {
     }
   }
   // 清理windows旧版本的的开机启动配置
-  clearOldStartConfig() {
+  async clearOldStartConfig() {
     if (env.platform !== 'win') return;
+    const status = await mainDb.getStatus();
+    // 如果状态里记录的已经清理过旧的自启动配置
+    // 则直接返回
+    // 防止部分机子由于没有读取注册表权限的问题，而导致app崩溃
+    if (status.clearOldStartConfig) return;
+    mainDb.setAsClearOldStartConfig();
     const startOnBoot = require("./startOnBoot");
     const old_key_1 = 'rishiqing_startOnBoot'; // 之前版本保存自动启动地址的key
     const old_key_2 = 'rishiqing_V3'; // 新版的自启动key

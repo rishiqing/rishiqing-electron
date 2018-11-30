@@ -15,6 +15,22 @@ class Util {
     return BrowserWindow.fromId(1);
   }
 
+  isShow() {
+    let show = true;
+    const mainWindow = this.mainWindow;
+    if (!mainWindow) return false;
+    if (!mainWindow.isVisible()) {
+      show = false
+    }
+    if (mainWindow.isMinimized()) {
+      show = false
+    }
+    if (show && !mainWindow.isFocused()) {
+      show = false
+    }
+    return show
+  }
+
   showWindow() {
     let show = false;
     const mainWindow = this.mainWindow;
@@ -41,6 +57,15 @@ class Util {
     allWindows.forEach((win) => {
       win.close();
     });
+  }
+
+  // 隐藏/显示窗口
+  toggleWindow() {
+    if (this.isShow()) {
+      this.hideWindow();
+    } else {
+      this.showWindow();
+    }
   }
 
   clearCache() {

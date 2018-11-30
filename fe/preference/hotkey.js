@@ -5,23 +5,12 @@ const template = `
     <div class="title">快捷键</div>
     <div class="content">
       <div class="item">
-        <span class="name">激活应用窗口</span>
+        <span class="name">激活/隐藏应用窗口</span>
         <r-input
-          v-model="inside.active"
+          v-model="inside.toggle"
           :hotkey-mode="true"
           placeholder="无"
-          @appendClick="onClearClick('active')"
-        >
-          <template slot="append">清除</template>
-        </r-input>
-      </div>
-      <div class="item">
-        <span class="name">隐藏应用窗口</span>
-        <r-input
-          v-model="inside.hide"
-          :hotkey-mode="true"
-          placeholder="无"
-          @appendClick="onClearClick('hide')"
+          @appendClick="onClearClick('toggle')"
         >
           <template slot="append">清除</template>
         </r-input>
@@ -40,8 +29,7 @@ Vue.component('r-hotkey', {
   data() {
     return {
       inside: {
-        active: this.config.active,
-        hide: this.config.hide,
+        toggle: this.config.toggle,
       }
     };
   },
@@ -58,8 +46,7 @@ Vue.component('r-hotkey', {
     }, { deep: true });
     this.$watch('config', function(newVal) {
       this.inside = {
-        active: newVal.active,
-        hide: newVal.hide
+        toggle: newVal.toggle,
       };
     }, { deep: true })
   }

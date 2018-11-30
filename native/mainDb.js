@@ -12,13 +12,16 @@ const ServerConfigOfficiel = {
 
 const HotKey = {
   mac: {
-    active: 'Command+Option+X',
-    hide: 'Command+H'
+    toggle: 'Command+Option+X',
   },
   win: {
-    active: 'Ctrl+Alt+X',
-    hide: 'Ctrl+Alt+S'
+    toggle: 'Ctrl+Alt+X',
   }
+}
+
+// 标记一些状态
+const Status = {
+  clearOldStartConfig: false, // 是否清理过旧的自启动配置，用在windows系统
 }
 
 // 配置数据的版本号，记录一个版本号，如果以后需要重新调整配置数据的格式
@@ -28,7 +31,8 @@ const VERSION = {
   windowSize: 1,
   proxy: 1,
   download: 1,
-  hotkey: 1
+  hotkey: 1,
+  status: 1
 }
 
 // 重新格式化一下server-config的配置数据
@@ -113,6 +117,11 @@ class MainDb {
     return Object.assign({}, HotKey[env.platform], config)
   }
 
+  async getStatus () {
+    const config = await this.db.findOne({ type: 'status-config' });
+    return Object.assign({}, Status, config);
+  }
+
   updateWindowSize (data) { // { width, height } 
     this.db.update({ type: 'main-window-size' }, { $set: Object.assign({ version: VERSION.windowSize }, data) }, { upsert: true });
   }
@@ -134,6 +143,11 @@ class MainDb {
   updateHotkeyConfig(data) {
     this.db.update({ type: 'hotkey-config' }, { $set: Object.assign({ version: VERSION.hotkey }, data) }, { upsert: true });
     this.event.emit(this.EVENTS.HotkeyConfigChange);
+  }
+
+  // 标记一下旧的启动配置已经清理过，
+  setAsClearOldStartConfig() {
+    this.db.update({ type: 'status-config' }, { $set: Object.assign({ version: VERSION.status }, { clearOldStartConfig: true }) }, { upsert: true })
   }
 
   // 恢复默认数据
