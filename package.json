@@ -1,6 +1,6 @@
 {
   "name": "rishiqing-electron",
-  "version": "3.1.11",
+  "version": "3.1.12",
   "author": "北京创仕科锐信息技术有限责任公司",
   "electronVersion": "3.0.10",
   "main": "main.js",

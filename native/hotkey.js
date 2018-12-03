@@ -3,20 +3,14 @@ const mainDb = require('./mainDb');
 const util = require('./util');
 const env = require('../common/env');
 
-// 激活应用
-async function activeApp() {
-  util.showWindow();
-}
-
-// 隐藏应用
-async function hideApp() {
-  util.hideWindow();
+// 激活/隐藏应用
+async function toggleApp() {
+  util.toggleWindow();
 }
 
 // 热键和方法的映射
 const HotKeyFunctionMap = {
-  active: activeApp,
-  hide: hideApp,
+  toggle: toggleApp,
 }
 
 // 有部分快捷键在不同的操作系统注册不一样
