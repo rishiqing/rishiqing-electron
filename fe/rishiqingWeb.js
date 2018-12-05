@@ -2,7 +2,7 @@
 * @Author: qinyang
 * @Date:   2017-12-02 10:13:54
 * @Last Modified by:   qinyang
-* @Last Modified time: 2018-09-15 16:45:12
+* @Last Modified time: 2018-11-26 19:21:03
 */
 var package           = require('../package.json');
 var os                = require('os');
@@ -13,33 +13,12 @@ var electron          = require('electron');
 var platform          = process.platform;
 var $mainIframe       = document.querySelector('#main-iframe');
 var mainBroswerWindow = electron.remote.BrowserWindow.fromId(1);
-var webContents       = mainBroswerWindow.webContents;
 var db = mainBroswerWindow.mainDb;
 
 var dealLogin = function (canAutoLogin) {
   if (!canAutoLogin) {
-    $mainIframe.src = '';
     $('.welcome-page').removeClass('hide');
-    // var Cookies = webContents.session.cookies
-    // db.getServerConfig()
-    // .then(function(config) {
-    //   console.log(config)
-    //   Cookies.get({
-    //     name: 'version',
-    //     url: config['server-name']
-    //   }, function(error, cookies) {
-    //     console.log('cookies', cookies)
-    //     cookies.forEach(function(cookie) {
-    //       Cookies.remove(config['server-name'], cookie.name, function(err) {
-    //         console.log('err', err)
-    //       })
-    //     })
-    //   })
-    // })
-    
-    webContents.session.clearStorageData({
-      storages: ['cookies'] // 清理cookie
-    });
+    $mainIframe.src = '';
   }
 };
 
@@ -63,32 +42,20 @@ module.exports = function (mainWindow) {
     mainWindow.Notification = notification;
   }
 
+  mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
+    configurable: true,
+    get: function() {
+      if (!mainBroswerWindow.isVisible()) return true;
+      if (mainBroswerWindow.isMinimized()) return true;
+      if (!mainBroswerWindow.isFocused()) return true;
+      return false;
+    },
+    set: function() {}
+  });
+
   mainWindow.onLogout = function () {
     $('.welcome-page').removeClass('hide');
     $mainIframe.src = '';
-    // webContents.session.clearStorageData({
-    //   origin: $mainIframe.contentWindow.location.origin + '/task',
-    //   storages: [ 'cookies' ]
-    // }, function () {
-    //   $mainIframe.src = '';
-    // });
-
-    // webContents.session.cookies.remove($mainIframe.contentWindow.location.origin, 'JSESSIONID', function () {
-    //   $mainIframe.src = '';
-    // });
-    // webContents.session.cookies.get({
-    //   url: $mainIframe.contentWindow.location.origin
-    // }, function (err, cookies) {
-    //   console.log('cookies', cookies);
-    // });
-    // webContents.session.cookies.set({
-    //   url: $mainIframe.contentWindow.location.origin,
-    //   name: 'JSESSIONID',
-    //   value: '',
-    //   httpOnly: true
-    // }, function () {
-    //   $mainIframe.src = '';
-    // });
   }
 
   mainWindow.onHeaderDblclick = function () {
@@ -100,20 +67,20 @@ module.exports = function (mainWindow) {
     }
   }
 
-	// 如果Client_Can_Auto_Login没有被赋值，说明检测是否登录的接口还没有返回
-  if (mainWindow.Client_Can_Auto_Login === undefined) {
-    var _Client_Can_Auto_Login = undefined;
-    mainWindow.Object.defineProperty(mainWindow, 'Client_Can_Auto_Login', {
-      configurable: true,
-      get: function () {
-        return _Client_Can_Auto_Login;
-      },
-      set: function (v) {
-        _Client_Can_Auto_Login = v;
-        dealLogin(v);
-      }
-    });
-  } else {
+  // 如果 Client_Can_Auto_Login 已经被赋过值了，则先用 dealLogin处理
+  if (mainWindow.Client_Can_Auto_Login !== undefined) {
     dealLogin(mainWindow.Client_Can_Auto_Login);
   }
+
+  var _Client_Can_Auto_Login = mainWindow.Client_Can_Auto_Login;
+  mainWindow.Object.defineProperty(mainWindow, 'Client_Can_Auto_Login', {
+    configurable: true,
+    get: function () {
+      return _Client_Can_Auto_Login;
+    },
+    set: function (v) {
+      _Client_Can_Auto_Login = v;
+      dealLogin(v);
+    }
+  });
 };

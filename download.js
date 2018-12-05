@@ -3,46 +3,66 @@ const path          = require('path');
 const packageJson   = require('./package.json');
 const EVENTS        = require('./common/download_event');
 const FileUtil      = require('./utils/file');
-const BrowserWindow = electron.BrowserWindow;
+const Page          = require('./page');
+const mainDb        = require('./native/mainDb');
 const ipcMain       = electron.ipcMain;
 const app           = electron.app;
+const dialog        = electron.dialog;
 
 let downloadIdCount = 0;
 
-const DownloadPath = app.getPath('downloads'); // 下载路径
 const DownloadItemIdMap = {}; // 缓存下载对象和itemId之间的映射关系
 const DownloadFileNameMap = {}; // 缓存正在现在的文件名，防止某些文件还没下载完成，又下载同一文件名的文件
+let DownloadPath = ''; // 下载路径
 
-class Download {
+// 获取下载路径
+async function getDownloadPath() {
+  const config = await mainDb.getDownloadConfig()
+  if (config) {
+    // 是否每次都需要询问下载路径
+    if (config.inquiryDownloadPath) {
+      return;
+    }
+    if (config.downloadPath && FileUtil.isExist(config.downloadPath)) {
+      return config.downloadPath;
+    }
+  }
+  let defaultPath = '';
+  try {
+    defaultPath = app.getPath('downloads')
+  } catch(e) {
+    // 无法获取默认的下载路径
+  }
+
+  if (defaultPath) return defaultPath;
+}
+
+// 初始化通用配置
+async function initCommonConfig() {
+  DownloadPath = await getDownloadPath();
+  // 在保存路径发生变化的时候，重置一下
+  mainDb.event.on(mainDb.EVENTS.DownloadConfigChange, async function() {
+    DownloadPath = await getDownloadPath();
+  })
+}
+
+initCommonConfig();
+
+class Download extends Page {
+  get config () {
+    return {
+      title: '下载管理'
+    };
+  }
+  get loadURL () {
+    return `file://${path.join(__dirname, '/fe/download/index.html')}`;
+  }
   constructor () {
-    this.initEvent()
+    super();
+    this.initEvent();
   }
   initEvent () {
     ipcMain.on(EVENTS.Cancel_Download, this.onCancelItem.bind(this));
-  }
-  initWindow () {
-    this.window = new BrowserWindow({
-      title: '下载管理',
-      width: 380,
-      height: 440,
-      resizable: false,
-      maximizable: false,
-      minimizable: false,
-      autoHideMenuBar: true,
-      show: false // 初始化的时候不显示
-    });
-    this.window.on('close', this._onWindowClose.bind(this));
-    this.window.loadURL(`file://${path.join(__dirname, '/fe/download/index.html')}`);
-    this.webContents = this.window.webContents;
-    if (packageJson.env === 'dev' || packageJson.env === 'debug'){
-      this.webContents.openDevTools();
-    }
-  }
-
-  open () {
-    if (this.window) {
-      this.window.show();
-    }
   }
 
   isFileExist (fileName) {
@@ -65,8 +85,9 @@ class Download {
   }
 
   startDownload (item) {
+    if (!DownloadPath) return;
+    if (!FileUtil.isExist(DownloadPath)) return;
     const fileName = this.generateDownloadFileName(item.getFilename());
-    // 下载项先暂时默认保存到下载路径里，后面需要增加用户修改默认保存路径的功能
     item.setSavePath(path.join(DownloadPath, fileName));
     item.id = ++downloadIdCount;
     item.fileName = fileName;
@@ -130,11 +151,6 @@ class Download {
   onCancelItem (e, itemId) {
     const item = DownloadItemIdMap[itemId];
     if (item) item.cancel();
-  }
-
-  _onWindowClose (e) {
-    this.window.hide();
-    e.preventDefault();
   }
 }
 

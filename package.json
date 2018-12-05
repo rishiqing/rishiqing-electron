@@ -1,8 +1,8 @@
 {
   "name": "rishiqing-electron",
-  "version": "3.1.8",
+  "version": "3.1.12",
   "author": "北京创仕科锐信息技术有限责任公司",
-  "electronVersion": "1.7.9",
+  "electronVersion": "3.0.10",
   "main": "main.js",
   "env": "beta",
   "debug-url": "http://localhost:99/app",
@@ -34,7 +34,8 @@
     "rdp-x64-release": "rishiqing-deploy --env=x64-release"
   },
   "dependencies": {
-    "electron-updater": "3.1.2",
+    "@sentry/electron": "0.13.0",
+    "electron-updater": "4.0.4",
     "handlebars": "4.0.11",
     "is-gzip": "2.0.0",
     "jquery": "2.2.0",
@@ -42,6 +43,8 @@
     "md5-file": "3.2.3",
     "module-alias": "2.0.3",
     "nedb": "1.8.0",
+    "portfinder": "1.0.19",
+    "proxy-chain": "0.2.5",
     "request": "2.72.0",
     "vue": "2.5.9",
     "winreg": "1.2.2"
@@ -49,8 +52,7 @@
   "devDependencies": {
     "aliyun-sdk": "^1.11.2",
     "cross-env": "^5.1.1",
-    "electron-builder": "^20.28.4",
-    "electron-reload": "^1.2.2",
+    "electron-builder": "^20.36.2",
     "electron-winstaller": "^2.3.4",
     "grunt": "^1.0.1",
     "grunt-contrib-clean": "^1.0.0",
