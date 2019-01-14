@@ -1,7 +1,4 @@
-require('./registerHelper');
-require('./ui/modal');
 var WelcomPageView      = require('./welcomePage');
-var dns                 = require('dns');
 var $                   = require('jquery');
 var querystring         = require('querystring');
 var loading             = require('./loading')();
@@ -15,14 +12,12 @@ var $mainIframe         = document.querySelector('#main-iframe');
 var mainWindow          = $mainIframe.contentWindow;
 var platform            = process.platform;
 var alertTipTimer       = null;
-var os                  = require('os');
 var electron            = require('electron');
 var dragBar             = require('./drag-bar');
 var Url                 = require('url');
 
 var mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
 const util              = electron.remote.require('./native/util');
-var shell               = electron.shell;
 var db                  = mainBroswerWindow.mainDb;
 const webFrame          = electron.webFrame;
 
@@ -97,10 +92,7 @@ webFrame.setLayoutZoomLevelLimits(0, 0);
   menu.popup(mainBroswerWindow);
 });
 
-var isReloading = false;
-
 function reloadWindow () {
-  isReloading = true;
   loadingShow();
   mainWindow.location.reload();
 }
@@ -127,83 +119,67 @@ function loadingShow () {
 }
 
 $mainIframe.addEventListener('load', function () {
-  isReloading = false;
-  dns.lookup('www.rishiqing.com', function (err) {
-    if (err) {
-      loading.show('networkError');
-      return;
+  loading.hide();
+  var host = mainWindow.location.host, isInThirdLoginPage;
+  if (checkThirdLoginPage(mainWindow.location)) {
+    // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
+    // 而情况就是这么巧，electron在file协议下加载的index.html，host是空的
+    // 期间就想各种办法，看能不能恢复host，各种试了protocol自定义，结果还是徒劳，
+    // 相对这一点，nw就做得要好一些，至少他们的自定义protocol的Host不是空的，所以之前在nw里，微信登录才能用
+    // 纠结之纠结，终于找到了这么个奇淫技巧，拦截微信授权页下面的ajax请求，我们自己控制跳转.
+    if (host === config.weixinOauthUrl) {
+      var query = querystring.parse(mainWindow.location.search.split('?')[1]);
+      var state = query.state;
+      wxAuthPatch(mainWindow, { redirect: SERVER_URL + '/task/weixinOauth/afterLogin', state: state });
     }
-    var href = mainWindow.location.href;
-    loading.hide();
-    var host = mainWindow.location.host, isInThirdLoginPage;
-    if (checkThirdLoginPage(mainWindow.location)) {
-      // 由于微信检测了是否在iframe里面执行，而且还要检测最外层的window的host是否为空,如果不为空才跳转
-      // 而情况就是这么巧，electron在file协议下加载的index.html，host是空的
-      // 期间就想各种办法，看能不能恢复host，各种试了protocol自定义，结果还是徒劳，
-      // 相对这一点，nw就做得要好一些，至少他们的自定义protocol的Host不是空的，所以之前在nw里，微信登录才能用
-      // 纠结之纠结，终于找到了这么个奇淫技巧，拦截微信授权页下面的ajax请求，我们自己控制跳转.
-      if (host === config.weixinOauthUrl) {
-        var query = querystring.parse(mainWindow.location.search.split('?')[1]);
-        var state = query.state;
-        wxAuthPatch(mainWindow, { redirect: SERVER_URL + '/task/weixinOauth/afterLogin', state: state });
-      }
-      isInThirdLoginPage = true;
-      var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
-      alertTip.show((config.THIRD_LOGIN_HOST[host] || '第三方') + '登录页面 可按 ' + keyTip + ' 键返回');
-      if (alertTipTimer) {
-        clearTimeout(alertTipTimer);
-        alertTipTimer = null;
-      }
-      alertTipTimer = setTimeout(function () {
-        alertTipTimer = null;
-        alertTip.hide();
-      }, 4000);
+    isInThirdLoginPage = true;
+    var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
+    alertTip.show((config.THIRD_LOGIN_HOST[host] || '第三方') + '登录页面 可按 ' + keyTip + ' 键返回');
+    if (alertTipTimer) {
+      clearTimeout(alertTipTimer);
+      alertTipTimer = null;
     }
-    var handleBar = function (pressed) {
-      if (platform === 'win32') {
-        if (pressed.which === 116) {
-          loadingShow();
-          mainWindow.location.reload();
-        }
-      } else if (platform === 'darwin') {
-        if (pressed.metaKey && pressed.which === 82) {
-          loadingShow();
-          mainWindow.location.reload();
-        }
+    alertTipTimer = setTimeout(function () {
+      alertTipTimer = null;
+      alertTip.hide();
+    }, 4000);
+  }
+  var handleBar = function (pressed) {
+    if (platform === 'win32') {
+      if (pressed.which === 116) {
+        loadingShow();
+        mainWindow.location.reload();
       }
-      if (pressed.which === 8 && isInThirdLoginPage) { // 如果在第三方登陆页，并且按了delete键，则倒退
-        var type = pressed.target.type;
-        var readonly = pressed.target.readOnly;
-        var contentEditable = pressed.target.contentEditable;
-        if (type !== 'textarea' && type !== 'text' && type !== 'password' && contentEditable !== 'true') {
-          mainWindow.history.back();
-        } else if (readonly) {
-          mainWindow.history.back();
-        }
+    } else if (platform === 'darwin') {
+      if (pressed.metaKey && pressed.which === 82) {
+        loadingShow();
+        mainWindow.location.reload();
       }
-    };
-    mainWindow.document.removeEventListener('keydown', handleBar);
-    mainWindow.document.addEventListener('keydown', handleBar, false);
-    // 由于electron iframe 下面，不支持 confirm 和 alert ,这里就把外层的confirm 和 alert 方法赋值给iframe里面
-    mainWindow.confirm = function (message) {
-      return window.confirm(message, '日事清');
-    };
-    mainWindow.alert   = function (message) {
-      return window.alert(message, '日事清');
-    };
-    
-    // 覆盖docment.hidden主要用在通知的判断，因为通知在document。hidden 为 false 的时候不会发通知
-    mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
-      configurable: true,
-      get: function () {
-        return !mainBroswerWindow.isFocused();
+    }
+    if (pressed.which === 8 && isInThirdLoginPage) { // 如果在第三方登陆页，并且按了delete键，则倒退
+      var type = pressed.target.type;
+      var readonly = pressed.target.readOnly;
+      var contentEditable = pressed.target.contentEditable;
+      if (type !== 'textarea' && type !== 'text' && type !== 'password' && contentEditable !== 'true') {
+        mainWindow.history.back();
+      } else if (readonly) {
+        mainWindow.history.back();
       }
-    });
+    }
+  };
+  mainWindow.document.removeEventListener('keydown', handleBar);
+  mainWindow.document.addEventListener('keydown', handleBar, false);
+  // 由于electron iframe 下面，不支持 confirm 和 alert ,这里就把外层的confirm 和 alert 方法赋值给iframe里面
+  mainWindow.confirm = function (message) {
+    return window.confirm(message, '日事清');
+  };
+  mainWindow.alert = function (message) {
+    return window.alert(message, '日事清');
+  };
 
-    if (mainWindow.I_AM_RSQ_WEB) {
-      rishiqingWeb(mainWindow);
-    }
-  });
+  if (mainWindow.I_AM_RSQ_WEB) {
+    rishiqingWeb(mainWindow);
+  }
 });
 
 if (platform === 'win32') {
