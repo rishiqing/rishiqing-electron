@@ -6,6 +6,7 @@ var alertTip            = require('./alertTip')();
 var package             = require('../package.json');
 var config              = require('./config');
 var wxAuthPatch         = require('./wxAuthPatch');
+var qywxAuthPatch       = require('./qywxAuthPatch');
 var checkThirdLoginPage = require('./checkThirdLoginPage');
 var rishiqingWeb        = require('./rishiqingWeb');
 var $mainIframe         = document.querySelector('#main-iframe');
@@ -131,6 +132,10 @@ $mainIframe.addEventListener('load', function () {
       var query = querystring.parse(mainWindow.location.search.split('?')[1]);
       var state = query.state;
       wxAuthPatch(mainWindow, { redirect: SERVER_URL + '/task/weixinOauth/afterLogin', state: state });
+    }
+    if (host === config.qywxOauthUrl) {
+      var query = querystring.parse(mainWindow.location.search.split('?')[1]);
+      qywxAuthPatch(mainWindow)
     }
     isInThirdLoginPage = true;
     var keyTip = process.platform === 'win32' ? 'Backspace' : 'delete';
