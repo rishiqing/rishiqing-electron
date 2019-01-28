@@ -2,14 +2,27 @@ const $                 = require('jquery');
 const electron          = require('electron');
 const CommonView        = require('./utils/view');
 const Url               = require('url');
-const welcomePageTemplate = require('./hbs/welcomePage.hbs');
-const preference = electron.remote.require('./preference');
 const util = electron.remote.require('./native/util');
 
 const mainBroswerWindow   = electron.remote.BrowserWindow.fromId(1);
 const db = mainBroswerWindow.mainDb;
-const dialog = electron.remote.dialog;
-const currentWindow = electron.remote.getCurrentWindow();
+
+const WelcomeHtml = `
+<div class="content">
+  <img class="bg-image" src="./img/welcome-bg.png">
+  <div class="word-info">
+    <p class="big">随时随地，条理清晰</p>
+    <p class="big">即刻开始享受工作</p>
+    <p class="small">你理想的工作方式 —日事清</p>
+  </div>
+  <div class="footer">
+    <div class="operate">
+      <button class="btn login-btn">登录</button>
+      <button class="btn sign-btn">注册</button>
+    </div>
+  </div>
+</div>
+`
 
 const DefaultConfig = {
   onOpenUrl: function() {},
@@ -37,7 +50,7 @@ class View extends CommonView {
   }
 
   render () {
-    this.html(welcomePageTemplate());
+    this.html(WelcomeHtml);
   }
 
   async getUrl () {

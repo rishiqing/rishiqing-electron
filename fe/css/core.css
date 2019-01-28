@@ -493,42 +493,6 @@ body.win .welcome-page:before {
   margin-left: 40px;
 }
 
-/* line 2, ../scss/_modal.scss */
-.modal-backdrop {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 1041;
-  background-color: rgba(0, 0, 0, 0.4);
-}
-/* line 10, ../scss/_modal.scss */
-.modal-backdrop .modal-content {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  overflow: auto;
-}
-/* line 14, ../scss/_modal.scss */
-.modal-backdrop .modal-content.align-center {
-  text-align: center;
-}
-/* line 18, ../scss/_modal.scss */
-.modal-backdrop .modal-content.align-middle > * {
-  position: absolute;
-  top: 45%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-/* line 25, ../scss/_modal.scss */
-.modal-backdrop .modal-content > * {
-  border-radius: 2px;
-  background: #FFFFFF;
-}
-
 /* line 1, ../scss/utils/buttons.scss */
 .btn {
   background: none;
@@ -552,132 +516,7 @@ body.win .welcome-page:before {
   background-image: none;
 }
 
-/* line 2, ../scss/utils/input.scss */
-.input-set > label {
-  font-size: 13px;
-  color: #666;
-  line-height: 17px;
-}
-/* line 7, ../scss/utils/input.scss */
-.input-set .input-wrap {
-  margin-top: 15px;
-}
-
-/* line 11, ../scss/utils/input.scss */
-.input-wrap {
-  border: 1px solid #EAEAEA;
-  border-radius: 2px;
-  padding: 12px;
-  font-size: 0px;
-  display: flex;
-  align-items: center;
-}
-/* line 18, ../scss/utils/input.scss */
-.input-wrap input {
-  flex: 1;
-  margin-left: 5px;
-  outline: none;
-  font-size: 13px;
-  border: none;
-}
-
-/* line 26, ../scss/utils/input.scss */
-.radio-wrap {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  position: relative;
-  font-size: 0px;
-}
-/* line 32, ../scss/utils/input.scss */
-.radio-wrap [type="radio"] {
-  opacity: 0;
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: 1;
-}
-/* line 42, ../scss/utils/input.scss */
-.radio-wrap .track {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  left: 0;
-  top: 0;
-  border: 1px solid #b0b0b0;
-  border-radius: 50%;
-}
-/* line 51, ../scss/utils/input.scss */
-.radio-wrap [type="radio"]:checked + .track {
-  border-color: #1ba4ff;
-}
-/* line 53, ../scss/utils/input.scss */
-.radio-wrap [type="radio"]:checked + .track:before {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  height: 10px;
-  width: 10px;
-  background-color: #1ba4ff;
-  border-radius: 50%;
-  content: " ";
-}
-
-/* line 1, ../scss/utils/server-setting.scss */
-.server-setting {
-  width: 380px;
-  height: 500px;
-}
-/* line 4, ../scss/utils/server-setting.scss */
-.server-setting header {
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: #3D3D3D;
-  border-bottom: 1px solid #EAEAEA;
-}
-/* line 12, ../scss/utils/server-setting.scss */
-.server-setting header .close {
-  color: #b1b1b1;
-  position: absolute;
-  right: 0;
-  width: 50px;
-  cursor: pointer;
-}
-/* line 20, ../scss/utils/server-setting.scss */
-.server-setting .logo {
-  text-align: center;
-  padding: 45px 0;
-}
-/* line 23, ../scss/utils/server-setting.scss */
-.server-setting .logo img {
-  width: 102.2px;
-  height: 87px;
-}
-/* line 28, ../scss/utils/server-setting.scss */
-.server-setting form {
-  padding: 0 24px;
-}
-/* line 30, ../scss/utils/server-setting.scss */
-.server-setting form .input-set + .input-set {
-  margin-top: 20px;
-}
-/* line 33, ../scss/utils/server-setting.scss */
-.server-setting form button {
-  background-color: #6BC859;
-  height: 40px;
-  width: 100%;
-  font-size: 12px;
-  color: rgba(255, 255, 255, 0.86);
-  margin-top: 36px;
-}
-
-/* line 8, ../scss/core.scss */
+/* line 7, ../scss/core.scss */
 #main-iframe {
   position: absolute;
   left: 0;
@@ -689,13 +528,13 @@ body.win .welcome-page:before {
   height: 100%;
 }
 
-/* line 16, ../scss/core.scss */
+/* line 15, ../scss/core.scss */
 body.win #main-iframe {
   top: 32px;
   height: calc(100% - 32px);
 }
 
-/* line 21, ../scss/core.scss */
+/* line 20, ../scss/core.scss */
 #loading {
   position: absolute;
   left: 0;
@@ -705,15 +544,15 @@ body.win #main-iframe {
   -webkit-user-select: none;
   background-image: linear-gradient(-179deg, #E4EDF5 0%, #D8ECFF 99%);
 }
-/* line 29, ../scss/core.scss */
+/* line 28, ../scss/core.scss */
 #loading.pure-color {
   background: linear-gradient(0deg, #D8ECFF, #E4EDF5);
 }
-/* line 31, ../scss/core.scss */
+/* line 30, ../scss/core.scss */
 #loading.pure-color .bg-header {
   display: none;
 }
-/* line 35, ../scss/core.scss */
+/* line 34, ../scss/core.scss */
 #loading .bg-header {
   position: absolute;
   top: 0;
@@ -722,14 +561,14 @@ body.win #main-iframe {
   bottom: 62%;
   background-image: linear-gradient(-180deg, #1588FF 0, #06C4FF 100%);
 }
-/* line 42, ../scss/core.scss */
+/* line 41, ../scss/core.scss */
 #loading .bg-header > img {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 35%;
 }
-/* line 48, ../scss/core.scss */
+/* line 47, ../scss/core.scss */
 #loading .bg-header .logo {
   width: 88px;
   height: 88px;
@@ -740,7 +579,7 @@ body.win #main-iframe {
   background-size: cover;
   transform: translate(-50%, -50%);
 }
-/* line 61, ../scss/core.scss */
+/* line 60, ../scss/core.scss */
 #loading .loading-splash {
   position: absolute;
   top: 50%;
@@ -755,13 +594,13 @@ body.win #main-iframe {
   line-height: 64px;
   text-align: center;
 }
-/* line 74, ../scss/core.scss */
+/* line 73, ../scss/core.scss */
 #loading .loading-splash .tip {
   vertical-align: middle;
   width: 30px;
   height: 30px;
 }
-/* line 80, ../scss/core.scss */
+/* line 79, ../scss/core.scss */
 #loading .network-error {
   position: absolute;
   top: 50%;
@@ -777,20 +616,20 @@ body.win #main-iframe {
   padding-left: 45px;
   cursor: pointer;
 }
-/* line 94, ../scss/core.scss */
+/* line 93, ../scss/core.scss */
 #loading .network-error .tip {
   font-family: NotoSansCJKsc-Medium;
   font-size: 18px;
   color: rgba(227, 89, 89, 0.9);
 }
-/* line 99, ../scss/core.scss */
+/* line 98, ../scss/core.scss */
 #loading .network-error .reload {
   vertical-align: middle;
   margin-top: -6px;
   margin-left: 18px;
 }
 
-/* line 107, ../scss/core.scss */
+/* line 106, ../scss/core.scss */
 #alert {
   position: absolute;
   left: 0;
@@ -799,7 +638,7 @@ body.win #main-iframe {
   height: 0px;
   text-align: center;
 }
-/* line 112, ../scss/core.scss */
+/* line 111, ../scss/core.scss */
 #alert .content {
   display: inline-block;
   background: #fff;
@@ -810,11 +649,11 @@ body.win #main-iframe {
   box-shadow: 0px 0px 3px 0px #ddd;
 }
 
-/* line 122, ../scss/core.scss */
+/* line 121, ../scss/core.scss */
 .drag-bar-mac {
   display: none;
 }
-/* line 128, ../scss/core.scss */
+/* line 127, ../scss/core.scss */
 .drag-bar-mac .drag-bar {
   position: absolute;
   left: 80px;
@@ -822,7 +661,7 @@ body.win #main-iframe {
   height: 56px;
   width: calc(50% - 285px);
 }
-/* line 136, ../scss/core.scss */
+/* line 135, ../scss/core.scss */
 .drag-bar-mac .drag-bar-2 {
   position: absolute;
   left: 0;
@@ -830,7 +669,7 @@ body.win #main-iframe {
   right: 0;
   height: 10px;
 }
-/* line 144, ../scss/core.scss */
+/* line 143, ../scss/core.scss */
 .drag-bar-mac .drag-bar-3 {
   position: absolute;
   left: 0;
@@ -839,7 +678,7 @@ body.win #main-iframe {
   height: 10px;
 }
 
-/* line 152, ../scss/core.scss */
+/* line 151, ../scss/core.scss */
 .traffic-lights.mac {
   position: absolute;
   left: 0;
@@ -853,33 +692,33 @@ body.win #main-iframe {
   padding: 0 12px;
   user-select: none;
 }
-/* line 163, ../scss/core.scss */
+/* line 162, ../scss/core.scss */
 .traffic-lights.mac > span {
   display: inline-block;
   height: 12px;
   width: 12px;
   border-radius: 50%;
 }
-/* line 168, ../scss/core.scss */
+/* line 167, ../scss/core.scss */
 .traffic-lights.mac > span img {
   height: 12px;
   width: 12px;
   vertical-align: top;
 }
-/* line 173, ../scss/core.scss */
+/* line 172, ../scss/core.scss */
 .traffic-lights.mac > span img.hover {
   display: none;
 }
-/* line 178, ../scss/core.scss */
+/* line 177, ../scss/core.scss */
 .traffic-lights.mac:hover img.normal {
   display: none;
 }
-/* line 181, ../scss/core.scss */
+/* line 180, ../scss/core.scss */
 .traffic-lights.mac:hover img.hover {
   display: inline-block;
 }
 
-/* line 187, ../scss/core.scss */
+/* line 186, ../scss/core.scss */
 .drag-bar-win {
   display: none;
   position: absolute;
@@ -890,7 +729,7 @@ body.win #main-iframe {
   background: #5A98D4;
   z-index: 2;
 }
-/* line 194, ../scss/core.scss */
+/* line 193, ../scss/core.scss */
 .drag-bar-win .traffic-lights {
   position: absolute;
   right: 0;
@@ -904,35 +743,35 @@ body.win #main-iframe {
   padding: 0 12px;
   user-select: none;
 }
-/* line 206, ../scss/core.scss */
+/* line 205, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span {
   display: inline-block;
   height: 12px;
   width: 12px;
 }
-/* line 210, ../scss/core.scss */
+/* line 209, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span img {
   vertical-align: top;
 }
 
-/* line 218, ../scss/core.scss */
+/* line 217, ../scss/core.scss */
 body.mac .drag-bar-mac {
   display: block;
 }
 
-/* line 222, ../scss/core.scss */
+/* line 221, ../scss/core.scss */
 body.win {
   background: #5A98D4;
 }
-/* line 224, ../scss/core.scss */
+/* line 223, ../scss/core.scss */
 body.win .drag-bar-win {
   display: block;
 }
-/* line 227, ../scss/core.scss */
+/* line 226, ../scss/core.scss */
 body.win .traffic-lights.mac {
   display: none;
 }
-/* line 230, ../scss/core.scss */
+/* line 229, ../scss/core.scss */
 body.win #loading, body.win #alert {
   top: 32px;
 }
