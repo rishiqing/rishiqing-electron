@@ -69,6 +69,7 @@ class Main {
     await this._createWindow();
     download.initWindow();
     preference.initWindow();
+    const m = new Menu(this.mainWindow);
   }
 
   async _createWindow () {
