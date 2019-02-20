@@ -31,23 +31,25 @@
     "rdp-ia32-release": "rishiqing-deploy --env=ia32-release",
     "rdp-x64-beta": "rishiqing-deploy --env=x64-beta",
     "rdp-x64-check": "rishiqing-deploy --env=x64-check",
-    "rdp-x64-release": "rishiqing-deploy --env=x64-release"
+    "rdp-x64-release": "rishiqing-deploy --env=x64-release",
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
   },
   "dependencies": {
     "@sentry/electron": "0.13.0",
     "electron-updater": "4.0.4",
     "handlebars": "4.0.11",
     "is-gzip": "2.0.0",
-    "jquery": "2.2.0",
     "lodash": "4.17.4",
     "md5-file": "3.2.3",
-    "module-alias": "2.0.3",
     "nedb": "1.8.0",
     "portfinder": "1.0.19",
     "proxy-chain": "0.2.5",
     "request": "2.72.0",
-    "vue": "2.5.9",
-    "winreg": "1.2.2"
+    "winreg": "1.2.2",
+    "vue": "^2.5.22",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "aliyun-sdk": "^1.11.2",
@@ -64,6 +66,13 @@
     "grunt-zip": "^0.17.1",
     "rimraf": "^2.6.2",
     "rishiqing-deploy": "^1.0.3",
-    "yargs": "^4.1.0"
+    "yargs": "^4.1.0",
+    "@vue/cli-plugin-babel": "^3.0.0",
+    "@vue/cli-plugin-eslint": "^3.0.0",
+    "@vue/cli-service": "^3.0.0",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.8.0",
+    "eslint-plugin-vue": "^5.0.0",
+    "vue-template-compiler": "^2.5.21"
   }
 }

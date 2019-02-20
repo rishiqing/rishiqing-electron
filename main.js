@@ -94,7 +94,7 @@ class Main {
     const webContents = this.mainWindow.webContents;
     const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + pkg.version;
     webContents.setUserAgent(userAgent);
-    this.mainWindow.loadURL(`file://${__dirname}/fe/index.html`);
+    pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
     // 打开调试窗口
     if (pkg.env === 'dev' || pkg.env === 'debug') {
       webContents.openDevTools();

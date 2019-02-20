@@ -55,7 +55,7 @@ class Download extends Page {
     };
   }
   get loadURL () {
-    return `file://${path.join(__dirname, '/fe/download/index.html')}`;
+    return packageJson.env === 'dev' ? 'http://localhost:8080/download' : `file://${path.join(__dirname, '/dist/download/index.html')}`;
   }
   constructor () {
     super();

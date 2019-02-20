@@ -1,6 +1,6 @@
 const Page = require('./page');
 const path = require('path');
-
+const packageJson = require('./package.json')
 class Preference extends Page {
   get config () {
     return {
@@ -10,7 +10,7 @@ class Preference extends Page {
     };
   }
   get loadURL () {
-    return `file://${path.join(__dirname, '/fe/preference/index.html')}`;
+    return packageJson.env === 'dev' ? 'http://localhost:8080/preference' : `file://${path.join(__dirname, '/dist/preference/index.html')}`;
   }
 
   // _canOpenDevTools() {
