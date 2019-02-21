@@ -369,16 +369,14 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 @font-face {
   font-family: 'icomoon';
   src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAATAAAsAAAAABHQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgDxIFP2NtYXAAAAFoAAAAVAAAAFQXQdKxZ2FzcAAAAbwAAAAIAAAACAAAABBnbHlmAAABxAAAALgAAAC4ZePE5GhlYWQAAAJ8AAAANgAAADYPQOfYaGhlYQAAArQAAAAkAAAAJAdVA8ZobXR4AAAC2AAAABQAAAAUCgAAbWxvY2EAAALsAAAADAAAAAwAKABwbWF4cAAAAvgAAAAgAAAAIAAHACNuYW1lAAADGAAAAYYAAAGGmUoJ+3Bvc3QAAASgAAAAIAAAACAAAwAAAAMDAAGQAAUAAAKZAswAAACPApkCzAAAAesAMwEJAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA6RUDwP/AAEADwABAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAwAAAAMAAAAcAAEAAwAAABwAAwABAAAAHAAEADgAAAAKAAgAAgACAAEAIOkV//3//wAAAAAAIOkV//3//wAB/+MW7wADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQBtAC0DkwNTACAAAAkBJiIHBhQXCQEGFBcWMjcJARYyNzY0JwkBNjQnJiIHAQIA/pMIFggICAFs/pQICAgWCAFtAW0IFggICP6UAWwICAgWCP6TAecBbAgICBYI/pP+kwgWCAgIAWz+lAgICBYIAW0BbQgWCAgI/pQAAAEAAAABAACxovatXw889QALBAAAAAAA1kfRxAAAAADWR9HEAAAAAAOTA1MAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAA5MAAQAAAAAAAAAAAAAAAAAAAAUEAAAAAAAAAAAAAAACAAAABAAAbQAAAAAACgAUAB4AXAABAAAABQAhAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEABwAAAAEAAAAAAAIABwBgAAEAAAAAAAMABwA2AAEAAAAAAAQABwB1AAEAAAAAAAUACwAVAAEAAAAAAAYABwBLAAEAAAAAAAoAGgCKAAMAAQQJAAEADgAHAAMAAQQJAAIADgBnAAMAAQQJAAMADgA9AAMAAQQJAAQADgB8AAMAAQQJAAUAFgAgAAMAAQQJAAYADgBSAAMAAQQJAAoANACkaWNvbW9vbgBpAGMAbwBtAG8AbwBuVmVyc2lvbiAxLjAAVgBlAHIAcwBpAG8AbgAgADEALgAwaWNvbW9vbgBpAGMAbwBtAG8AbwBuaWNvbW9vbgBpAGMAbwBtAG8AbwBuUmVndWxhcgBSAGUAZwB1AGwAYQByaWNvbW9vbgBpAGMAbwBtAG8AbwBuRm9udCBnZW5lcmF0ZWQgYnkgSWNvTW9vbi4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==) format("woff");
   font-weight: normal;
   font-style: normal;
 }
-/* line 9, ../scss/_icon.scss */
 [class^="icon-"], [class*=" icon-"] {
-  /* use !important to prevent issues with browser extensions that change fonts */
   font-family: 'icomoon' !important;
   speak: none;
   font-style: normal;
@@ -387,38 +385,31 @@ export default {
   text-transform: none;
   line-height: 1;
   padding: 0 1px;
-  /* Better Font Rendering =========== */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* line 26, ../scss/_icon.scss */
 .icon-cancel:before {
   content: "\e915";
 }
 
-/* line 1, ../scss/_base.scss */
 *, *::before, *::after {
   box-sizing: border-box;
 }
 
-/* line 4, ../scss/_base.scss */
 body {
   margin: 0;
 }
 
-/* line 7, ../scss/_base.scss */
 html, body {
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Noto Sans", "Noto Sans CJK SC", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", SimSun, sans-serif;
 }
 
-/* line 10, ../scss/_base.scss */
 ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
-/* line 1, ../scss/_animation.scss */
 .animated {
   -webkit-animation-duration: 1s;
   animation-duration: 1s;
@@ -426,13 +417,11 @@ ul {
   animation-fill-mode: both;
 }
 
-/* line 8, ../scss/_animation.scss */
 .animated.infinite {
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
 }
 
-/* line 13, ../scss/_animation.scss */
 .animated.hinge {
   -webkit-animation-duration: 2s;
   animation-duration: 2s;
@@ -502,7 +491,6 @@ ul {
     -o-transform: rotate(360deg);
   }
 }
-/* line 49, ../scss/_animation.scss */
 .rotate {
   -webkit-transform-origin: center center;
   -ms-transform-origin: center center;
@@ -544,7 +532,6 @@ ul {
     opacity: 0;
   }
 }
-/* line 68, ../scss/_animation.scss */
 .fadeOut {
   -webkit-animation-name: fadeOut;
   animation-name: fadeOut;
@@ -582,7 +569,6 @@ ul {
     opacity: 1;
   }
 }
-/* line 83, ../scss/_animation.scss */
 .fadeIn {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
@@ -636,7 +622,6 @@ ul {
     transform: none;
   }
 }
-/* line 102, ../scss/_animation.scss */
 .fadeInDownBig {
   -webkit-animation-name: fadeInDownBig;
   animation-name: fadeInDownBig;
@@ -682,13 +667,11 @@ ul {
     transform: translate3d(0, -2000px, 0);
   }
 }
-/* line 119, ../scss/_animation.scss */
 .fadeOutUpBig {
   -webkit-animation-name: fadeOutUpBig;
   animation-name: fadeOutUpBig;
 }
 
-/* line 3, ../scss/_welcome-page.scss */
 body.win .welcome-page:before {
   content: "";
   display: block;
@@ -700,7 +683,6 @@ body.win .welcome-page:before {
   background: #5A98D4;
 }
 
-/* line 1, ../scss/utils/buttons.scss */
 .btn {
   background: none;
   border: none;
@@ -716,14 +698,12 @@ body.win .welcome-page:before {
   padding: 0;
   letter-spacing: 3.15px;
 }
-/* line 15, ../scss/utils/buttons.scss */
 .btn.disabled, .btn:disabled {
   cursor: not-allowed;
   background-color: #E0E0E0 !important;
   background-image: none;
 }
 
-/* line 7, ../scss/core.scss */
 #main-iframe {
   position: absolute;
   left: 0;
@@ -735,13 +715,11 @@ body.win .welcome-page:before {
   height: 100%;
 }
 
-/* line 15, ../scss/core.scss */
 body.win #main-iframe {
-  top: 32px;
-  height: calc(100% - 32px);
+  top: 30px;
+  height: calc(100% - 30px);
 }
 
-/* line 20, ../scss/core.scss */
 #loading {
   position: absolute;
   left: 0;
@@ -751,15 +729,13 @@ body.win #main-iframe {
   -webkit-user-select: none;
   background-image: linear-gradient(-179deg, #E4EDF5 0%, #D8ECFF 99%);
 }
-/* line 28, ../scss/core.scss */
 #loading.pure-color {
   background: linear-gradient(0deg, #D8ECFF, #E4EDF5);
 }
-/* line 30, ../scss/core.scss */
+
 #loading.pure-color .bg-header {
   display: none;
 }
-/* line 34, ../scss/core.scss */
 #loading .bg-header {
   position: absolute;
   top: 0;
@@ -768,25 +744,23 @@ body.win #main-iframe {
   bottom: 62%;
   background-image: linear-gradient(-180deg, #1588FF 0, #06C4FF 100%);
 }
-/* line 41, ../scss/core.scss */
+
 #loading .bg-header > img {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 35%;
 }
-/* line 47, ../scss/core.scss */
+
 #loading .bg-header .logo {
   width: 88px;
   height: 88px;
   position: absolute;
   top: 35%;
   left: 50%;
-  /*background: url(../img/logo.png) no-repeat center center;*/
   background-size: cover;
   transform: translate(-50%, -50%);
 }
-/* line 60, ../scss/core.scss */
 #loading .loading-splash {
   position: absolute;
   top: 50%;
@@ -801,13 +775,11 @@ body.win #main-iframe {
   line-height: 64px;
   text-align: center;
 }
-/* line 73, ../scss/core.scss */
 #loading .loading-splash .tip {
   vertical-align: middle;
   width: 30px;
   height: 30px;
 }
-/* line 79, ../scss/core.scss */
 #loading .network-error {
   position: absolute;
   top: 50%;
@@ -823,23 +795,19 @@ body.win #main-iframe {
   padding-left: 45px;
   cursor: pointer;
 }
-/* line 93, ../scss/core.scss */
 #loading .network-error .tip {
   font-family: NotoSansCJKsc-Medium;
   font-size: 18px;
   color: rgba(227, 89, 89, 0.9);
 }
-/* line 98, ../scss/core.scss */
 #loading .network-error .reload {
   vertical-align: middle;
   margin-top: -6px;
   margin-left: 18px;
 }
-/* line 121, ../scss/core.scss */
 .drag-bar-mac {
   display: none;
 }
-/* line 127, ../scss/core.scss */
 .drag-bar-mac .drag-bar {
   position: absolute;
   left: 80px;
@@ -847,7 +815,6 @@ body.win #main-iframe {
   height: 56px;
   width: calc(50% - 285px);
 }
-/* line 135, ../scss/core.scss */
 .drag-bar-mac .drag-bar-2 {
   position: absolute;
   left: 0;
@@ -855,7 +822,6 @@ body.win #main-iframe {
   right: 0;
   height: 10px;
 }
-/* line 143, ../scss/core.scss */
 .drag-bar-mac .drag-bar-3 {
   position: absolute;
   left: 0;
@@ -864,7 +830,6 @@ body.win #main-iframe {
   height: 10px;
 }
 
-/* line 151, ../scss/core.scss */
 .traffic-lights.mac {
   position: absolute;
   left: 0;
@@ -878,82 +843,71 @@ body.win #main-iframe {
   padding: 0 12px;
   user-select: none;
 }
-/* line 162, ../scss/core.scss */
 .traffic-lights.mac > span {
   display: inline-block;
   height: 12px;
   width: 12px;
   border-radius: 50%;
 }
-/* line 167, ../scss/core.scss */
 .traffic-lights.mac > span img {
   height: 12px;
   width: 12px;
   vertical-align: top;
 }
-/* line 172, ../scss/core.scss */
 .traffic-lights.mac > span img.hover {
   display: none;
 }
-/* line 177, ../scss/core.scss */
 .traffic-lights.mac:hover img.normal {
   display: none;
 }
-/* line 180, ../scss/core.scss */
 .traffic-lights.mac:hover img.hover {
   display: inline-block;
 }
 
-/* line 186, ../scss/core.scss */
 .drag-bar-win {
   display: none;
   position: absolute;
   left: 0;
-  top: 4px;
+  top: 0;
   right: 0;
-  height: 28px;
-  background: #5A98D4;
+  height: 30px;
+  background:linear-gradient(180deg,rgba(88,157,228,1) 0%,rgba(77,140,202,1) 100%);
   z-index: 2;
 }
-/* line 193, ../scss/core.scss */
 .drag-bar-win .traffic-lights {
   position: absolute;
   right: 0;
-  top: -4px;
-  height: 32px;
+  top: 0;
+  height: 30px;
   display: flex;
   z-index: 1;
   justify-content: space-between;
-  width: 130px;
+  width: 140px;
   align-items: center;
-  padding: 0 12px;
+  padding: 0 18px;
   user-select: none;
 }
-/* line 205, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span {
   display: inline-block;
   height: 12px;
   width: 12px;
 }
-/* line 209, ../scss/core.scss */
 .drag-bar-win .traffic-lights > span img {
   vertical-align: top;
 }
-
-/* line 217, ../scss/core.scss */
+.drag-bar-win .traffic-lights > span.minimize img {
+  vertical-align: bottom;
+}
 body.mac .drag-bar-mac {
   display: block;
 }
 
-/* line 221, ../scss/core.scss */
 body.win {
   background: #5A98D4;
 }
-/* line 223, ../scss/core.scss */
 body.win .drag-bar-win {
   display: block;
 }
-/* line 226, ../scss/core.scss */
 body.win .traffic-lights.mac {
   display: none;
 }
