@@ -1,49 +1,46 @@
 <template>
   <div id="index">
-    <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
-        <span class="close" @click="close">
-          <img src="../../assets/img/mac-traffic-light-close.svg" class="normal">
-          <img src="../../assets/img/mac-traffic-light-close-hover.svg" class="hover">
-        </span>
-        <span class="minimize" @click="minimize">
-          <img src="../../assets/img/mac-traffic-light-minimize.svg" class="normal">
-          <img src="../../assets/img/mac-traffic-light-minimize-hover.svg" class="hover">
-        </span>
-        <span class="zoom" @click="zoom">
-          <img src="../../assets/img/mac-traffic-light-zoom.svg" class="normal">
-          <img src="../../assets/img/mac-traffic-light-zoom-hover.svg" class="hover">
-        </span>
-      </div>
-      <div class="drag-bar-mac">
-        <div class="drag-bar" style="-webkit-app-region: drag;"></div>
-        <div class="drag-bar-2" style="-webkit-app-region: drag;"></div>
-        <div class="drag-bar-3" style="-webkit-app-region: drag;"></div>
-      </div>
-      <div class="drag-bar-win" style="-webkit-app-region: drag;">
-        <div class="traffic-lights" style="-webkit-app-region: no-drag">
+    <div class="drag-bar-mac" style="-webkit-app-region: drag;">
+      <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
+          <span class="close" @click="close">
+            <img src="../../assets/img/mac-traffic-light-close.svg" class="normal">
+            <img src="../../assets/img/mac-traffic-light-close-hover.svg" class="hover">
+          </span>
           <span class="minimize" @click="minimize">
-            <img src="../../assets/img/win-minimize.svg">
+            <img src="../../assets/img/mac-traffic-light-minimize.svg" class="normal">
+            <img src="../../assets/img/mac-traffic-light-minimize-hover.svg" class="hover">
           </span>
           <span class="zoom" @click="zoom">
-            <img src="../../assets/img/win-zoom.svg">
+            <img src="../../assets/img/mac-traffic-light-zoom.svg" class="normal">
+            <img src="../../assets/img/mac-traffic-light-zoom-hover.svg" class="hover">
           </span>
-          <span class="close" @click="close">
-            <img src="../../assets/img/win-close.svg">
-          </span>
-        </div>
       </div>
-      <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe>
-      <div id="loading" ref="loading" v-show="loadingDisplay">
-        <div class="loading-splash" ref="loadingSplash" v-show="loadingSplashDisplay">
-          <img class="tip animated rotate infinite" src="../../assets/img/arrow-2.png">
-        </div>
-        <div class="network-error" title="点击重试" ref="networkError" v-show="networkErrorDisplay" @click="networkErrorClick">
-          <span class="tip">无法连接服务器，请检查网络后再试</span>
-          <img class="reload" src="../../assets/img/arrow-1.png" alt="点击重试">
-        </div>
+    </div>
+    <div class="drag-bar-win" style="-webkit-app-region: drag;">
+      <div class="traffic-lights" style="-webkit-app-region: no-drag">
+        <span class="minimize" @click="minimize">
+          <img src="../../assets/img/win-minimize.svg">
+        </span>
+        <span class="zoom" @click="zoom">
+          <img src="../../assets/img/win-zoom.svg">
+        </span>
+        <span class="close" @click="close">
+          <img src="../../assets/img/win-close.svg">
+        </span>
       </div>
-      <audio :src='ogg' id="notification-sound"></audio>
-      <welcome v-show="welcomeDisplay" @display="welcomeDisplayControl" @setUrl="setUrl"/>
+    </div>
+    <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe>
+    <div id="loading" ref="loading" v-show="loadingDisplay">
+      <div class="loading-splash" ref="loadingSplash" v-show="loadingSplashDisplay">
+        <img class="tip animated rotate infinite" src="../../assets/img/arrow-2.png">
+      </div>
+      <div class="network-error" title="点击重试" ref="networkError" v-show="networkErrorDisplay" @click="networkErrorClick">
+        <span class="tip">无法连接服务器，请检查网络后再试</span>
+        <img class="reload" src="../../assets/img/arrow-1.png" alt="点击重试">
+      </div>
+    </div>
+    <audio :src='ogg' id="notification-sound"></audio>
+    <welcome v-show="welcomeDisplay" @display="welcomeDisplayControl" @setUrl="setUrl"/>
   </div>
 </template>
 
@@ -707,19 +704,13 @@ body.win .welcome-page:before {
 #main-iframe {
   position: absolute;
   left: 0;
-  top: 0px;
   right: 0;
   bottom: 0;
   border: none;
   width: 100%;
-  height: 100%;
-}
-
-body.win #main-iframe {
   top: 30px;
   height: calc(100% - 30px);
 }
-
 #loading {
   position: absolute;
   left: 0;
@@ -834,7 +825,7 @@ body.win #main-iframe {
   position: absolute;
   left: 0;
   top: 0;
-  height: 56px;
+  height: 30px;
   display: flex;
   z-index: 2;
   justify-content: space-between;
@@ -900,6 +891,13 @@ body.win #main-iframe {
 }
 body.mac .drag-bar-mac {
   display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  right: 0;
+  height: 30px;
+  background:linear-gradient(180deg,rgba(88,157,228,1) 0%,rgba(77,140,202,1) 100%);
+  z-index: 2;
 }
 
 body.win {
