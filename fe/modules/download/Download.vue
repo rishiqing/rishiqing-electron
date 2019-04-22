@@ -2,8 +2,8 @@
   <div id="download">
     <div class="list">
       <ul>
-        <download-item v-for="(file, index) in downloadingList" :key="index" :file="file" :downloaded="false" :file-type-image-url="getFileTypeImageUrl(file)" :cancel="cancel"/>
-        <download-item v-for="(file, index) in downloadedList" :key="index" :file="file" :downloaded="true" :file-type-image-url="getFileTypeImageUrl(file)" :open-item="openItem" :open-in-folder="openInFolder" :clear="clear"/>
+        <download-item v-for="file in downloadingList" :key="file.itemId" :file="file" :downloaded="false" :file-type-image-url="getFileTypeImageUrl(file)" :cancel="cancel"/>
+        <download-item v-for="file in downloadedList" :key="file.itemId" :file="file" :downloaded="true" :file-type-image-url="getFileTypeImageUrl(file)" :open-item="openItem" :open-in-folder="openInFolder" :clear="clear"/>
       </ul>
     </div>
     <div class="footer">
