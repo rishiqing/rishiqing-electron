@@ -1,6 +1,6 @@
 <template>
   <div id="index">
-    <div class="drag-bar-mac" style="-webkit-app-region: drag;">
+    <div class="drag-bar-mac" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
       <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
           <span class="close" @click="close">
             <img src="../../assets/img/mac-traffic-light-close.svg" class="normal">
@@ -16,7 +16,7 @@
           </span>
       </div>
     </div>
-    <div class="drag-bar-win" style="-webkit-app-region: drag;">
+    <div class="drag-bar-win" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
       <div class="traffic-lights" style="-webkit-app-region: no-drag">
         <span class="minimize" @click="minimize">
           <img src="../../assets/img/win-minimize.svg">
@@ -360,6 +360,14 @@ export default {
         } else {
           mainBroswerWindow.setFullScreen(true)
         }
+      }
+    },
+    full(e){
+      e.preventDefault()
+      if (mainBroswerWindow.isMaximized()) {
+          mainBroswerWindow.unmaximize()
+        } else {
+          mainBroswerWindow.maximize()
       }
     }
   }
@@ -890,6 +898,7 @@ body.win .welcome-page:before {
   vertical-align: bottom;
 }
 body.mac .drag-bar-mac {
+  user-select:none;
   display: block;
   position: absolute;
   left: 0;
@@ -904,6 +913,7 @@ body.win {
   background: #5A98D4;
 }
 body.win .drag-bar-win {
+  user-select:none;
   display: block;
 }
 body.win .traffic-lights.mac {
