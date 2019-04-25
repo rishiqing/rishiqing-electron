@@ -75,8 +75,8 @@ class Main {
   async _createWindow () {
     let sizeDb = await mainDb.getWindowSize();
     this.mainWindow = new BrowserWindow({
-      minWidth:800,
-      minHeight:600,
+      minWidth:1218,
+      minHeight:630,
       width: sizeDb.width,
       height: sizeDb.height,
       "title":"日事清",
