@@ -75,10 +75,9 @@ fs.exists(tar_path, function(exists) {
        return console.error(err)
     }
     from_dir.forEach(function (dir) {
-  copyFolder(path.join(__dirname,dir) , path.join(tar_path,dir))
+      copyFolder(path.join(__dirname,dir) , path.join(tar_path,dir))
+    })
   })
-  
-})
 })
 
 
