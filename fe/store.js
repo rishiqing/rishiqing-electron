@@ -4,13 +4,13 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-state: {
-	config:{}
-},
-mutations: {
-	SAVR_CON (state,p) {
-		state.config = p
-	}
-},
-actions: {}
+  state: {
+    config:{}
+  },
+  mutations: {
+    SAVR_CON (state,p) {
+      state.config = p
+    }
+  },
+  actions: {}
 })

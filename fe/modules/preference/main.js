@@ -40,8 +40,8 @@ async function render () {
 	const res = await getConfig()
 	await store.commit('SAVR_CON',res)
 	new Vue({
-	store,
+	  store,
     render: h => h(Preference)
-}).$mount('#preference')
+  }).$mount('#preference')
 }
 render()
