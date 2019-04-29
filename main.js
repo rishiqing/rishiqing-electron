@@ -3,7 +3,6 @@ Sentry.init();
 const electron      = require('electron');
 const pkg           = require('./package.json');
 const Menu          = require('./native/menu');
-const Update        = require('./native/update');
 const path          = require('path');
 const download      = require('./download');
 const preference    = require('./preference');
@@ -70,13 +69,14 @@ class Main {
     await this._createWindow();
     download.initWindow();
     preference.initWindow();
-    const u = new Update(this.mainWindow);
     const m = new Menu(this.mainWindow);
   }
 
   async _createWindow () {
     let sizeDb = await mainDb.getWindowSize();
     this.mainWindow = new BrowserWindow({
+      minWidth:1218,
+      minHeight:630,
       width: sizeDb.width,
       height: sizeDb.height,
       "title":"日事清",
@@ -94,7 +94,7 @@ class Main {
     const webContents = this.mainWindow.webContents;
     const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + pkg.version;
     webContents.setUserAgent(userAgent);
-    this.mainWindow.loadURL(`file://${__dirname}/fe/index.html`);
+    pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
     // 打开调试窗口
     if (pkg.env === 'dev' || pkg.env === 'debug') {
       webContents.openDevTools();
