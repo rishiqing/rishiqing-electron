@@ -34,6 +34,7 @@ module.exports = {
             title: '日事清',
         },
     },
+    productionSourceMap:false,
     publicPath: process.env.NODE_ENV === 'development' ? '/' : '../',
     // configureWebpack:{
     //     externals:{
