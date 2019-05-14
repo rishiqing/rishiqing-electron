@@ -32,6 +32,21 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
+
+# local env files
+.env.local
+.env.*.local
+
+# Editor directories and files
+.idea
+.vscode
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw*
+
+
 package
 dir
 pack
@@ -39,3 +54,4 @@ dmg
 .sass-cache
 .DS_Store
 package*
+/dist

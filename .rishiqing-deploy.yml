@@ -1,6 +1,6 @@
 default:
   notify:
-    title: 'rishiqing-electron-deploy' # 推送时候的标题，可自定义，默认是rishiqing-deploy
+    title: '日事清-pc端' # 推送时候的标题，可自定义，默认是rishiqing-deploy
     nodes: # 定义在哪些环节需要通知 , 在发布的时候，node需要有一些默认值
       - 'after-build' # 在所有build执行完之后，通知
       - 'after-convert' # 在所有convert执行之后，通知
