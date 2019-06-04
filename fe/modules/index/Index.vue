@@ -122,14 +122,14 @@ export default {
           click() {
             that.forwardWindow()
           }
-        }, 
+        },
         {
           label: '后退',
           visible: true,
           click () {
             that.backWindow()
           }
-        }, 
+        },
         {
           label: '刷新',
           visible: true,
@@ -273,7 +273,7 @@ export default {
         const release = os.release()
         const first = parseInt(release.split('.')[0], 10)
         if (first !== 10) { // 判断在windows以下都用自己开发的Notification来进行通知
-          mainWindow.Notification = nativeNotify 
+          mainWindow.Notification = nativeNotify
         } else { // 如果是win10
           mainWindow.Notification = notification
         }
@@ -887,9 +887,11 @@ body.win .welcome-page:before {
   user-select: none;
 }
 .drag-bar-win .traffic-lights > span {
-  display: inline-block;
-  height: 12px;
+  display: flex;
+  height: 100%;
   width: 12px;
+  align-items: center;
+  justify-content: center;
 }
 .drag-bar-win .traffic-lights > span img {
   vertical-align: top;
