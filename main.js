@@ -3,6 +3,7 @@ Sentry.init();
 const electron      = require('electron');
 const pkg           = require('./package.json');
 const Menu          = require('./native/menu');
+const Update        = require('./native/update');
 const path          = require('path');
 const download      = require('./download');
 const preference    = require('./preference');
@@ -69,6 +70,7 @@ class Main {
     await this._createWindow();
     download.initWindow();
     preference.initWindow();
+    const u = new Update(this.mainWindow);
     const m = new Menu(this.mainWindow);
   }
 
