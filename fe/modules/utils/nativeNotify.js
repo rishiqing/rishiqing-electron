@@ -25,22 +25,22 @@ NativeNotify.prototype.offEvents = () => {
   ipcRenderer.removeAllListeners(EVENTS.Notification_Close_reply)
 }
 
-NativeNotify.prototype.initEvents = () => {
+NativeNotify.prototype.initEvents = function () {
   ipcRenderer.on(EVENTS.Notification_Show_reply, this.onNotificationShow.bind(this))
   ipcRenderer.on(EVENTS.Notification_Click_reply, this.onNotificationClick.bind(this))
   ipcRenderer.on(EVENTS.Notification_Close_reply, this.onNotificationClose.bind(this))
 }
 
-NativeNotify.prototype.onNotificationShow = () => {
+NativeNotify.prototype.onNotificationShow = function () {
   this.sound()
   if (this.onshow) this.onshow()
 }
 
-NativeNotify.prototype.onNotificationClick = () => {
+NativeNotify.prototype.onNotificationClick = function () {
   if (this.onclick) this.onclick()
 }
 
-NativeNotify.prototype.onNotificationClose = () => {
+NativeNotify.prototype.onNotificationClose = function () {
   if (this.onclose) this.onclose()
 }
 
