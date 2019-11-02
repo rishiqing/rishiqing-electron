@@ -39,7 +39,7 @@
     "@sentry/electron": "0.13.0",
     "electron-updater": "4.0.4",
     "is-gzip": "2.0.0",
-    "lodash": "4.17.4",
+    "lodash": "4.17.15",
     "md5-file": "3.2.3",
     "nedb": "1.8.0",
     "portfinder": "1.0.19",
