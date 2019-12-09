@@ -1,7 +1,7 @@
 <template>
   <div id="index">
     <div class="drag-bar-mac" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
-      <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
+      <div class="traffic-lights mac">
           <span class="close" @click="close">
             <img src="../../assets/img/mac-traffic-light-close.svg" class="normal">
             <img src="../../assets/img/mac-traffic-light-close-hover.svg" class="hover">
@@ -17,7 +17,7 @@
       </div>
     </div>
     <div class="drag-bar-win" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
-      <div class="traffic-lights" style="-webkit-app-region: no-drag">
+      <div class="traffic-lights">
         <span class="minimize" @click="minimize">
           <img src="../../assets/img/win-minimize.svg">
         </span>
@@ -828,7 +828,12 @@ body.win .welcome-page:before {
   right: 0;
   height: 10px;
 }
-
+.traffic-lights {
+  -webkit-app-region: no-drag;
+}
+.traffic-lights * {
+  -webkit-app-region: no-drag;
+}
 .traffic-lights.mac {
   position: absolute;
   left: 0;

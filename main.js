@@ -4,7 +4,6 @@ const electron      = require('electron');
 const pkg           = require('./package.json');
 const Menu          = require('./native/menu');
 const Update        = require('./native/update');
-const path          = require('path');
 const download      = require('./download');
 const preference    = require('./preference');
 const mainDb        = require('./native/mainDb');
@@ -70,8 +69,8 @@ class Main {
     await this._createWindow();
     download.initWindow();
     preference.initWindow();
-    const u = new Update(this.mainWindow);
-    const m = new Menu(this.mainWindow);
+    new Update(this.mainWindow);
+    new Menu(this.mainWindow);
   }
 
   async _createWindow () {
@@ -94,8 +93,8 @@ class Main {
     });
     this.mainWindow.mainDb = mainDb;
     const webContents = this.mainWindow.webContents;
-    const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + pkg.version;
-    webContents.setUserAgent(userAgent);
+    const userAgent = webContents.userAgent + ' rishiqing-pc/' + pkg.version;
+    webContents.userAgent = userAgent;
     pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
     // 打开调试窗口
     if (pkg.env === 'dev' || pkg.env === 'debug') {
@@ -138,7 +137,7 @@ class Main {
         this.mainWindow.hide();
       }
       e.preventDefault();
-    } 
+    }
   }
 
   _onNewWindow (event, url, frameName, disposition, options) {
@@ -150,7 +149,7 @@ class Main {
       options.webPreferences = Object.assign({}, options.webPreferences, {
         plugins: true,
         webSecurity: false,
-        nodeIntegration: false,
+        nodeIntegration: true,
         minimumFontSize: 12
       });
     }
