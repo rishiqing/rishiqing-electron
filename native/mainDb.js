@@ -6,9 +6,9 @@ const { EventEmitter } = require('events');
 const env       = require('../common/env');
 
 const ServerConfigOfficiel = {
-  dev: 'http://beta.rishiqing.com',
+  dev: 'https://beta.rishiqing.com',
   beta: 'https://beta.rishiqing.com',
-  debug: 'http://beta.rishiqing.com',
+  debug: 'https://beta.rishiqing.com',
   release: 'https://www.rishiqing.com'
 };
 
