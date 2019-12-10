@@ -87,7 +87,7 @@ class Main {
         'nodeIntegration': true,
         'minimumFontSize': 12
       },
-      frame: false,
+      frame: true,
       backgroundColor: '#ffffff',
       icon: nativeImage.createFromPath(__dirname + '/res/rishiqing.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
     });
