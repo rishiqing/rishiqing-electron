@@ -108,6 +108,9 @@ class Main {
     this.mainWindow.on('resize', this._onResize.bind(this));
     webContents.on('new-window', this._onNewWindow.bind(this));
     webContents.session.on('will-download', this._onWillDownload.bind(this));
+    mainDb.event.on(mainDb.EVENTS.ContentBack, () => {
+      this._onBack()
+    })
   }
 
   _onWindowAllClosed () {
@@ -116,6 +119,10 @@ class Main {
 
   _onBeforeQuit () {
     app.exit(0);
+  }
+
+  _onBack () {
+    pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
   }
 
   _onResize () {
