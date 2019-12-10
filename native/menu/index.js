@@ -30,6 +30,7 @@ async function buildTemplate(template) {
       }
     }
     if (tmp.submenu && tmp.submenu.length > 0) {
+      // eslint-disable-next-line require-atomic-updates
       tmp.submenu = await buildMenuList(tmp.submenu);
     }
     return tmp;

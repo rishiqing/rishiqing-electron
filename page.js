@@ -1,5 +1,4 @@
 const electron      = require('electron');
-const path          = require('path');
 const packageJson   = require('./package.json');
 const BrowserWindow = electron.BrowserWindow;
 

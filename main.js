@@ -108,7 +108,6 @@ class Main {
     this.mainWindow.on('resize', this._onResize.bind(this));
     webContents.on('new-window', this._onNewWindow.bind(this));
     webContents.session.on('will-download', this._onWillDownload.bind(this));
-    this.mainWindow.on('paint', webContents.invalidate());
   }
 
   _onWindowAllClosed () {
