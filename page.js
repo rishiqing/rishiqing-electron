@@ -19,8 +19,9 @@ class Page {
       maximizable: false,
       minimizable: false,
       autoHideMenuBar: true,
-      'webPreferences': {
-        'nodeIntegration': true,
+      webPreferences: {
+        nodeIntegration: true,
+        webSecurity: false,
       },
       show: false // 初始化的时候不显示
     }, this.config));

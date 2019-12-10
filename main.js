@@ -23,6 +23,11 @@ const {
 // 所以这里把这个禁止给解除了
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
 
+
+//https://github.com/electron/electron/issues/18214
+//与webSecurity: false一起解决同源策略，官方说的仅仅使用webSecurity: false没用
+app.commandLine.appendSwitch('disable-site-isolation-trials')
+
 if (process.platform !== 'darwin') app.setAppUserModelId('release.rishiqing.electron'); // 在这里设置appId，win10才能正常推送通知
 
 process.on('uncaughtException', (err) => {
@@ -80,12 +85,12 @@ class Main {
       minHeight:630,
       width: sizeDb.width,
       height: sizeDb.height,
-      "title":"日事清",
-      'webPreferences': {
-        'plugins': true,
-        'webSecurity': false,
-        'nodeIntegration': true,
-        'minimumFontSize': 12
+      title:"日事清",
+      webPreferences: {
+        plugins: true,
+        webSecurity: false,
+        nodeIntegration: true,
+        minimumFontSize: 12
       },
       frame: true,
       backgroundColor: '#ffffff',
