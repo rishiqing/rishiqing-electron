@@ -36,7 +36,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "@sentry/electron": "1.0.0",
+    "@sentry/electron": "1.1.0",
     "electron-updater": "4.2.0",
     "is-gzip": "2.0.0",
     "lodash": "4.17.15",
@@ -46,7 +46,7 @@
     "proxy-chain": "0.3.2",
     "request": "2.88.0",
     "winreg": "1.2.4",
-    "core-js": "^3.4.8"
+    "core-js": "^3.5.0"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.1.1",
