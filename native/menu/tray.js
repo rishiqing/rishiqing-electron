@@ -29,6 +29,7 @@ class TrayClass {
     }, 0)
   }
   initAppIcon () {
+    // 调试发现，qq截图白屏是new tray执行的原因，只要tray顺利执行，那么qq弹框截屏就白屏
     this.appIcon = new Tray(Icon.getImage());
     this.appIcon.setToolTip('日事清');
     if (env.isMac) {

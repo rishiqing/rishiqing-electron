@@ -1,4 +1,4 @@
-const { globalShortcut, app } = require('electron');
+const { globalShortcut } = require('electron');
 const mainDb = require('./mainDb');
 const util = require('./util');
 const env = require('../common/env');
@@ -19,7 +19,7 @@ const NotRegisterMap = {
     hide: true
   },
   win: {
-    
+
   }
 };
 
