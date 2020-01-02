@@ -72,6 +72,7 @@ class MenuClass {
     const template = await buildTemplate(WinTemplate);
     const m = Menu.buildFromTemplate(template);
     this.tray.setContextMenu(m);
+    Menu.setApplicationMenu(null);
   }
 }
 module.exports = MenuClass;
