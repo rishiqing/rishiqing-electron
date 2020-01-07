@@ -1,5 +1,4 @@
 const electron      = require('electron');
-const path          = require('path');
 const packageJson   = require('./package.json');
 const BrowserWindow = electron.BrowserWindow;
 
@@ -19,6 +18,10 @@ class Page {
       maximizable: false,
       minimizable: false,
       autoHideMenuBar: true,
+      webPreferences: {
+        nodeIntegration: true,
+        webSecurity: false,
+      },
       show: false // 初始化的时候不显示
     }, this.config));
     this.window.on('close', this._onWindowClose.bind(this));

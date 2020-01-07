@@ -4,7 +4,6 @@ const electron      = require('electron');
 const pkg           = require('./package.json');
 const Menu          = require('./native/menu');
 const Update        = require('./native/update');
-const path          = require('path');
 const download      = require('./download');
 const preference    = require('./preference');
 const mainDb        = require('./native/mainDb');
@@ -23,6 +22,10 @@ const {
 // chrome 66 之后，禁止了自动播放音乐，这会影响到通知铃声的播放
 // 所以这里把这个禁止给解除了
 app.commandLine.appendSwitch('autoplay-policy', 'no-user-gesture-required');
+
+//https://github.com/electron/electron/issues/18214
+//与webSecurity: false一起解决同源策略，官方说的仅仅使用webSecurity: false是没用的
+app.commandLine.appendSwitch('disable-site-isolation-trials')
 
 if (process.platform !== 'darwin') app.setAppUserModelId('release.rishiqing.electron'); // 在这里设置appId，win10才能正常推送通知
 
@@ -70,8 +73,8 @@ class Main {
     await this._createWindow();
     download.initWindow();
     preference.initWindow();
-    const u = new Update(this.mainWindow);
-    const m = new Menu(this.mainWindow);
+    new Update(this.mainWindow);
+    new Menu(this.mainWindow);
   }
 
   async _createWindow () {
@@ -81,21 +84,21 @@ class Main {
       minHeight:630,
       width: sizeDb.width,
       height: sizeDb.height,
-      "title":"日事清",
-      'webPreferences': {
-        'plugins': true,
-        'webSecurity': false,
-        'nodeIntegration': true,
-        'minimumFontSize': 12
+      title:"日事清",
+      webPreferences: {
+        plugins: true,
+        webSecurity: false,
+        nodeIntegration: true,
+        minimumFontSize: 12
       },
-      frame: false,
+      frame: true,
       backgroundColor: '#ffffff',
       icon: nativeImage.createFromPath(__dirname + '/res/rishiqing.png') // 必须使用绝对路径，相对路径，在打包之后，icon无法显示
     });
     this.mainWindow.mainDb = mainDb;
     const webContents = this.mainWindow.webContents;
-    const userAgent = webContents.getUserAgent() + ' rishiqing-pc/' + pkg.version;
-    webContents.setUserAgent(userAgent);
+    const userAgent = webContents.userAgent + ' rishiqing-pc/' + pkg.version;
+    webContents.userAgent = userAgent;
     pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
     // 打开调试窗口
     if (pkg.env === 'dev' || pkg.env === 'debug') {
@@ -105,6 +108,9 @@ class Main {
     this.mainWindow.on('resize', this._onResize.bind(this));
     webContents.on('new-window', this._onNewWindow.bind(this));
     webContents.session.on('will-download', this._onWillDownload.bind(this));
+    mainDb.event.on(mainDb.EVENTS.ContentBack, () => {
+      this._onBack()
+    })
   }
 
   _onWindowAllClosed () {
@@ -113,6 +119,10 @@ class Main {
 
   _onBeforeQuit () {
     app.exit(0);
+  }
+
+  _onBack () {
+    pkg.env === 'dev' ? this.mainWindow.loadURL(`http://localhost:8080/index`) : this.mainWindow.loadURL(`file://${__dirname}/dist/index/index.html`);
   }
 
   _onResize () {
@@ -138,7 +148,7 @@ class Main {
         this.mainWindow.hide();
       }
       e.preventDefault();
-    } 
+    }
   }
 
   _onNewWindow (event, url, frameName, disposition, options) {
@@ -150,7 +160,7 @@ class Main {
       options.webPreferences = Object.assign({}, options.webPreferences, {
         plugins: true,
         webSecurity: false,
-        nodeIntegration: false,
+        nodeIntegration: true,
         minimumFontSize: 12
       });
     }

@@ -6,7 +6,9 @@ const { EventEmitter } = require('events');
 const env       = require('../common/env');
 
 const ServerConfigOfficiel = {
+  dev: 'https://beta.rishiqing.com',
   beta: 'https://beta.rishiqing.com',
+  debug: 'https://beta.rishiqing.com',
   release: 'https://www.rishiqing.com'
 };
 
@@ -68,6 +70,7 @@ class MainDb {
       ProxyConfigChange: 'proxy-config-change',
       DownloadConfigChange: 'download-config-change',
       HotkeyConfigChange: 'hotkey-config-change',
+      ContentBack:'content-back'
     };
   }
   constructor () {
@@ -122,7 +125,7 @@ class MainDb {
     return Object.assign({}, Status, config);
   }
 
-  updateWindowSize (data) { // { width, height } 
+  updateWindowSize (data) { // { width, height }
     this.db.update({ type: 'main-window-size' }, { $set: Object.assign({ version: VERSION.windowSize }, data) }, { upsert: true });
   }
 

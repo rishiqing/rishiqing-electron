@@ -68,35 +68,36 @@ class Util {
     }
   }
 
-  clearCache() {
-    dialog.showMessageBox({
+  async clearCache() {
+    const res = dialog.showMessageBox({
       type: 'warning',
       buttons: ['确定', '取消'],
       defaultId: 0,
       title: '确认清除缓存?',
       message: '清除缓存可能导致您退出日事清账号,需要重启后生效'
-    }, function(response) {
-      if (response === 1) return;
-      if (response === 0) {
-        // 只清除cookies，会清除用户的登录状态
-        session.defaultSession.clearStorageData({
-          storages: ['cookies'] // 清理 cookie
-        })
-        // 清除网络缓存文件
-        session.defaultSession.clearCache(function() {
-          const notify = new Notification({
-            title: '缓存已清理',
-            body: '需要重启软件后生效'
-          });
-          notify.show();
-        })
-      }
     })
+    if(res.response === 1) {
+      return
+    }
+    if(res.response === 0) {
+      // 只清除cookies，会清除用户的登录状态
+      session.defaultSession.clearStorageData({
+        storages: ['cookies'] // 清理 cookie
+      })
+      // 清除网络缓存文件
+      session.defaultSession.clearCache(function() {
+        const notify = new Notification({
+          title: '缓存已清理',
+          body: '需要重启软件后生效'
+        });
+        notify.show();
+      })
+    }
   }
 
   // 给定一个server链接，测试这个server是否可用
   testServer(server) {
-    return new Promise(function(resolve, reject) {
+    return new Promise(function(resolve) {
       const testUrl = url.resolve(server, '/task/login/authAjax');
       const request = net.request(testUrl);
       let isTimeout = false
@@ -113,7 +114,9 @@ class Util {
         response.on('data', (chunk) => {
           try{
             data = JSON.parse(chunk.toString())
-          } catch(e) {}
+          } catch(e) {
+            console.log(e)
+          }
         })
         response.on('end', () => {
           clearTimeout(timer)
@@ -142,19 +145,20 @@ class Util {
     });
   }
 
-  showNetworkErrorDialog(message) {
-    dialog.showMessageBox(this.mainWindow, {
+  async showNetworkErrorDialog(message) {
+    const res = await dialog.showMessageBox(this.mainWindow, {
       type: 'error',
       defaultId: 0,
       cancelId: 1,
       buttons: ['打开偏好设置', '取消'],
       message: `${message}`
-    }, function(result) {
-      if (result === 1) return;
-      if (result === 0) {
-        preference.open()
-      }
     })
+    if(res.response === 1) {
+      return
+    }
+    if(res.response === 0) {
+      preference.open()
+    }
   }
 }
 

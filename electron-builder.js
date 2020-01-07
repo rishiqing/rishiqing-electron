@@ -16,7 +16,9 @@ const output = process.platform === 'darwin' ? `package-${process.env.CHANNEL}` 
 
 try {
   rimraf.sync(output);
-} catch (e) {}
+} catch (e) {
+  console.log(e)
+}
 
 builder.build({
   config: {

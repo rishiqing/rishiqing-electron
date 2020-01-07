@@ -75,9 +75,9 @@ class Download extends Page {
     if (!isExist) return fileName;
     const extname = path.extname(fileName);
     const basename = path.basename(fileName, extname);
-    
+
     let count = 0;
-    
+
     while (isExist) {
       isExist = this.isFileExist(`${basename}(${++count})${extname}`);
     }
