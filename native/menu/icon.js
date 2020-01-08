@@ -1,6 +1,7 @@
 const {
   systemPreferences,
   nativeImage,
+  nativeTheme
 } = require('electron');
 const { EventEmitter } = require('events');
 const path = require('path');
@@ -27,7 +28,7 @@ class Icon {
   getImage() {
     let tray_icon;
     if (env.isMac) {
-      if (systemPreferences.isDarkMode()) {
+      if (nativeTheme.shouldUseDarkColors) {
         tray_icon = '../../res/tray_mac_drak_mode@2x.png';
       } else {
         tray_icon = '../../res/tray_mac@2x.png';

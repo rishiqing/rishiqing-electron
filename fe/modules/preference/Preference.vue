@@ -35,7 +35,7 @@ const { testProxy } = electron.remote.require('./native/proxy')
 async function getConfig() {
 	const proxyConfig = await mainDb.getProxyConfig()
 	const serverConfig = await mainDb.getServerConfig()
-	const cacheSize = await getCacheSize()
+	const cacheSize = await session.getCacheSize()
 	const downloadConfig = await mainDb.getDownloadConfig()
 	const hotkeyConfig = await mainDb.getHotKeyConfig()
 	const isAutoLaunch = autoLaunch.isEnabled()
@@ -48,13 +48,7 @@ async function getConfig() {
 	isAutoLaunch,
 	}
 }
-async function getCacheSize() {
-  return new Promise((resolve) => {
-    session.getCacheSize((size) => {
-      resolve(size)
-    })
-  })
-}
+
 export default {
   name: "preference",
   components: {
@@ -128,7 +122,7 @@ export default {
 		async onRestore() {
 			mainDb.restore()
 			autoLaunch.disable()
-			const config = await getConfig()
+      const config = await getConfig()
 			this.proxyConfig = config.proxyConfig
 			this.serverConfig = {
 				enablePrivate: config.serverConfig. enablePrivate,

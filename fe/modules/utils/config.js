@@ -2,9 +2,9 @@ import electron from 'electron'
 const package_json        = electron.remote.require('./package.json')
 const env = package_json.env//dev是开发环境，release是发布环境, beta是beta环境
 const PREFIX_URL = {
-  dev: 'http://beta.rishiqing.com',
-  beta: 'http://beta.rishiqing.com',
-  debug: 'http://beta.rishiqing.com',
+  dev: 'https://beta.rishiqing.com',
+  beta: 'https://beta.rishiqing.com',
+  debug: 'https://beta.rishiqing.com',
   release: 'https://www.rishiqing.com',
 }
 

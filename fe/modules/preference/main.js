@@ -13,17 +13,11 @@ webFrame.setZoomFactor(1)
 webFrame.setVisualZoomLevelLimits(1, 1)
 webFrame.setLayoutZoomLevelLimits(0, 0)
 
-async function getCacheSize() {
-  return new Promise((resolve) => {
-    session.getCacheSize((size) => {
-      resolve(size)
-    })
-  })
-}
+
 async function getConfig() {
   const proxyConfig = await mainDb.getProxyConfig()
   const serverConfig = await mainDb.getServerConfig()
-  const cacheSize = await getCacheSize()
+  const cacheSize = await session.getCacheSize()
   const downloadConfig = await mainDb.getDownloadConfig()
   const hotkeyConfig = await mainDb.getHotKeyConfig()
   const isAutoLaunch = autoLaunch.isEnabled()
@@ -37,10 +31,10 @@ async function getConfig() {
   }
 }
 async function render () {
-	const res = await getConfig()
+  const res = await getConfig()
 	await store.commit('SAVR_CON',res)
 	new Vue({
-	  store,
+    store,
     render: h => h(Preference)
   }).$mount('#preference')
 }

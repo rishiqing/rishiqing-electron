@@ -1,34 +1,5 @@
 <template>
   <div id="index">
-    <div class="drag-bar-mac" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
-      <div class="traffic-lights mac" style="-webkit-app-region: no-drag;">
-          <span class="close" @click="close">
-            <img src="../../assets/img/mac-traffic-light-close.svg" class="normal">
-            <img src="../../assets/img/mac-traffic-light-close-hover.svg" class="hover">
-          </span>
-          <span class="minimize" @click="minimize">
-            <img src="../../assets/img/mac-traffic-light-minimize.svg" class="normal">
-            <img src="../../assets/img/mac-traffic-light-minimize-hover.svg" class="hover">
-          </span>
-          <span class="zoom" @click="zoom">
-            <img src="../../assets/img/mac-traffic-light-zoom.svg" class="normal">
-            <img src="../../assets/img/mac-traffic-light-zoom-hover.svg" class="hover">
-          </span>
-      </div>
-    </div>
-    <div class="drag-bar-win" style="-webkit-app-region: drag;" @dblclick.stop="full($event)">
-      <div class="traffic-lights" style="-webkit-app-region: no-drag">
-        <span class="minimize" @click="minimize">
-          <img src="../../assets/img/win-minimize.svg">
-        </span>
-        <span class="zoom" @click="zoom">
-          <img src="../../assets/img/win-zoom.svg">
-        </span>
-        <span class="close" @click="close">
-          <img src="../../assets/img/win-close.svg">
-        </span>
-      </div>
-    </div>
     <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe>
     <div id="loading" ref="loading" v-show="loadingDisplay">
       <div class="loading-splash" ref="loadingSplash" v-show="loadingSplashDisplay">
@@ -716,8 +687,8 @@ body.win .welcome-page:before {
   bottom: 0;
   border: none;
   width: 100%;
-  top: 30px;
-  height: calc(100% - 30px);
+  top: 0px;
+  height: 100%;
 }
 #loading {
   position: absolute;
@@ -804,122 +775,4 @@ body.win .welcome-page:before {
   margin-top: -6px;
   margin-left: 18px;
 }
-.drag-bar-mac {
-  display: none;
-}
-.drag-bar-mac .drag-bar {
-  position: absolute;
-  left: 80px;
-  top: 0;
-  height: 56px;
-  width: calc(50% - 285px);
-}
-.drag-bar-mac .drag-bar-2 {
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 10px;
-}
-.drag-bar-mac .drag-bar-3 {
-  position: absolute;
-  left: 0;
-  top: 46px;
-  right: 0;
-  height: 10px;
-}
-
-.traffic-lights.mac {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 30px;
-  display: flex;
-  z-index: 2;
-  justify-content: space-between;
-  width: 76px;
-  align-items: center;
-  padding: 0 12px;
-  user-select: none;
-}
-.traffic-lights.mac > span {
-  display: inline-block;
-  height: 12px;
-  width: 12px;
-  border-radius: 50%;
-}
-.traffic-lights.mac > span img {
-  height: 12px;
-  width: 12px;
-  vertical-align: top;
-}
-.traffic-lights.mac > span img.hover {
-  display: none;
-}
-.traffic-lights.mac:hover img.normal {
-  display: none;
-}
-.traffic-lights.mac:hover img.hover {
-  display: inline-block;
-}
-
-.drag-bar-win {
-  display: none;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 30px;
-  background:linear-gradient(180deg,rgba(88,157,228,1) 0%,rgba(77,140,202,1) 100%);
-  z-index: 2;
-}
-.drag-bar-win .traffic-lights {
-  position: absolute;
-  right: 0;
-  top: 0;
-  height: 30px;
-  display: flex;
-  z-index: 1;
-  justify-content: space-between;
-  width: 140px;
-  align-items: center;
-  padding: 0 18px;
-  user-select: none;
-}
-.drag-bar-win .traffic-lights > span {
-  display: flex;
-  height: 100%;
-  width: 12px;
-  align-items: center;
-  justify-content: center;
-}
-.drag-bar-win .traffic-lights > span img {
-  vertical-align: top;
-}
-.drag-bar-win .traffic-lights > span.minimize img {
-  vertical-align: bottom;
-}
-body.mac .drag-bar-mac {
-  user-select:none;
-  display: block;
-  position: absolute;
-  left: 0;
-  top: 0;
-  right: 0;
-  height: 30px;
-  background:linear-gradient(180deg,rgba(88,157,228,1) 0%,rgba(77,140,202,1) 100%);
-  z-index: 2;
-}
-
-body.win {
-  background: #5A98D4;
-}
-body.win .drag-bar-win {
-  user-select:none;
-  display: block;
-}
-body.win .traffic-lights.mac {
-  display: none;
-}
-
 </style>

@@ -92,6 +92,10 @@ const MacTemplate = [
         label: '全选',
         accelerator: 'Command+A',
         selector: 'selectAll:'
+      },{
+        label: '回到日事清',
+        accelerator: 'Command+B',
+        click:function () {mainDb.event.emit(mainDb.EVENTS.ContentBack)}
       }
     ]
   },
