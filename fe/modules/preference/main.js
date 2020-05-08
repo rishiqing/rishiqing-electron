@@ -11,7 +11,6 @@ const autoLaunch = electron.remote.require('./native/autoLaunch')
 
 webFrame.setZoomFactor(1)
 webFrame.setVisualZoomLevelLimits(1, 1)
-webFrame.setLayoutZoomLevelLimits(0, 0)
 
 
 async function getConfig() {
