@@ -18,6 +18,7 @@ class Page {
       maximizable: false,
       minimizable: false,
       autoHideMenuBar: true,
+      fullscreen:false,
       webPreferences: {
         nodeIntegration: true,
         webSecurity: false,
