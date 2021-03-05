@@ -7,7 +7,6 @@ const webFrame = electron.webFrame
 
 webFrame.setZoomFactor(1)
 webFrame.setVisualZoomLevelLimits(1, 1)
-webFrame.setLayoutZoomLevelLimits(0, 0)
 new Vue({
   store,
   render: h => h(Index)

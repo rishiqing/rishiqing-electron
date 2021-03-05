@@ -70,7 +70,9 @@ class MainDb {
       ProxyConfigChange: 'proxy-config-change',
       DownloadConfigChange: 'download-config-change',
       HotkeyConfigChange: 'hotkey-config-change',
-      ContentBack:'content-back'
+      ContentBack:'content-back',
+      Reload:'reload',
+      DevTool:'open-dev-tool'
     };
   }
   constructor () {

@@ -20,6 +20,10 @@ class Page {
       autoHideMenuBar: true,
       webPreferences: {
         nodeIntegration: true,
+        nodeIntegrationInWorker: true,
+        nodeIntegrationInSubFrames: true,
+        enableRemoteModule: true,
+        contextIsolation: false,
         webSecurity: false,
       },
       show: false // 初始化的时候不显示

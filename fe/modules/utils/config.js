@@ -19,7 +19,7 @@ const exportsJson = {
     'api.weibo.com'     : '微博',
     'oapi.dingtalk.com' : '钉钉',
     'open.work.weixin.qq.com': '企业微信'
-  }
+  },
 }
 
 export default exportsJson

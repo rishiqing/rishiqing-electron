@@ -1,359 +1,418 @@
 <template>
   <div id="index">
-    <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe>
+    <WebView
+      id="main-iframe"
+      disablewebsecurity
+      nodeintegrationinsubframes
+      ref="mainIframe"
+      :preload="preloadFile"
+      allowpopups
+      webpreferences="allowRunningInsecureContent=no, backgroundThrottling=no, webSecurity=no"
+      @did-finish-load="iframeLoad"
+    />
+    <!-- <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe> -->
     <div id="loading" ref="loading" v-show="loadingDisplay">
-      <div class="loading-splash" ref="loadingSplash" v-show="loadingSplashDisplay">
-        <img class="tip animated rotate infinite" src="../../assets/img/arrow-2.png">
+      <div
+        class="loading-splash"
+        ref="loadingSplash"
+        v-show="loadingSplashDisplay"
+      >
+        <img
+          class="tip animated rotate infinite"
+          src="../../assets/img/arrow-2.png"
+        />
       </div>
-      <div class="network-error" title="点击重试" ref="networkError" v-show="networkErrorDisplay" @click="networkErrorClick">
+      <div
+        class="network-error"
+        title="点击重试"
+        ref="networkError"
+        v-show="networkErrorDisplay"
+        @click="networkErrorClick"
+      >
         <span class="tip">无法连接服务器，请检查网络后再试</span>
-        <img class="reload" src="../../assets/img/arrow-1.png" alt="点击重试">
+        <img class="reload" src="../../assets/img/arrow-1.png" alt="点击重试" />
       </div>
     </div>
-    <audio :src='ogg' id="notification-sound"></audio>
-    <welcome v-show="welcomeDisplay" @display="welcomeDisplayControl" @setUrl="setUrl"/>
+    <audio :src="ogg" id="notification-sound"></audio>
+    <welcome
+      v-show="welcomeDisplay"
+      @display="welcomeDisplayControl"
+      @setUrl="setUrl"
+    />
   </div>
 </template>
 
 <script>
-import electron     from 'electron'
-import Welcome      from './pub/Welcome.vue'
-import config       from '../utils/config.js'
-import notification from '../utils/notification.js'
-import nativeNotify from '../utils/nativeNotify.js'
-import ogg          from '../../assets/sound/Tethys.ogg'
+import electron from "electron";
+import Welcome from "./pub/Welcome.vue";
+import config from "../utils/config.js";
+import notification from "../utils/notification.js";
+import nativeNotify from "../utils/nativeNotify.js";
+import ogg from "../../assets/sound/Tethys.ogg";
+const preloadFile =
+  "file://" + electron.remote.process.cwd() + "/common/preload.js";
 
-const package_json = electron.remote.require('./package.json')
-const util = electron.remote.require('./native/util')
-const urlPackage = electron.remote.require('url')
-const os = electron.remote.require('os')
-const mainBroswerWindow = electron.remote.BrowserWindow.fromId(1)
-const db = mainBroswerWindow.mainDb
+const package_json = electron.remote.require("./package.json");
+const util = electron.remote.require("./native/util");
+const urlPackage = electron.remote.require("url");
+const os = electron.remote.require("os");
+const mainBroswerWindow = electron.remote.BrowserWindow.fromId(1);
+const db = mainBroswerWindow.mainDb;
 export default {
   name: "index",
   components: {
-    'welcome' : Welcome
+    welcome: Welcome
   },
-  data(){
+  data() {
     return {
-      loadingDisplay:true,
-      loadingSplashDisplay:false,
-      networkErrorDisplay:false,
-      welcomeDisplay:false,
+      loadingDisplay: true,
+      loadingSplashDisplay: false,
+      networkErrorDisplay: false,
+      welcomeDisplay: false,
       ogg,
-      AnimationEnd:'webkitAnimationEnd',
-      SERVER_URL:'https://www.rishiqing.com',
+      AnimationEnd: "webkitAnimationEnd",
+      SERVER_URL: "https://www.rishiqing.com",
       platform: window.process.platform,
-      Client_Can_Auto_Login_Data:''
-    }
+      Client_Can_Auto_Login_Data: "",
+      preloadFile
+    };
   },
-  mounted () {
+  mounted() {
     const that = this;
-    (mainBroswerWindow.webContents || mainBroswerWindow.getWebContents()).on('context-menu', () => {
+    this.$refs.mainIframe.addEventListener("context-menu", () => {
       const menuTpl = [
         {
-          label: '撤销',
-          accelerator: 'CommandOrControl+Z',
-          role: 'undo'
+          label: "撤销",
+          accelerator: "CommandOrControl+Z",
+          role: "undo"
         },
         {
-          label: '重做',
-          accelerator: 'CommandOrControl+Y',
-          role: 'redo'
+          label: "重做",
+          accelerator: "CommandOrControl+Y",
+          role: "redo"
         },
         {
-          type: 'separator'
+          type: "separator"
         },
         {
-          label: '剪切',
-          accelerator: 'CommandOrControl+X',
-          role: 'cut'
+          label: "剪切",
+          accelerator: "CommandOrControl+X",
+          role: "cut"
         },
         {
-          label: '复制',
-          accelerator: 'CommandOrControl+C',
-          role: 'copy'
+          label: "复制",
+          accelerator: "CommandOrControl+C",
+          role: "copy"
         },
         {
-          label: '粘贴',
-          accelerator: 'CommandOrControl+V',
-          role: 'paste'
+          label: "粘贴",
+          accelerator: "CommandOrControl+V",
+          role: "paste"
         },
         {
-          label: '全选',
-          accelerator: 'CommandOrControl+A',
-          role: 'selectall'
+          label: "全选",
+          accelerator: "CommandOrControl+A",
+          role: "selectall"
         },
         {
-          type: 'separator'
+          type: "separator"
         },
         {
-          label: '前进',
+          label: "前进",
           visible: true,
           click() {
-            that.forwardWindow()
+            that.forwardWindow();
           }
         },
         {
-          label: '后退',
+          label: "后退",
           visible: true,
-          click () {
-            that.backWindow()
+          click() {
+            that.backWindow();
           }
         },
         {
-          label: '刷新',
-          visible: true,
-          accelerator: 'CommandOrControl+R',
-          click () {
-            that.reloadWindow()
+          label: "刷新",
+          accelerator: "CommandOrControl+R",
+          click() {
+            that.reloadWindow();
           }
         }
-      ]
-      const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(menuTpl)
-      menu.popup(mainBroswerWindow)
-    })
-    if (this.platform === 'win32') {
-      document.body.classList.add('win')
-    } else if (this.platform === 'darwin') {
-      document.body.classList.add('mac')
+      ];
+      const menu = (electron.Menu || electron.remote.Menu).buildFromTemplate(
+        menuTpl
+      );
+
+      menu.popup(mainBroswerWindow);
+    });
+    //刷新
+    db.event.on(db.EVENTS.Reload, () => {
+      this.reloadWindow();
+    });
+    if (this.platform === "win32") {
+      document.body.classList.add("win");
+    } else if (this.platform === "darwin") {
+      document.body.classList.add("mac");
     }
-    this.getServerConfig()
+    this.getServerConfig();
   },
   methods: {
-    reloadWindow () {
-      this.loadingShow()
-      this.$refs.mainIframe.contentWindow.location.reload()
+    reloadWindow() {
+      this.loadingShow();
+      this.$refs.mainIframe.reload();
     },
-    backWindow () {
-      this.$refs.mainIframe.contentWindow.history.back()
+    backWindow() {
+      if (this.$refs.mainIframe.canGoBack()) {
+        this.$refs.mainIframe.goBack();
+      }
     },
-    forwardWindow () {
-      this.$refs.mainIframe.contentWindow.history.forward()
+    forwardWindow() {
+      if (this.$refs.mainIframe.canGoForward()) {
+        this.$refs.mainIframe.goForward();
+      }
     },
-    isAppPage () {
-      const href = this.$refs.mainIframe.contentWindow.location.href
-      if (href && href.indexOf(config.WEBSITE + 'app') === 0) {
-        return true
-      } else return false
+    isAppPage() {
+      const href = this.$refs.mainIframe.getURL();
+      if (href && href.indexOf(config.WEBSITE + "app") === 0) {
+        return true;
+      } else return false;
     },
-    loadingShow () {
-      if (this.isAppPage()) this.loadingShowMore('pureColor')
-      else this.loadingShowMore()
+    loadingShow() {
+      if (this.isAppPage()) this.loadingShowMore("pureColor");
+      else this.loadingShowMore();
     },
-    loadingHideMore () {
-      const that = this
+    loadingHideMore() {
+      const that = this;
       const hideAnimate = () => {
-        that.loadingDisplay = false
-        that.$refs.loading.classList.remove('animated','fadeOut')
-        that.$refs.loading.removeEventListener(that.AnimationEnd, hideAnimate)
-      }
-      this.$refs.loading.addEventListener(this.AnimationEnd, hideAnimate, false)
-      this.$refs.loading.classList.add('animated','fadeOut')
+        that.loadingDisplay = false;
+        that.$refs.loading.classList.remove("animated", "fadeOut");
+        that.$refs.loading.removeEventListener(that.AnimationEnd, hideAnimate);
+      };
+      this.$refs.loading.addEventListener(
+        this.AnimationEnd,
+        hideAnimate,
+        false
+      );
+      this.$refs.loading.classList.add("animated", "fadeOut");
     },
-    loadingShowMore (type) {
-      const that = this
-      this.$refs.loading.classList.remove('animated','fadeOut')
+    loadingShowMore(type) {
+      const that = this;
+      this.$refs.loading.classList.remove("animated", "fadeOut");
       if (this.loadingDisplay === false) {
-        this.loadingDisplay = true
+        this.loadingDisplay = true;
         const showAnimate = () => {
-          that.loadingDisplay = true
-          that.$refs.loading.classList.remove('animated','fadeIn')
-          that.$refs.loading.removeEventListener(that.AnimationEnd, showAnimate)
-        }
-        this.$refs.loading.addEventListener(that.AnimationEnd, showAnimate,false)
-        this.$refs.loading.classList.add('animated','fadeIn')
+          that.loadingDisplay = true;
+          that.$refs.loading.classList.remove("animated", "fadeIn");
+          that.$refs.loading.removeEventListener(
+            that.AnimationEnd,
+            showAnimate
+          );
+        };
+        this.$refs.loading.addEventListener(
+          that.AnimationEnd,
+          showAnimate,
+          false
+        );
+        this.$refs.loading.classList.add("animated", "fadeIn");
       }
-      this.networkErrorDisplay = false
-      this.loadingSplashDisplay = false
-      this.$refs.loading.classList.remove('pure-color')
-      if (type === 'networkError') {
-        this.showNetworkError()
-      } else if (type === 'pureColor') {
-        this.showPureColor()
+      this.networkErrorDisplay = false;
+      this.loadingSplashDisplay = false;
+      this.$refs.loading.classList.remove("pure-color");
+      if (type === "networkError") {
+        this.showNetworkError();
+      } else if (type === "pureColor") {
+        this.showPureColor();
       } else {
-        this.showSplash()
+        this.showSplash();
       }
     },
-    showSplash () {
-      this.loadingSplashDisplay = true
-      this.networkErrorDisplay = false
+    showSplash() {
+      this.loadingSplashDisplay = true;
+      this.networkErrorDisplay = false;
     },
-    showNetworkError () {
-      this.loadingSplashDisplay = false
-      this.networkErrorDisplay = true
+    showNetworkError() {
+      this.loadingSplashDisplay = false;
+      this.networkErrorDisplay = true;
     },
-    showPureColor () {
-      this.$refs.loading.classList.add('pure-color')
+    showPureColor() {
+      this.$refs.loading.classList.add("pure-color");
     },
-    networkErrorClick () {
-      this.showSplash()
+    networkErrorClick() {
+      this.showSplash();
       setTimeout(() => {
-        this.$refs.mainIframe.contentWindow.location.reload()
-      }, 1000)
+        this.$refs.mainIframe.contentWindow.location.reload();
+      }, 1000);
     },
-    welcomeDisplayControl (type) {
-      this.welcomeDisplay = type
+    welcomeDisplayControl(type) {
+      this.welcomeDisplay = type;
     },
-    setUrl (url) {
-      this.$refs.mainIframe.src = url
+    setUrl(url) {
+      this.$refs.mainIframe.src = url;
     },
-    handleBar (pressed) {
-      if (this.platform === 'win32') {
+    handleBar(pressed) {
+      if (this.platform === "win32") {
         if (pressed.which === 116) {
-          this.loadingShow()
-          this.$refs.mainIframe.contentWindow.location.reload()
+          this.loadingShow();
+          this.$refs.mainIframe.reload();
         }
-      } else if (this.platform === 'darwin') {
+      } else if (this.platform === "darwin") {
         if (pressed.metaKey && pressed.which === 82) {
-          this.loadingShow()
-          this.$refs.mainIframe.contentWindow.location.reload()
+          this.loadingShow();
+          this.$refs.mainIframe.reload();
         }
       }
     },
-    iframeLoad () {
+    iframeLoad() {
       if (this.$refs.mainIframe.src) {
-        this.loadingHideMore()
-        this.$refs.mainIframe.contentWindow.document.removeEventListener('keydown', this.handleBar)
-        this.$refs.mainIframe.contentWindow.document.addEventListener('keydown', this.handleBar, false)
-        this.$refs.mainIframe.contentWindow.confirm = (message) => {
-          return window.confirm(message, '日事清')
-        }
-        this.$refs.mainIframe.contentWindow.alert = (message) => {
-          return window.alert(message, '日事清')
-        }
-        if (this.$refs.mainIframe.contentWindow.I_AM_RSQ_WEB) {
-          this.rishiqingWeb(this.$refs.mainIframe.contentWindow)
-        }
+        this.loadingHideMore();
+        this.$refs.mainIframe.removeEventListener("keydown", this.handleBar);
+        this.$refs.mainIframe.addEventListener(
+          "keydown",
+          this.handleBar,
+          false
+        );
+        // this.$refs.mainIframe.contentWindow.confirm = message => {
+        //   return window.confirm(message, "日事清");
+        // };
+        // this.$refs.mainIframe.contentWindow.alert = message => {
+        //   return window.alert(message, "日事清");
+        // };
+        // if (this.$refs.mainIframe.contentWindow.I_AM_RSQ_WEB) {
+        //   this.rishiqingWeb(this.$refs.mainIframe.contentWindow);
+        // }
       }
     },
-    dealLogin (canAutoLogin) {
+    dealLogin(canAutoLogin) {
       if (!canAutoLogin) {
-        this.welcomeDisplayControl(true)
-        this.$refs.mainIframe.src = ''
+        this.welcomeDisplayControl(true);
+        this.$refs.mainIframe.src = "";
       }
     },
-    rishiqingWeb (mainWindow) {
-      const that = this
+    rishiqingWeb(mainWindow) {
+      const that = this;
       mainWindow.VERSIONSTAMP = {
         version: package_json.version,
-        time: package_json.releaseTime || (new Date()).toString()
-      }
+        time: package_json.releaseTime || new Date().toString()
+      };
       // 替换我们基于windows.Notification开发的通知模块，主要针对在win7下，只能使用balloon进行通知的问题
-      if (this.platform === 'win32') {
-        const release = os.release()
-        const first = parseInt(release.split('.')[0], 10)
-        if (first !== 10) { // 判断在windows以下都用自己开发的Notification来进行通知
-          mainWindow.Notification = nativeNotify
-        } else { // 如果是win10
-          mainWindow.Notification = notification
+      if (this.platform === "win32") {
+        const release = os.release();
+        const first = parseInt(release.split(".")[0], 10);
+        if (first !== 10) {
+          // 判断在windows以下都用自己开发的Notification来进行通知
+          mainWindow.Notification = nativeNotify;
+        } else {
+          // 如果是win10
+          mainWindow.Notification = notification;
         }
       }
-      if (this.platform === 'darwin') {
-        mainWindow.Notification = notification
+      if (this.platform === "darwin") {
+        mainWindow.Notification = notification;
       }
-      mainWindow.Object.defineProperty(mainWindow.document, 'hidden', {
+      mainWindow.Object.defineProperty(mainWindow.document, "hidden", {
         configurable: true,
         get() {
-          if (!mainBroswerWindow.isVisible()) return true
-          if (mainBroswerWindow.isMinimized()) return true
-          if (!mainBroswerWindow.isFocused()) return true
-          return false
+          if (!mainBroswerWindow.isVisible()) return true;
+          if (mainBroswerWindow.isMinimized()) return true;
+          if (!mainBroswerWindow.isFocused()) return true;
+          return false;
         },
         set() {}
-      })
+      });
       mainWindow.onLogout = () => {
-        that.welcomeDisplayControl(true)
-        that.$refs.mainIframe.src = ''
-      }
+        that.welcomeDisplayControl(true);
+        that.$refs.mainIframe.src = "";
+      };
       mainWindow.onHeaderDblclick = () => {
-        if (this.platform !== 'darwin') return
+        if (this.platform !== "darwin") return;
         if (mainBroswerWindow.isMaximized()) {
-          mainBroswerWindow.unmaximize()
+          mainBroswerWindow.unmaximize();
         } else {
-          mainBroswerWindow.maximize()
+          mainBroswerWindow.maximize();
         }
-      }
+      };
       if (mainWindow.Client_Can_Auto_Login !== undefined) {
-        this.dealLogin(mainWindow.Client_Can_Auto_Login)
+        this.dealLogin(mainWindow.Client_Can_Auto_Login);
       }
-      this.Client_Can_Auto_Login_Data = mainWindow.Client_Can_Auto_Login
-      mainWindow.Object.defineProperty(mainWindow, 'Client_Can_Auto_Login', {
+      this.Client_Can_Auto_Login_Data = mainWindow.Client_Can_Auto_Login;
+      mainWindow.Object.defineProperty(mainWindow, "Client_Can_Auto_Login", {
         configurable: true,
         get() {
-          return that.Client_Can_Auto_Login_Data
+          return that.Client_Can_Auto_Login_Data;
         },
-        set (v) {
-          that.Client_Can_Auto_Login_Data = v
-          that.dealLogin(v)
+        set(v) {
+          that.Client_Can_Auto_Login_Data = v;
+          that.dealLogin(v);
         }
-      })
+      });
     },
-    async getServerConfig () {
-      const serverConfig = await db.getServerConfig()
-      if (package_json.env === 'debug') {
-        this.SERVER_URL = package_json['debug-server']
+    async getServerConfig() {
+      const serverConfig = await db.getServerConfig();
+      if (package_json.env === "debug") {
+        this.SERVER_URL = package_json["debug-server"];
       } else {
         if (serverConfig.enablePrivate) {
-          this.SERVER_URL = serverConfig.privateUrl
+          this.SERVER_URL = serverConfig.privateUrl;
         } else {
-          this.SERVER_URL = serverConfig.officelUrl
+          this.SERVER_URL = serverConfig.officelUrl;
         }
       }
       if (!this.SERVER_URL) {
-        this.welcomeDisplayControl(true)
-        return
+        this.welcomeDisplayControl(true);
+        return;
       }
-      const result = await util.testServer(this.SERVER_URL)
+      const result = await util.testServer(this.SERVER_URL);
       if (!result.alive) {
-        this.welcomeDisplayControl(true)
+        this.welcomeDisplayControl(true);
       } else {
-        this.$refs.mainIframe.src = urlPackage.resolve(this.SERVER_URL, '/app')
+        this.$refs.mainIframe.src = urlPackage.resolve(this.SERVER_URL, "/app");
       }
     },
     close() {
-      mainBroswerWindow.close()
+      mainBroswerWindow.close();
     },
-    minimize () {
-      mainBroswerWindow.minimize()
+    minimize() {
+      mainBroswerWindow.minimize();
     },
-    zoom () {
+    zoom() {
       // 在windows平台就执行最大化，在其他平台就直接全屏
-      if (this.platform === 'win32') {
+      if (this.platform === "win32") {
         if (mainBroswerWindow.isMaximized()) {
-          mainBroswerWindow.unmaximize()
+          mainBroswerWindow.unmaximize();
         } else {
-          mainBroswerWindow.maximize()
+          mainBroswerWindow.maximize();
         }
       } else {
         if (mainBroswerWindow.isFullScreen()) {
-          mainBroswerWindow.setFullScreen(false)
+          mainBroswerWindow.setFullScreen(false);
         } else {
-          mainBroswerWindow.setFullScreen(true)
+          mainBroswerWindow.setFullScreen(true);
         }
       }
     },
-    full(e){
-      e.preventDefault()
+    full(e) {
+      e.preventDefault();
       if (mainBroswerWindow.isMaximized()) {
-          mainBroswerWindow.unmaximize()
-        } else {
-          mainBroswerWindow.maximize()
+        mainBroswerWindow.unmaximize();
+      } else {
+        mainBroswerWindow.maximize();
       }
     }
   }
-}
+};
 </script>
 
 <style>
 @font-face {
-  font-family: 'icomoon';
-  src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAATAAAsAAAAABHQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgDxIFP2NtYXAAAAFoAAAAVAAAAFQXQdKxZ2FzcAAAAbwAAAAIAAAACAAAABBnbHlmAAABxAAAALgAAAC4ZePE5GhlYWQAAAJ8AAAANgAAADYPQOfYaGhlYQAAArQAAAAkAAAAJAdVA8ZobXR4AAAC2AAAABQAAAAUCgAAbWxvY2EAAALsAAAADAAAAAwAKABwbWF4cAAAAvgAAAAgAAAAIAAHACNuYW1lAAADGAAAAYYAAAGGmUoJ+3Bvc3QAAASgAAAAIAAAACAAAwAAAAMDAAGQAAUAAAKZAswAAACPApkCzAAAAesAMwEJAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA6RUDwP/AAEADwABAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAwAAAAMAAAAcAAEAAwAAABwAAwABAAAAHAAEADgAAAAKAAgAAgACAAEAIOkV//3//wAAAAAAIOkV//3//wAB/+MW7wADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQBtAC0DkwNTACAAAAkBJiIHBhQXCQEGFBcWMjcJARYyNzY0JwkBNjQnJiIHAQIA/pMIFggICAFs/pQICAgWCAFtAW0IFggICP6UAWwICAgWCP6TAecBbAgICBYI/pP+kwgWCAgIAWz+lAgICBYIAW0BbQgWCAgI/pQAAAEAAAABAACxovatXw889QALBAAAAAAA1kfRxAAAAADWR9HEAAAAAAOTA1MAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAA5MAAQAAAAAAAAAAAAAAAAAAAAUEAAAAAAAAAAAAAAACAAAABAAAbQAAAAAACgAUAB4AXAABAAAABQAhAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEABwAAAAEAAAAAAAIABwBgAAEAAAAAAAMABwA2AAEAAAAAAAQABwB1AAEAAAAAAAUACwAVAAEAAAAAAAYABwBLAAEAAAAAAAoAGgCKAAMAAQQJAAEADgAHAAMAAQQJAAIADgBnAAMAAQQJAAMADgA9AAMAAQQJAAQADgB8AAMAAQQJAAUAFgAgAAMAAQQJAAYADgBSAAMAAQQJAAoANACkaWNvbW9vbgBpAGMAbwBtAG8AbwBuVmVyc2lvbiAxLjAAVgBlAHIAcwBpAG8AbgAgADEALgAwaWNvbW9vbgBpAGMAbwBtAG8AbwBuaWNvbW9vbgBpAGMAbwBtAG8AbwBuUmVndWxhcgBSAGUAZwB1AGwAYQByaWNvbW9vbgBpAGMAbwBtAG8AbwBuRm9udCBnZW5lcmF0ZWQgYnkgSWNvTW9vbi4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==) format("woff");
+  font-family: "icomoon";
+  src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAATAAAsAAAAABHQAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABPUy8yAAABCAAAAGAAAABgDxIFP2NtYXAAAAFoAAAAVAAAAFQXQdKxZ2FzcAAAAbwAAAAIAAAACAAAABBnbHlmAAABxAAAALgAAAC4ZePE5GhlYWQAAAJ8AAAANgAAADYPQOfYaGhlYQAAArQAAAAkAAAAJAdVA8ZobXR4AAAC2AAAABQAAAAUCgAAbWxvY2EAAALsAAAADAAAAAwAKABwbWF4cAAAAvgAAAAgAAAAIAAHACNuYW1lAAADGAAAAYYAAAGGmUoJ+3Bvc3QAAASgAAAAIAAAACAAAwAAAAMDAAGQAAUAAAKZAswAAACPApkCzAAAAesAMwEJAAAAAAAAAAAAAAAAAAAAARAAAAAAAAAAAAAAAAAAAAAAQAAA6RUDwP/AAEADwABAAAAAAQAAAAAAAAAAAAAAIAAAAAAAAwAAAAMAAAAcAAEAAwAAABwAAwABAAAAHAAEADgAAAAKAAgAAgACAAEAIOkV//3//wAAAAAAIOkV//3//wAB/+MW7wADAAEAAAAAAAAAAAAAAAEAAf//AA8AAQAAAAAAAAAAAAIAADc5AQAAAAABAAAAAAAAAAAAAgAANzkBAAAAAAEAAAAAAAAAAAACAAA3OQEAAAAAAQBtAC0DkwNTACAAAAkBJiIHBhQXCQEGFBcWMjcJARYyNzY0JwkBNjQnJiIHAQIA/pMIFggICAFs/pQICAgWCAFtAW0IFggICP6UAWwICAgWCP6TAecBbAgICBYI/pP+kwgWCAgIAWz+lAgICBYIAW0BbQgWCAgI/pQAAAEAAAABAACxovatXw889QALBAAAAAAA1kfRxAAAAADWR9HEAAAAAAOTA1MAAAAIAAIAAAAAAAAAAQAAA8D/wAAABAAAAAAAA5MAAQAAAAAAAAAAAAAAAAAAAAUEAAAAAAAAAAAAAAACAAAABAAAbQAAAAAACgAUAB4AXAABAAAABQAhAAEAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAADgCuAAEAAAAAAAEABwAAAAEAAAAAAAIABwBgAAEAAAAAAAMABwA2AAEAAAAAAAQABwB1AAEAAAAAAAUACwAVAAEAAAAAAAYABwBLAAEAAAAAAAoAGgCKAAMAAQQJAAEADgAHAAMAAQQJAAIADgBnAAMAAQQJAAMADgA9AAMAAQQJAAQADgB8AAMAAQQJAAUAFgAgAAMAAQQJAAYADgBSAAMAAQQJAAoANACkaWNvbW9vbgBpAGMAbwBtAG8AbwBuVmVyc2lvbiAxLjAAVgBlAHIAcwBpAG8AbgAgADEALgAwaWNvbW9vbgBpAGMAbwBtAG8AbwBuaWNvbW9vbgBpAGMAbwBtAG8AbwBuUmVndWxhcgBSAGUAZwB1AGwAYQByaWNvbW9vbgBpAGMAbwBtAG8AbwBuRm9udCBnZW5lcmF0ZWQgYnkgSWNvTW9vbi4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAYgB5ACAASQBjAG8ATQBvAG8AbgAuAAAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==)
+    format("woff");
   font-weight: normal;
   font-style: normal;
 }
-[class^="icon-"], [class*=" icon-"] {
-  font-family: 'icomoon' !important;
+[class^="icon-"],
+[class*=" icon-"] {
+  font-family: "icomoon" !important;
   speak: none;
   font-style: normal;
   font-weight: normal;
@@ -369,7 +428,9 @@ export default {
   content: "\e915";
 }
 
-*, *::before, *::after {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -377,8 +438,12 @@ body {
   margin: 0;
 }
 
-html, body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Noto Sans", "Noto Sans CJK SC", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", SimSun, sans-serif;
+html,
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Noto Sans",
+    "Noto Sans CJK SC", "Microsoft YaHei", "\5FAE\8F6F\96C5\9ED1", SimSun,
+    sans-serif;
 }
 
 ul {
@@ -656,7 +721,7 @@ body.win .welcome-page:before {
   left: 0;
   right: 0;
   height: 4px;
-  background: #5A98D4;
+  background: #5a98d4;
 }
 
 .btn {
@@ -674,9 +739,10 @@ body.win .welcome-page:before {
   padding: 0;
   letter-spacing: 3.15px;
 }
-.btn.disabled, .btn:disabled {
+.btn.disabled,
+.btn:disabled {
   cursor: not-allowed;
-  background-color: #E0E0E0 !important;
+  background-color: #e0e0e0 !important;
   background-image: none;
 }
 
@@ -697,10 +763,10 @@ body.win .welcome-page:before {
   right: 0;
   bottom: 0;
   -webkit-user-select: none;
-  background-image: linear-gradient(-179deg, #E4EDF5 0%, #D8ECFF 99%);
+  background-image: linear-gradient(-179deg, #e4edf5 0%, #d8ecff 99%);
 }
 #loading.pure-color {
-  background: linear-gradient(0deg, #D8ECFF, #E4EDF5);
+  background: linear-gradient(0deg, #d8ecff, #e4edf5);
 }
 
 #loading.pure-color .bg-header {
@@ -712,7 +778,7 @@ body.win .welcome-page:before {
   left: 0;
   right: 0;
   bottom: 62%;
-  background-image: linear-gradient(-180deg, #1588FF 0, #06C4FF 100%);
+  background-image: linear-gradient(-180deg, #1588ff 0, #06c4ff 100%);
 }
 
 #loading .bg-header > img {
