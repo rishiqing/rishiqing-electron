@@ -1,16 +1,18 @@
 <template>
   <div id="index">
     <WebView
+      src="about:blank"
       id="main-iframe"
       disablewebsecurity
       nodeintegrationinsubframes
+      nodeIntegration
       ref="mainIframe"
       :preload="preloadFile"
       allowpopups
-      webpreferences="allowRunningInsecureContent=no, backgroundThrottling=no, webSecurity=no"
+      webpreferences="allowRunningInsecureContent=no, backgroundThrottling=no, webSecurity=no,contextIsolation=no,enableRemoteModule=yes"
+      :userAgent="userAgent"
       @did-finish-load="iframeLoad"
     />
-    <!-- <iframe id="main-iframe" allowFullscreen="true" ref="mainIframe" @load="iframeLoad"></iframe> -->
     <div id="loading" ref="loading" v-show="loadingDisplay">
       <div
         class="loading-splash"
@@ -33,7 +35,6 @@
         <img class="reload" src="../../assets/img/arrow-1.png" alt="点击重试" />
       </div>
     </div>
-    <audio :src="ogg" id="notification-sound"></audio>
     <welcome
       v-show="welcomeDisplay"
       @display="welcomeDisplayControl"
@@ -43,19 +44,16 @@
 </template>
 
 <script>
+const package_json = electron.remote.require("./package.json");
+// webview现在src不能空值，about:blank替代
 import electron from "electron";
 import Welcome from "./pub/Welcome.vue";
 import config from "../utils/config.js";
-import notification from "../utils/notification.js";
-import nativeNotify from "../utils/nativeNotify.js";
-import ogg from "../../assets/sound/Tethys.ogg";
-const preloadFile =
-  "file://" + electron.remote.process.cwd() + "/common/preload.js";
+const preloadFile = "file://" + electron.remote.app.getAppPath() + "/common/preload.js";
 
-const package_json = electron.remote.require("./package.json");
+const PRELOAD_EVENTS = electron.remote.require("./common/preload_event");
 const util = electron.remote.require("./native/util");
 const urlPackage = electron.remote.require("url");
-const os = electron.remote.require("os");
 const mainBroswerWindow = electron.remote.BrowserWindow.fromId(1);
 const db = mainBroswerWindow.mainDb;
 export default {
@@ -69,12 +67,12 @@ export default {
       loadingSplashDisplay: false,
       networkErrorDisplay: false,
       welcomeDisplay: false,
-      ogg,
       AnimationEnd: "webkitAnimationEnd",
       SERVER_URL: "https://www.rishiqing.com",
       platform: window.process.platform,
       Client_Can_Auto_Login_Data: "",
-      preloadFile
+      preloadFile,
+      userAgent: window.navigator.userAgent
     };
   },
   mounted() {
@@ -172,10 +170,12 @@ export default {
       }
     },
     isAppPage() {
-      const href = this.$refs.mainIframe.getURL();
-      if (href && href.indexOf(config.WEBSITE + "app") === 0) {
-        return true;
-      } else return false;
+      if (this.$refs.mainIframe) {
+        const href = this.$refs.mainIframe.getURL();
+        if (href && href.indexOf(config.WEBSITE + "app") === 0) {
+          return true;
+        } else return false;
+      }
     },
     loadingShow() {
       if (this.isAppPage()) this.loadingShowMore("pureColor");
@@ -240,14 +240,14 @@ export default {
     networkErrorClick() {
       this.showSplash();
       setTimeout(() => {
-        this.$refs.mainIframe.contentWindow.location.reload();
+        this.$refs.mainIframe.reload();
       }, 1000);
     },
     welcomeDisplayControl(type) {
       this.welcomeDisplay = type;
     },
     setUrl(url) {
-      this.$refs.mainIframe.src = url;
+      this.$refs.mainIframe.loadURL(url);
     },
     handleBar(pressed) {
       if (this.platform === "win32") {
@@ -263,7 +263,10 @@ export default {
       }
     },
     iframeLoad() {
-      if (this.$refs.mainIframe.src) {
+      if (
+        this.$refs.mainIframe.src &&
+        this.$refs.mainIframe.src !== "about:blank"
+      ) {
         this.loadingHideMore();
         this.$refs.mainIframe.removeEventListener("keydown", this.handleBar);
         this.$refs.mainIframe.addEventListener(
@@ -271,80 +274,33 @@ export default {
           this.handleBar,
           false
         );
-        // this.$refs.mainIframe.contentWindow.confirm = message => {
-        //   return window.confirm(message, "日事清");
-        // };
-        // this.$refs.mainIframe.contentWindow.alert = message => {
-        //   return window.alert(message, "日事清");
-        // };
-        // if (this.$refs.mainIframe.contentWindow.I_AM_RSQ_WEB) {
-        //   this.rishiqingWeb(this.$refs.mainIframe.contentWindow);
-        // }
+
+        if (package_json.env === "dev" || package_json.env === "debug") {
+          this.$refs.mainIframe.openDevTools();
+        }
+        //监听打开webview调试器
+        db.event.on(db.EVENTS.DevTool, () => {
+          if (this.$refs.mainIframe) this.$refs.mainIframe.openDevTools();
+        });
+        this.$refs.mainIframe.addEventListener("ipc-message", event => {
+          if (event.channel === PRELOAD_EVENTS.Preload_Can_Auto_Login) {
+            this.dealLogin(event.args.length ? event.args[0] : "");
+          }
+          if (event.channel === PRELOAD_EVENTS.Preload_On_Logout) {
+            this.onLogout();
+          }
+        });
       }
     },
     dealLogin(canAutoLogin) {
       if (!canAutoLogin) {
         this.welcomeDisplayControl(true);
-        this.$refs.mainIframe.src = "";
+        this.$refs.mainIframe.src = "about:blank";
       }
     },
-    rishiqingWeb(mainWindow) {
-      const that = this;
-      mainWindow.VERSIONSTAMP = {
-        version: package_json.version,
-        time: package_json.releaseTime || new Date().toString()
-      };
-      // 替换我们基于windows.Notification开发的通知模块，主要针对在win7下，只能使用balloon进行通知的问题
-      if (this.platform === "win32") {
-        const release = os.release();
-        const first = parseInt(release.split(".")[0], 10);
-        if (first !== 10) {
-          // 判断在windows以下都用自己开发的Notification来进行通知
-          mainWindow.Notification = nativeNotify;
-        } else {
-          // 如果是win10
-          mainWindow.Notification = notification;
-        }
-      }
-      if (this.platform === "darwin") {
-        mainWindow.Notification = notification;
-      }
-      mainWindow.Object.defineProperty(mainWindow.document, "hidden", {
-        configurable: true,
-        get() {
-          if (!mainBroswerWindow.isVisible()) return true;
-          if (mainBroswerWindow.isMinimized()) return true;
-          if (!mainBroswerWindow.isFocused()) return true;
-          return false;
-        },
-        set() {}
-      });
-      mainWindow.onLogout = () => {
-        that.welcomeDisplayControl(true);
-        that.$refs.mainIframe.src = "";
-      };
-      mainWindow.onHeaderDblclick = () => {
-        if (this.platform !== "darwin") return;
-        if (mainBroswerWindow.isMaximized()) {
-          mainBroswerWindow.unmaximize();
-        } else {
-          mainBroswerWindow.maximize();
-        }
-      };
-      if (mainWindow.Client_Can_Auto_Login !== undefined) {
-        this.dealLogin(mainWindow.Client_Can_Auto_Login);
-      }
-      this.Client_Can_Auto_Login_Data = mainWindow.Client_Can_Auto_Login;
-      mainWindow.Object.defineProperty(mainWindow, "Client_Can_Auto_Login", {
-        configurable: true,
-        get() {
-          return that.Client_Can_Auto_Login_Data;
-        },
-        set(v) {
-          that.Client_Can_Auto_Login_Data = v;
-          that.dealLogin(v);
-        }
-      });
+    onLogout() {
+      this.welcomeDisplayControl(true);
+      this.$refs.mainIframe.src = "about:blank";
     },
     async getServerConfig() {
       const serverConfig = await db.getServerConfig();
@@ -365,37 +321,9 @@ export default {
       if (!result.alive) {
         this.welcomeDisplayControl(true);
       } else {
-        this.$refs.mainIframe.src = urlPackage.resolve(this.SERVER_URL, "/app");
-      }
-    },
-    close() {
-      mainBroswerWindow.close();
-    },
-    minimize() {
-      mainBroswerWindow.minimize();
-    },
-    zoom() {
-      // 在windows平台就执行最大化，在其他平台就直接全屏
-      if (this.platform === "win32") {
-        if (mainBroswerWindow.isMaximized()) {
-          mainBroswerWindow.unmaximize();
-        } else {
-          mainBroswerWindow.maximize();
-        }
-      } else {
-        if (mainBroswerWindow.isFullScreen()) {
-          mainBroswerWindow.setFullScreen(false);
-        } else {
-          mainBroswerWindow.setFullScreen(true);
-        }
-      }
-    },
-    full(e) {
-      e.preventDefault();
-      if (mainBroswerWindow.isMaximized()) {
-        mainBroswerWindow.unmaximize();
-      } else {
-        mainBroswerWindow.maximize();
+        this.$refs.mainIframe.loadURL(
+          urlPackage.resolve(this.SERVER_URL, "/app")
+        );
       }
     }
   }

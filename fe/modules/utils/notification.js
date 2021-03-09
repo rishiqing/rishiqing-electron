@@ -36,6 +36,5 @@ class Notification2 extends Notification {
     }
   }
 }
-
 export default Notification2
 

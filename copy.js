@@ -6,9 +6,6 @@ const target = 'dir'
 const from_dir = ['common','native','res','dist','utils','download.js','main.js','package.json','page.js','preference.js']
 
 const tar_path = path.join(__dirname,target)
-if (env !== 'beta') {
-  env = 'release'
-}
 function deleteFolder(current) {
   var files = []
   if( fs.existsSync(current) ) {
@@ -68,8 +65,8 @@ function copyFolder(srcDir, tarDir, cb) {
 // 存在目录，删除再创建，不存在，直接创建
 fs.exists(tar_path, function(exists) {
   if (exists) {
-    deleteFolder(tar_path) 
-  } 
+    deleteFolder(tar_path)
+  }
   fs.mkdir(tar_path,function(err){
     if (err) {
        return console.error(err)
