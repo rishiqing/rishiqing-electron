@@ -1,0 +1,42 @@
+{
+  "name": "rishiqing-pc",
+  "private": true,
+  "version": "4.0.0",
+  "description": "rishiqing pc",
+  "homepage": "https://www.rishiqing.com",
+  "author": {
+    "name": "北京创仕科锐信息技术有限责任公司",
+    "email": "service@rishiqing.com"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build-pre": "vue-tsc && cross-env CHANNEL=beta vite build",
+    "build": "vue-tsc && cross-env CHANNEL=release vite build",
+    "preview": "vite preview"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.17.0",
+    "@typescript-eslint/parser": "^6.17.0",
+    "@vitejs/plugin-vue": "^4.5.2",
+    "@vue/eslint-config-typescript": "^12.0.0",
+    "cross-env": "^7.0.3",
+    "electron": "^28.1.1",
+    "electron-builder": "^24.9.1",
+    "electron-log": "^5.0.3",
+    "electron-store": "^8.1.0",
+    "esbuild": "^0.19.11",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-vue": "^9.19.2",
+    "fs-extra": "^11.2.0",
+    "lodash-es": "^4.17.21",
+    "prettier": "^3.1.1",
+    "sass": "^1.69.7",
+    "sass-loader": "^13.3.3",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.8",
+    "vite-plugin-optimizer": "^1.4.2",
+    "vue": "^3.4.5",
+    "vue-tsc": "^1.8.27"
+  }
+}
