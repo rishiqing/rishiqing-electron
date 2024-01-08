@@ -5,7 +5,13 @@ import { buildPlugin } from "./plugins/buildPlugin"
 import optimizer from "vite-plugin-optimizer"
 
 export default defineConfig({
-  plugins: [optimizer(getReplacer()), vue(), devPlugin()],
+  plugins: [optimizer(getReplacer()), vue({
+    template:{
+      compilerOptions:{
+        isCustomElement: (tag) => tag === 'WebView'
+      }
+    }
+  }), devPlugin()],
   build: {
     rollupOptions: {
       plugins: [buildPlugin()],

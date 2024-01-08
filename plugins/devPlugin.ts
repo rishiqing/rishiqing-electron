@@ -68,6 +68,7 @@ export function getReplacer() {
     'url',
     'better-sqlite3',
     'knex',
+    'url'
   ]
   const result = {}
   for (const item of externalModels) {

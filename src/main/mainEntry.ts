@@ -1,10 +1,11 @@
 import os from 'node:os'
-import { app, BrowserWindow, nativeImage, shell, ipcMain } from 'electron'
-import { CustomScheme } from './scheme'
+import { app, BrowserWindow, nativeImage } from 'electron'
+import { CustomScheme } from './utils/scheme'
 import log from 'electron-log/main'
-import store from './store'
+import store from './utils/store'
 import { version } from '../../package.json'
 import { throttle } from 'lodash-es'
+import { registerIpcMain } from './utils/ipcMain'
 
 log.initialize()
 
@@ -20,6 +21,7 @@ const windowSize = store.get('windowSize')
 let mainWindow: BrowserWindow
 
 app.whenReady().then(() => {
+  log.info('app ready')
   const platform = os.platform()
   const release = os.release()
 
@@ -27,7 +29,6 @@ app.whenReady().then(() => {
     // win 7 关闭硬件加速
     app.disableHardwareAcceleration()
   }
-
   const config = {
     minWidth: 1218,
     minHeight: 630,
@@ -51,7 +52,7 @@ app.whenReady().then(() => {
     },
     frame: true,
     backgroundColor: '#ffffff',
-    icon: nativeImage.createFromPath(__dirname + '/resources/rishiqing.png'),
+    icon: nativeImage.createFromPath(__dirname + '/resources/img/rishiqing.png'),
   }
 
   mainWindow = new BrowserWindow(config)
@@ -62,21 +63,21 @@ app.whenReady().then(() => {
   const userAgent = webContents.userAgent + ' rishiqing-pc/' + version
   webContents.userAgent = userAgent
 
-
-
-
   // 记录窗口大小
-  mainWindow.on('resize', throttle(() => {
-    const { width, height } = mainWindow.getBounds()
-    store.set('windowSize', {
-      width,
-      height,
-    })
-  }, 200))
+  mainWindow.on(
+    'resize',
+    throttle(() => {
+      const { width, height } = mainWindow.getBounds()
+      store.set('windowSize', {
+        width,
+        height,
+      })
+    }, 200),
+  )
+  // 注册ipc
+  registerIpcMain(mainWindow)
 
   mainWindow.webContents.openDevTools({ mode: 'undocked' })
-
-  
 
   if (process.argv[2]) {
     mainWindow.loadURL(process.argv[2])
@@ -84,9 +85,4 @@ app.whenReady().then(() => {
     CustomScheme.registerScheme()
     mainWindow.loadURL(`app://rishiqing`)
   }
-})
-
-ipcMain.on('open-log-directory', () => {
-  const logDirectory = log.transports.file.getFile()
-  shell.showItemInFolder(logDirectory.path)
 })

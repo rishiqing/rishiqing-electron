@@ -43,7 +43,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
       appId: 'release.rishiqing.electron',
       mac: {
         category: 'public.app-category.productivity', //放到生产效率类
-        icon: 'resources/rishiqing.icns',
+        icon: 'resources/img/rishiqing.icns',
         type: 'distribution',
         target: {
           arch: 'universal',
@@ -65,7 +65,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
             path: '/Applications',
           },
         ],
-        background: 'resources/background.png',
+        background: 'resources/img/background.png',
       },
       win: {
         target: [
@@ -74,7 +74,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
             arch: ['x64', 'ia32'],
           },
         ],
-        icon: 'resources/rishiqing.ico',
+        icon: 'resources/img/rishiqing.ico',
         publish: {
           provider: 'generic',
           url: "https://download.timetask.cn/pc-autoupdate/${os}/${arch}/${env.CHANNEL}',",
@@ -133,6 +133,7 @@ const preparePackageJson = () => {
   delete localPkgJson.devDependencies
   localPkgJson.devDependencies = { electron: electronConfig }
   localPkgJson.electronVersion = electronConfig
+  localPkgJson.releaseTime = (new Date()).toString()
   const tarJsonPath = path.join(process.cwd(), 'dist', 'package.json')
   fs.writeFileSync(tarJsonPath, JSON.stringify(localPkgJson))
   // electron-build有些默认行为，创建node_modules会阻止这些行为

@@ -26,6 +26,8 @@ export class CustomScheme {
       mimeType = 'text/css'
     } else if (extension === '.svg') {
       mimeType = 'image/svg+xml'
+    } else if (extension === '.png') {
+      mimeType = 'image/png'
     } else if (extension === '.json') {
       mimeType = 'application/json'
     }
