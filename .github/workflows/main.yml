@@ -1,10 +1,9 @@
 name: Build-pre
 
-# Workflow's trigger
 on:
   push:
-    branches:
-      - 4.0-beta
+    tags:
+      - 'pre-*'
 
 jobs:
   release:
@@ -33,7 +32,18 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2
       - run: pnpm install
+      # step4: build
       - name: Build pre
         run: pnpm run build-pre
+      # step5: release
+      - name: release
+        uses: softprops/action-gh-release@v1
+        if: startsWith(github.ref, 'refs/tags/')
+        with:
+          files: |
+           package-mac-beta/*
+           package-win-beta/*
+          draft: true
+          prerelease: true
         env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
