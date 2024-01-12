@@ -1,0 +1,47 @@
+name: Build-pre
+
+# Workflow's trigger
+on:
+  push:
+    branches:
+      - 4.0-beta
+
+jobs:
+  release:
+    name: build and release pre rishiqing-pc
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-11, windows-2019, ubuntu-latest]
+
+    # create steps
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      # step1: check out repository
+      - name: Check out git repository
+        uses: actions/checkout@v2
+
+      # step2: install node env
+      - name: Install Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+
+      - name: Install system deps
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get install libxtst-dev libpng++-dev
+          sudo apt-get install --no-install-recommends -y icnsutils graphicsmagick xz-utils
+          sudo snap install snapcraft --classic
+      # step3: pnpm
+      - name: Install pnpm
+        run: pnpm install
+      - name: Build pre
+        run: pnpm run build-pre
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
