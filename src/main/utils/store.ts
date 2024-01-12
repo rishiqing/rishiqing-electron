@@ -1,6 +1,8 @@
 import Store from 'electron-store'
 import log from 'electron-log/main'
 import os from 'node:os'
+import path from 'node:path'
+import fs from 'node:fs'
 import { app } from 'electron'
 import { StoreFileType } from '../../types'
 
@@ -59,6 +61,78 @@ const store = new Store({
   },
 })
 log.info('store initialize')
+const base = app.getPath('userData')
+
+const oldSetting = path.join(base, 'nedb-main.json')
+
+// 检查文件是否存在
+if (fs.existsSync(oldSetting)) {
+  log.info('store migrate')
+  fs.readFile(oldSetting, 'utf8', (err, data) => {
+    if (err) {
+      log.error('store migrate err' + err)
+    } else {
+      const dataArray = data.split('\n').map((jsonString) => {
+        if (!jsonString) return null
+        try {
+          return JSON.parse(jsonString)
+        } catch (error) {
+          log.error('store migrate err , parsing JSON' + error)
+          return null
+        }
+      })
+      dataArray.forEach((item) => {
+        if (item) {
+          if (item.type === 'hotkey-config') {
+            const key = process.platform === 'darwin' ? 'darwin' : 'win32'
+            store.set(`hotkey.${key}.toggle`, item.toggle)
+          }
+          if (item.type === 'main-window-size') {
+            store.set('windowSize', {
+              width: item.width,
+              height: item.height,
+            })
+          }
+          if (item.type === 'download-config') {
+            const db = store.get('downloadConfig')
+            store.set('downloadConfig', {
+              // 旧版downloadPath有bug，实际上下载地址是无法更改的
+              downloadPath: item.downloadPath || db.downloadPath,
+              inquiryDownloadPath: item.inquiryDownloadPath,
+            })
+          }
+          if (item.type === 'proxy-config') {
+            store.set('proxyConfig', {
+              mold: item.mold || '',
+              host: item.host || '',
+              port: item.port || '',
+              username: item.username || '',
+              password: item.password || '',
+            })
+          }
+          if (item.type === 'server-config') {
+            const db = store.get('serverConfig')
+            store.set('serverConfig', {
+              enablePrivate: item.enablePrivate || db.enablePrivate,
+              privateUrl: item.privateUrl || db.privateUrl,
+              privateBaseUrl: '/app',
+              officialUrl: db.officialUrl,
+              officialBaseUrl: db.officialBaseUrl,
+            })
+          }
+        }
+      })
+      fs.unlink(oldSetting, (err) => {
+        if (err) {
+          log.info('store migrate unlink old setting error' + err)
+        } else {
+          log.info('store migrate successfully')
+        }
+      })
+    }
+  })
+}
+
 export default store
 
 const downloadData = new Store({
@@ -68,4 +142,37 @@ const downloadData = new Store({
   },
 })
 log.info('download store initialize')
+
+const oldDownload = path.join(base, 'download-files.json')
+
+// 检查文件是否存在
+if (fs.existsSync(oldDownload)) {
+  log.info('download migrate')
+  fs.readFile(oldDownload, 'utf8', (err, data) => {
+    if (err) {
+      log.error('download migrate err' + err)
+    } else {
+      const dataArray = data.split('\n').map((jsonString) => {
+        if (!jsonString) return null
+        try {
+          return JSON.parse(jsonString)
+        } catch (error) {
+          log.error('download migrate err , parsing JSON' + error)
+          return null
+        }
+      })
+      const res = dataArray.filter((i) => i)
+      const db = downloadData.get('list')
+      downloadData.set('list', [...db, ...res])
+      fs.unlink(oldDownload, (err) => {
+        if (err) {
+          log.info('download migrate unlink old setting error' + err)
+        } else {
+          log.info('download migrate successfully')
+        }
+      })
+    }
+  })
+}
+
 export { downloadData }
