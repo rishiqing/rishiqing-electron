@@ -3,6 +3,7 @@ import fs from 'node:fs'
 import { build, Platform, type CliOptions } from 'electron-builder'
 import esbuild from 'esbuild'
 import fsExtra from 'fs-extra'
+import { preparePackageJson } from './utils'
 
 // 根路径是cwd
 
@@ -92,6 +93,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         shortcutName: '日事清',
         uninstallDisplayName: '日事清 ${version}',
         guid: 'F4BC9A4A-E09B-465E-BC10-A8921C46E672',
+        include:'resources/common/installer.nsh',
       },
       afterPack(options) {
         if (options.electronPlatformName !== 'darwin') return null
@@ -124,21 +126,7 @@ const buildMain = () => {
   fsExtra.copySync('./resources', './dist/resources')
 }
 
-const preparePackageJson = () => {
-  const pkgJsonPath = path.join(process.cwd(), 'package.json')
-  const localPkgJson = JSON.parse(fs.readFileSync(pkgJsonPath, 'utf-8'))
-  const electronConfig = localPkgJson.devDependencies.electron.replace('^', '')
-  localPkgJson.main = 'mainEntry.js'
-  delete localPkgJson.scripts
-  delete localPkgJson.devDependencies
-  localPkgJson.devDependencies = { electron: electronConfig }
-  localPkgJson.electronVersion = electronConfig
-  localPkgJson.releaseTime = (new Date()).toString()
-  const tarJsonPath = path.join(process.cwd(), 'dist', 'package.json')
-  fs.writeFileSync(tarJsonPath, JSON.stringify(localPkgJson))
-  // electron-build有些默认行为，创建node_modules会阻止这些行为
-  fs.mkdirSync(path.join(process.cwd(), 'dist/node_modules'))
-}
+
 
 const buildInstaller = async () => {
   // win

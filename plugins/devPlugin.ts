@@ -3,6 +3,7 @@ import { spawn } from 'child_process'
 import esbuild from 'esbuild'
 import electron from 'electron'
 import fsExtra from 'fs-extra'
+import { preparePackageJson } from './utils'
 
 global.__electronProcess = global.__electronProcess
   ? global.__electronProcess
@@ -20,6 +21,7 @@ export function devPlugin() {
       })
 
       fsExtra.copySync('./resources', './dist/resources')
+      preparePackageJson()
 
       const httpServer = server.httpServer
       if (httpServer) {
@@ -37,7 +39,7 @@ export function devPlugin() {
           global.__electronProcess = spawn(
             String(electron),
             // 这里指定了dist目录作为启动环境
-            ['./dist/mainEntry.js', httpAddress],
+            ['./dist/mainEntry.js', httpAddress + '/welcome/'],
             {
               cwd: process.cwd(),
               stdio: 'inherit',

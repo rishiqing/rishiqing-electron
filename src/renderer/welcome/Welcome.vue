@@ -1,34 +1,38 @@
 <script setup lang="ts">
 import url from 'url'
 import { ipcRenderer } from 'electron'
-
-const emit = defineEmits(['display', 'setUrl'])
+import { IpcEvent } from '../../main/utils/eventMessage'
+import { ref, onMounted } from 'vue'
 
 const getUrl = async () => {
   const serverConfig = await ipcRenderer.invoke(
-    'get-store-value',
-    'server-config',
+    IpcEvent.getStoreValue,
+    'serverConfig',
   )
   let serverUrl = ''
+  let baseUrl = ''
   if (serverConfig.enablePrivate) {
     serverUrl = serverConfig.privateUrl
+    baseUrl = serverConfig.privateBaseUrl
   } else {
     serverUrl = serverConfig.officialUrl
+    baseUrl = serverConfig.officialBaseUrl
   }
-  return serverUrl
+  return { serverUrl, baseUrl }
 }
 
 const login = async () => {
-  const baseUrl = await getUrl()
-  return url.resolve(baseUrl, '/account/login')
+  const { serverUrl } = await getUrl()
+  return url.resolve(serverUrl, '/account/login')
 }
 
 const sign = async () => {
-  const baseUrl = await getUrl()
-  return url.resolve(baseUrl, '/account/register')
+  const { serverUrl } = await getUrl()
+  return url.resolve(serverUrl, '/account/register')
 }
-
+const show = ref(true)
 const openUrl = async (type: 'login' | 'sign') => {
+  show.value = false
   let url
   if (type === 'login') {
     url = await login()
@@ -36,29 +40,40 @@ const openUrl = async (type: 'login' | 'sign') => {
     url = await sign()
   }
   if (url) {
-    const result = await ipcRenderer.invoke('test-server', url)
+    const result = await ipcRenderer.invoke(IpcEvent.testServer, url)
     if (result.alive) {
-      emit('display', false)
-      emit('setUrl', url)
+      await ipcRenderer.invoke(IpcEvent.showUrl, url)
     } else {
-      ipcRenderer.send('show-network-error', result.message)
+      ipcRenderer.send(IpcEvent.showNetworkError, result.message)
     }
   } else {
-    ipcRenderer.send('show-network-error', '自定义服务器不可用')
+    ipcRenderer.send(IpcEvent.showNetworkError, '自定义服务器不可用')
   }
+  show.value = true
 }
+
+onMounted(async () => {
+  const { serverUrl, baseUrl } = await getUrl()
+  const mainUrl = url.resolve(serverUrl, baseUrl)
+  const result = await ipcRenderer.invoke(IpcEvent.testServer, serverUrl)
+  if (result.alive) {
+    await ipcRenderer.invoke(IpcEvent.showUrl, mainUrl)
+  }
+})
 </script>
 
 <template>
-  <div class="welcome">
-    <img src="../../assets/welcome.png" draggable="false" />
-    <div class="main">
-      <img src="../../../resources/img/rishiqing.png" draggable="false" />
-      <span>欢迎使用日事清！</span>
-      <div class="login" @click="openUrl('login')">登录</div>
-      <div class="sign" @click="openUrl('sign')">注册</div>
+  <transition name="slide-fade">
+    <div class="welcome" v-if="show">
+      <img src="../assets/welcome.png" draggable="false" />
+      <div class="main">
+        <img src="../../../resources/img/rishiqing.png" draggable="false" />
+        <span>欢迎使用日事清！</span>
+        <div class="login" @click="openUrl('login')">登录</div>
+        <div class="sign" @click="openUrl('sign')">注册</div>
+      </div>
     </div>
-  </div>
+  </transition>
 </template>
 
 <style lang="scss" scoped>
@@ -125,5 +140,18 @@ const openUrl = async (type: 'login' | 'sign') => {
       margin-top: 12px;
     }
   }
+}
+
+.slide-fade-enter-active {
+  transition: all 0.3s ease-out;
+}
+
+.slide-fade-leave-active {
+  transition: all 0.8s cubic-bezier(1, 0.5, 0.8, 1);
+}
+
+.slide-fade-enter-from,
+.slide-fade-leave-to {
+  opacity: 0;
 }
 </style>

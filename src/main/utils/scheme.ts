@@ -36,15 +36,16 @@ export class CustomScheme {
   //注册自定义app协议
   static registerScheme() {
     protocol.handle('app', (request) => {
-      let pathName = new URL(request.url).pathname
-      let extension = path.extname(pathName).toLowerCase()
-
+      let { pathname, host } = new URL(request.url)
+      let extension = path.extname(pathname).toLowerCase()
       // 默认的请求到index.html
       if (extension == '') {
-        pathName = 'index.html'
+        pathname = 'index.html'
         extension = '.html'
       }
-      const tarFile = path.join(__dirname, pathName)
+      // 如果结尾不是html，那么没必要根据host区分
+      if (extension !== '.html') host = ''
+      const tarFile = path.join(__dirname, host, pathname)
       return new Response(fs.readFileSync(tarFile), {
         headers: {
           'content-type': this.getMimeType(extension),

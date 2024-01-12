@@ -1,10 +1,14 @@
-const ipc = require('electron').ipcRenderer
+const { ipcRenderer } = require('electron')
 const package_json = require('../../package.json')
-const EVENTS = require('./preload_event')
+
+const EVENTS = {
+  Preload_Can_Auto_Login: 'can_auto_login',
+  Preload_On_Logout: 'on_logout',
+}
 
 function dealLogin(canAutoLogin) {
   if (!canAutoLogin) {
-    ipc.sendToHost(EVENTS.Preload_Can_Auto_Login, canAutoLogin)
+    ipcRenderer.send(EVENTS.Preload_Can_Auto_Login, canAutoLogin)
   }
 }
 
@@ -34,20 +38,6 @@ window.onload = () => {
 
   // web端返回302,pc返回200
   window.onLogout = () => {
-    ipc.sendToHost(EVENTS.Preload_On_Logout)
+    ipcRenderer.send(EVENTS.Preload_On_Logout)
   }
-
-  // 解决图片使用vertical-align: baseline会撑出滚动条的问题
-  const cssContent = `
-  #r-login-register {
-    user-select: none
-  }
-  .r-login-register__sidebar-img {
-    vertical-align: bottom
-  }
-  `
-
-  const style = document.createElement('style')
-  style.innerHTML = cssContent
-  document.head.appendChild(style)
 }

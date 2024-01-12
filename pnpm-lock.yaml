@@ -8,6 +8,9 @@ devDependencies:
   '@types/lodash-es':
     specifier: ^4.17.12
     version: 4.17.12
+  '@types/winreg':
+    specifier: ^1.2.36
+    version: 1.2.36
   '@typescript-eslint/eslint-plugin':
     specifier: ^6.17.0
     version: 6.18.0(@typescript-eslint/parser@6.18.0)(eslint@8.56.0)(typescript@5.3.3)
@@ -35,6 +38,9 @@ devDependencies:
   electron-store:
     specifier: ^8.1.0
     version: 8.1.0
+  electron-updater:
+    specifier: ^6.1.7
+    version: 6.1.7
   esbuild:
     specifier: ^0.19.11
     version: 0.19.11
@@ -53,9 +59,15 @@ devDependencies:
   lodash-es:
     specifier: ^4.17.21
     version: 4.17.21
+  portfinder:
+    specifier: ^1.0.32
+    version: 1.0.32
   prettier:
     specifier: ^3.1.1
     version: 3.1.1
+  proxy-chain:
+    specifier: ^2.4.0
+    version: 2.4.0
   sass:
     specifier: ^1.69.7
     version: 1.69.7
@@ -77,6 +89,9 @@ devDependencies:
   vue-tsc:
     specifier: ^1.8.27
     version: 1.8.27(typescript@5.3.3)
+  winreg:
+    specifier: ^1.2.5
+    version: 1.2.5
 
 packages:
 
@@ -782,6 +797,10 @@ packages:
     dev: true
     optional: true
 
+  /@types/winreg@1.2.36:
+    resolution: {integrity: sha512-DtafHy5A8hbaosXrbr7YdjQZaqVewXmiasRS5J4tYMzt3s1gkh40ixpxgVFfKiQ0JIYetTJABat47v9cpr/sQg==}
+    dev: true
+
   /@types/yauzl@2.10.3:
     resolution: {integrity: sha512-oJoftv0LSuaDZE3Le4DbKX+KS9G36NzOeSap90UIK0yMA/NhKJhqlSGtNDORNRaIbQfzjXDrQa0ytJ6mNRGz/Q==}
     requiresBuild: true
@@ -1355,6 +1374,12 @@ packages:
     engines: {node: '>=0.12.0'}
     dev: true
 
+  /async@2.6.4:
+    resolution: {integrity: sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==}
+    dependencies:
+      lodash: 4.17.21
+    dev: true
+
   /async@3.2.5:
     resolution: {integrity: sha512-baNZyqaaLhyLVKm/DlvdW051MSgO6b8eVfIezl9E5PqWxFgzLm/wQntEW4zOytVburDEr0JlALEpdOFwvErLsg==}
     dev: true
@@ -1701,6 +1726,17 @@ packages:
       mimic-fn: 3.1.0
     dev: true
 
+  /debug@3.2.7:
+    resolution: {integrity: sha1-clgLfpFF+zm2Z2+cXl+xALk0F5o=}
+    peerDependencies:
+      supports-color: '*'
+    peerDependenciesMeta:
+      supports-color:
+        optional: true
+    dependencies:
+      ms: 2.1.2
+    dev: true
+
   /debug@4.3.4:
     resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
@@ -1892,6 +1928,21 @@ packages:
 
   /electron-to-chromium@1.4.623:
     resolution: {integrity: sha512-lKoz10iCYlP1WtRYdh5MvocQPWVRoI7ysp6qf18bmeBgR8abE6+I2CsfyNKztRDZvhdWc+krKT6wS7Neg8sw3A==}
+    dev: true
+
+  /electron-updater@6.1.7:
+    resolution: {integrity: sha512-SNOhYizjkm4ET+Y8ilJyUzcVsFJDtINzVN1TyHnZeMidZEG3YoBebMyXc/J6WSiXdUaOjC7ngekN6rNp6ardHA==}
+    dependencies:
+      builder-util-runtime: 9.2.3
+      fs-extra: 10.1.0
+      js-yaml: 4.1.0
+      lazy-val: 1.0.5
+      lodash.escaperegexp: 4.1.2
+      lodash.isequal: 4.5.0
+      semver: 7.5.4
+      tiny-typed-emitter: 2.1.0
+    transitivePeerDependencies:
+      - supports-color
     dev: true
 
   /electron@28.1.1:
@@ -2784,6 +2835,14 @@ packages:
     resolution: {integrity: sha1-Q+YmxG5lkbd1C+srUBFzkMYJ4+4=}
     dev: true
 
+  /lodash.escaperegexp@4.1.2:
+    resolution: {integrity: sha1-ZHYsSGGAglGKw99Mz11YhtriA0c=}
+    dev: true
+
+  /lodash.isequal@4.5.0:
+    resolution: {integrity: sha1-QVxEePK8wwEgwizhDtMib30+GOA=}
+    dev: true
+
   /lodash.merge@4.6.2:
     resolution: {integrity: sha1-VYqlO0O2YeGSWgr9+japoQhf5Xo=}
     dev: true
@@ -2927,6 +2986,13 @@ packages:
     dependencies:
       minipass: 3.3.6
       yallist: 4.0.0
+    dev: true
+
+  /mkdirp@0.5.6:
+    resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
+    hasBin: true
+    dependencies:
+      minimist: 1.2.8
     dev: true
 
   /mkdirp@1.0.4:
@@ -3126,6 +3192,17 @@ packages:
       xmlbuilder: 15.1.1
     dev: true
 
+  /portfinder@1.0.32:
+    resolution: {integrity: sha512-on2ZJVVDXRADWE6jnQaX0ioEylzgBpQk8r55NE4wjXW1ZxO+BgDlY6DXwj20i0V8eB4SenDQ00WEaxfiIQPcxg==}
+    engines: {node: '>= 0.12.0'}
+    dependencies:
+      async: 2.6.4
+      debug: 3.2.7
+      mkdirp: 0.5.6
+    transitivePeerDependencies:
+      - supports-color
+    dev: true
+
   /postcss-selector-parser@6.0.15:
     resolution: {integrity: sha512-rEYkQOMUCEMhsKbK66tbEU9QVIxbhN18YiniAwA7XQYTVBqrBy+P2p5JcdqsHgKM2zWylp8d7J6eszocfds5Sw==}
     engines: {node: '>=4'}
@@ -3165,6 +3242,13 @@ packages:
     dependencies:
       err-code: 2.0.3
       retry: 0.12.0
+    dev: true
+
+  /proxy-chain@2.4.0:
+    resolution: {integrity: sha512-fbFfzJDxWcLYYvI+yx0VXjTgJPfXsGdhFnCJN4rq/5GZSgn9CQpRgm1KC2iEJfhL8gkeZCWJYBAllmGMT356cg==}
+    engines: {node: '>=14'}
+    dependencies:
+      tslib: 2.6.2
     dev: true
 
   /pump@3.0.0:
@@ -3592,6 +3676,10 @@ packages:
     resolution: {integrity: sha1-f17oI66AUgfACvLfSoTsP8+lcLQ=}
     dev: true
 
+  /tiny-typed-emitter@2.1.0:
+    resolution: {integrity: sha512-qVtvMxeXbVej0cQWKqVSSAHmKZEHAvxdF8HEUBFWts8h+xEo5m/lEiPakuyZ3BnCBjOD8i24kzNOiOLLgsSxhA==}
+    dev: true
+
   /tmp-promise@3.0.3:
     resolution: {integrity: sha1-YKGhzJjJiGdPy/0jtuM2e96sTOc=}
     dependencies:
@@ -3630,6 +3718,10 @@ packages:
       typescript: '>=4.2.0'
     dependencies:
       typescript: 5.3.3
+    dev: true
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
     dev: true
 
   /type-check@0.4.0:
@@ -3864,6 +3956,10 @@ packages:
     hasBin: true
     dependencies:
       isexe: 2.0.0
+    dev: true
+
+  /winreg@1.2.5:
+    resolution: {integrity: sha512-uf7tHf+tw0B1y+x+mKTLHkykBgK2KMs3g+KlzmyMbLvICSHQyB/xOFjTT8qZ3oeTFyU7Bbj4FzXitGG6jvKhYw==}
     dev: true
 
   /wrap-ansi@7.0.0:
