@@ -35,13 +35,8 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         output,
         app: path.join(process.cwd(), 'dist'),
       },
-      publish: {
-        provider: 'generic',
-        url: 'https://download.timetask.cn/pc-autoupdate/${os}/${env.CHANNEL}',
-        channel: '${env.CHANNEL}',
-      },
       productName: 'rishiqing',
-      appId: 'release.rishiqing.electron',
+      appId: 'release.rishiqing.electron',  
       mac: {
         category: 'public.app-category.productivity', //放到生产效率类
         icon: 'resources/img/rishiqing.icns',
@@ -76,11 +71,6 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           },
         ],
         icon: 'resources/img/rishiqing.ico',
-        publish: {
-          provider: 'generic',
-          url: "https://download.timetask.cn/pc-autoupdate/${os}/${arch}/${env.CHANNEL}',",
-          channel: '${env.CHANNEL}',
-        },
       },
       linux: {
         target: {
@@ -93,7 +83,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         shortcutName: '日事清',
         uninstallDisplayName: '日事清 ${version}',
         guid: 'F4BC9A4A-E09B-465E-BC10-A8921C46E672',
-        include:'resources/common/installer.nsh',
+        include: 'resources/common/installer.nsh',
       },
       afterPack(options) {
         if (options.electronPlatformName !== 'darwin') return null
@@ -126,15 +116,13 @@ const buildMain = () => {
   fsExtra.copySync('./resources', './dist/resources')
 }
 
-
-
 const buildInstaller = async () => {
   // win
   await build(createBuilderOptions('win'))
   // mac
-  await build(createBuilderOptions('mac'))
-  // linux
-  await build(createBuilderOptions('linux'))
+  // await build(createBuilderOptions('mac'))
+  // // linux
+  // await build(createBuilderOptions('linux'))
 }
 
 export function buildPlugin() {

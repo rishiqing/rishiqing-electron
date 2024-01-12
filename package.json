@@ -1,5 +1,6 @@
 {
   "name": "rishiqing-electron",
+  "packageManager": "pnpm@8.14.0",
   "private": true,
   "version": "4.0.0",
   "description": "rishiqing pc",
