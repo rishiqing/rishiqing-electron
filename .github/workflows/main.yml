@@ -22,11 +22,11 @@ jobs:
           python-version: '3.10'
       # step1: check out repository
       - name: Check out git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       # step2: install node env
       - name: Install Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: 16.x
       # step3: pnpm
