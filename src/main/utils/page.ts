@@ -36,7 +36,6 @@ class Page {
       e.preventDefault()
     })
     currentWindow.loadURL(this.loadURL)
-    currentWindow.webContents.openDevTools()
   }
 
   open() {

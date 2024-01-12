@@ -263,6 +263,7 @@ const onRestore = async() => {
         padding: 0 15px;
         width: 148px;
         outline: none;
+        font-size: 12px;
 
         &[readonly] {
           background-color: #f7f7f7;

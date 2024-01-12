@@ -70,14 +70,14 @@ if (fs.existsSync(oldSetting)) {
   log.info('store migrate')
   fs.readFile(oldSetting, 'utf8', (err, data) => {
     if (err) {
-      log.error('store migrate err' + err)
+      log.error(`store migrate err ${err}`)
     } else {
       const dataArray = data.split('\n').map((jsonString) => {
         if (!jsonString) return null
         try {
           return JSON.parse(jsonString)
         } catch (error) {
-          log.error('store migrate err , parsing JSON' + error)
+          log.error(`store parsing JSON ${error}`)
           return null
         }
       })
@@ -124,7 +124,7 @@ if (fs.existsSync(oldSetting)) {
       })
       fs.unlink(oldSetting, (err) => {
         if (err) {
-          log.info('store migrate unlink old setting error' + err)
+          log.info(`store migrate unlink old setting error ${err}`)
         } else {
           log.info('store migrate successfully')
         }
@@ -150,14 +150,14 @@ if (fs.existsSync(oldDownload)) {
   log.info('download migrate')
   fs.readFile(oldDownload, 'utf8', (err, data) => {
     if (err) {
-      log.error('download migrate err' + err)
+      log.error(`download migrate err ${err}`)
     } else {
       const dataArray = data.split('\n').map((jsonString) => {
         if (!jsonString) return null
         try {
           return JSON.parse(jsonString)
         } catch (error) {
-          log.error('download migrate err , parsing JSON' + error)
+          log.error(`download parsing JSON ${error}`)
           return null
         }
       })
@@ -166,7 +166,7 @@ if (fs.existsSync(oldDownload)) {
       downloadData.set('list', [...db, ...res])
       fs.unlink(oldDownload, (err) => {
         if (err) {
-          log.info('download migrate unlink old setting error' + err)
+          log.info(`download migrate unlink old setting error ${err}`)
         } else {
           log.info('download migrate successfully')
         }

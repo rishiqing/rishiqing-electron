@@ -121,6 +121,7 @@ const onAppendClick = () => {
     padding-left: 15px;
     outline: none;
     width: 40px;
+    font-size: 12px;
 
     &[readonly] {
       background-color: #f7f7f7;

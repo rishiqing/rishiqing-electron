@@ -16,7 +16,6 @@ import { testProxy } from './proxy'
 export const registerIpcMain = (mainWindow: BrowserWindow) => {
   ipcMain.on(IpcEvent.openLogDirectory, () => {
     const logDirectory = log.transports.file.getFile()
-    console.log(logDirectory.path)
     shell.showItemInFolder(logDirectory.path)
   })
 

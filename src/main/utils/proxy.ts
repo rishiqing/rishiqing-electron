@@ -1,4 +1,4 @@
-import ProxyChain from 'proxy-chain'
+import { Server } from 'proxy-chain'
 import portfinder from 'portfinder'
 import { session } from 'electron'
 import { eventEmitter } from './eventEmitter'
@@ -9,7 +9,7 @@ import { testServer } from './helper'
 
 portfinder.basePort = 1991
 
-let proxyChain: ProxyChain.Server | null
+let proxyChain: Server | null
 
 const closeProxyChain = () => {
   return new Promise((resolve) => {
@@ -35,7 +35,7 @@ export const startProxyChain = async (config: proxyConfig) => {
     upstreamProxyUrl = `${config.mold}://${config.username}@${config.host}:${config.port}`
   }
   proxyChain = await new Promise((resolve) => {
-    const proxyServer = new ProxyChain.Server({
+    const proxyServer = new Server({
       port: port,
       prepareRequestFunction: () => {
         return {
@@ -128,12 +128,10 @@ const configProxy = async (config: proxyConfig) => {
   await closeProxy()
 }
 
-
 export const initProxy = async () => {
   const config = store.get('proxyConfig')
   await configProxy(config)
 }
-
 
 eventEmitter.on(ViewEvent.proxyConfigChange, async () => {
   await initProxy()

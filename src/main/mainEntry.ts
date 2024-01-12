@@ -46,6 +46,7 @@ app.whenReady().then(() => {
   if (disableHardwareAcceleration) {
     // win 7 关闭硬件加速
     app.disableHardwareAcceleration()
+    log.info('disableHardwareAcceleration')
   }
 
   // 初始化快捷键
@@ -149,8 +150,28 @@ app.whenReady().then(() => {
     }
   })
 
-  webContents.session.on("will-download", (_, item) => {
-    download.startDownload(item);
+  webContents.session.on('will-download', (_, item) => {
+    download.startDownload(item)
+  })
+
+  webContents.on('render-process-gone', (_, { reason, exitCode }) => {
+    log.error(`render-process-gone reason:${reason} exitCode:${exitCode}`)
+  })
+
+  webContents.on('unresponsive', () => {
+    log.error('unresponsive')
+  })
+
+  webContents.on('console-message', (_, level, message) => {
+    if (level <= 1) {
+      log.info(`console-message ${message}`)
+    }
+    if (level === 2) {
+      log.warn(`console-message ${message}`)
+    }
+    if (level === 3) {
+      log.error(`console-message ${message}`)
+    }
   })
 })
 
