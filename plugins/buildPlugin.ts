@@ -37,7 +37,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
       },
       productName: 'rishiqing',
       appId: 'release.rishiqing.electron',
-      publish: 'never',
+      publish: null,
       mac: {
         category: 'public.app-category.productivity', //放到生产效率类
         icon: 'resources/img/rishiqing.icns',
