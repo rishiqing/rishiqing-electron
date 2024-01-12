@@ -41,8 +41,9 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-           package-mac-beta/*
-           package-win-beta/*
+           package-mac-beta/*.!(yml)
+           package-win-beta/*.!(yml)
+           package-linux-beta/*.!(yml)
           draft: true
           prerelease: true
         env:

@@ -121,9 +121,9 @@ const buildInstaller = async () => {
   // win
   await build(createBuilderOptions('win'))
   // mac
-  // await build(createBuilderOptions('mac'))
+  await build(createBuilderOptions('mac'))
   // // linux
-  // await build(createBuilderOptions('linux'))
+  await build(createBuilderOptions('linux'))
 }
 
 export function buildPlugin() {
