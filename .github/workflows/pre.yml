@@ -28,6 +28,8 @@ jobs:
       # step4: pnpm
       - name: Install pnpm
         uses: pnpm/action-setup@v2
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo  ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
       - run: pnpm install
       # step5: build
       - name: Build pre
