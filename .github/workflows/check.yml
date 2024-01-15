@@ -1,13 +1,13 @@
-name: Build-pre
+name: Build-check
 
 on:
   push:
     tags:
-      - 'pre-*'
+      - 'check-*'
 
 jobs:
   release:
-    name: build and release pre rishiqing-pc
+    name: build and release check-rishiqing-pc
 
     runs-on: macos-11
     strategy:
@@ -41,10 +41,10 @@ jobs:
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
-           package-mac-beta/*.!(yml)
-           package-win-beta/*.!(yml)
-           package-linux-beta/*.!(yml)
+           package-mac-release/*.!(yml)
+           package-win-release/*.!(yml)
+           package-linux-release/*.!(yml)
           draft: true
-          prerelease: true
+          prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
