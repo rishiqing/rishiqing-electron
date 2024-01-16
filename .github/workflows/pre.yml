@@ -33,7 +33,7 @@ jobs:
           cache: pnpm
       # step5: install dependencies
       - name: Install dependencies
-        run: pnpm install --only dev
+        run: pnpm install
       # step6: build
       - name: Build pre
         run: pnpm run build-pre
@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       # step6: install dependencies
       - name: Install dependencies
-        run: pnpm install --only prod
+        run: pnpm install
       # step7: deploy
       - name: Deploy
         run: pnpm run deploy-pre 
