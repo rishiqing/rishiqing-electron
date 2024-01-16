@@ -7,44 +7,26 @@ on:
 
 jobs:
   release:
-    name: build and release release-rishiqing-pc
-
-    runs-on: macos-11
-    strategy:
-      fail-fast: false
-
-    # create steps
+    name: release release-rishiqing-pc
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
       # step1: check out repository
       - name: Check out git repository
         uses: actions/checkout@v4
-
-      # step2: install node env
+      # step2: install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
+      # step3: install node env
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 16.x
-      # step3: pnpm
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-      - run: pnpm install
-      # step4: build
-      - name: Build pre
-        run: pnpm run build-pre
+          cache: pnpm
       # step5: release
-      - name: release
-        uses: softprops/action-gh-release@v1
-        if: startsWith(github.ref, 'refs/tags/')
-        with:
-          files: |
-           package-mac-release/*.!(yml)
-           package-win-release/*.!(yml)
-           package-linux-release/*.!(yml)
-          draft: true
-          prerelease: false
+      - name: Release
+        run: pnpm run deploy 
         env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          ALY_OSS_ACCESS_ID: ${{ secrets.ALY_OSS_ACCESS_ID }}
+          ALY_OSS_ACCESS_KEY: ${{ secrets.ALY_OSS_ACCESS_KEY }}

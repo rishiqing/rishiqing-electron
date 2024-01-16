@@ -6,45 +6,91 @@ on:
       - 'check-*'
 
 jobs:
-  release:
-    name: build and release check-rishiqing-pc
-
+  check-build:
+    name: build check-rishiqing-pc
     runs-on: macos-11
-    strategy:
-      fail-fast: false
 
     # create steps
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v4
-        with:
-          python-version: '3.10'
       # step1: check out repository
       - name: Check out git repository
         uses: actions/checkout@v4
-
-      # step2: install node env
+      # step2: install python
+      - name: Install Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+      # step3: install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
+      # step4: install node env
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 16.x
-      # step3: pnpm
+          cache: pnpm
+      # step5: install dependencies
+      - name: Install dependencies
+        run: pnpm install
+      # step6: build
+      - name: Build check
+        run: pnpm run build
+      # step7: upload artifact
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: |
+            package-linux-release
+            package-mac-release
+            package-win-release
+
+  release :
+    name: release check-rishiqing-pc
+    needs: check-build
+    runs-on: ubuntu-latest
+    steps:
+      # step1: check out repository
+      - name: Check out git repository
+        uses: actions/checkout@v4
+      # step2: install pnpm
       - name: Install pnpm
         uses: pnpm/action-setup@v2
-      - run: pnpm install
-      # step4: build
-      - name: Build pre
-        run: pnpm run build-pre
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
+      # step3: install node env
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+          cache: pnpm
+      # step4: download artifact
+      - name: Download Artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: ./
       # step5: release
-      - name: release
+      - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
            package-mac-release/*.!(yml)
+           package-x64-release/*.!(yml)
            package-win-release/*.!(yml)
-           package-linux-release/*.!(yml)
           draft: true
           prerelease: false
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      # step6: install dependencies
+      - name: Install dependencies
+        run: pnpm install
+      # step7: deploy
+      - name: Deploy
+        run: pnpm run deploy-check 
+        env:
+          ALY_OSS_ACCESS_ID: ${{ secrets.ALY_OSS_ACCESS_ID }}
+          ALY_OSS_ACCESS_KEY: ${{ secrets.ALY_OSS_ACCESS_KEY }}
