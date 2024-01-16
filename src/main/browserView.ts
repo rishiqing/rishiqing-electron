@@ -40,7 +40,7 @@ export const createMainBrowserView = async (
     height: mainWindow.getContentSize()[1],
   })
   view.webContents.loadURL(url, {
-    userAgent: 'mainWindow.webContents.userAgent',
+    userAgent: mainWindow.webContents.userAgent,
   })
 
   view.webContents.insertCSS(`

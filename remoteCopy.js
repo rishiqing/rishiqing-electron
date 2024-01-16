@@ -1,119 +1,86 @@
-/*
-* @Author: qinyang
-* @Date:   2018-01-22 10:24:45
-* @Last Modified by:   qinyang
-* @Last Modified time: 2018-01-24 01:14:05
-* @for: remote copy to aliyun oss
-*/
-const pkg  = require('./package.json');
-const OSS  = require('aliyun-sdk').OSS;
-const path = require('path');
+const { version } = require('./package.json')
+const OSS = require('ali-oss')
+const path = require('node:path')
 
 const sourceList = [
-  { type: 'mac', key: 'pc-autoupdate/mac/check/release-mac.json' },
-  { type: 'ia32', key: 'pc-autoupdate/win/ia32/check/release.json' },
-  { type: 'x64', key: 'pc-autoupdate/win/x64/check/release.json' }
-];
+  { type: 'mac', key: 'pc-autoupdate-v4/mac/check/release.json' },
+  { type: 'ia32', key: 'pc-autoupdate-v4/win/ia32/check/release.json' },
+  { type: 'x64', key: 'pc-autoupdate-v4/win/x64/check/release.json' },
+]
 
 const copySource = {
   mac: {
-    prefix: 'pc-autoupdate/mac',
+    prefix: 'pc-autoupdate-v4/mac',
     list: [
-      `rishiqing-${pkg.version}-mac.zip`,
-      `rishiqing-mac-release-${pkg.version}.dmg`,
-      `release-mac.json`,
-      `release-mac.yml`
-    ]
+      `rishiqing-mac-release-${version}.dmg`,
+      `release.json`,
+      `release.yml`,
+    ],
   },
   ia32: {
-    prefix: 'pc-autoupdate/win/ia32',
+    prefix: 'pc-autoupdate-v4/win/ia32',
     list: [
-      `rishiqing-win-ia32-release-${pkg.version}.exe`,
+      `rishiqing-win-ia32-release-${version}.exe`,
       `release.json`,
-      `release.yml`
-    ]
+      `release.yml`,
+    ],
   },
   x64: {
-    prefix: 'pc-autoupdate/win/x64',
+    prefix: 'pc-autoupdate-v4/win/x64',
     list: [
-      `rishiqing-win-x64-release-${pkg.version}.exe`,
+      `rishiqing-win-x64-release-${version}.exe`,
       `release.json`,
-      `release.yml`
-    ]
-  }
-};
+      `release.yml`,
+    ],
+  },
+}
 
 const oss = new OSS({
-  'accessKeyId': process.env.ALY_OSS_Access_Id,
-  'secretAccessKey': process.env.ALY_OSS_Access_Key,
-  'endpoint': 'http://oss-cn-shenzhen.aliyuncs.com',
-  'apiVersion': '2013-10-15'
-});
+  accessKeyId: process.env.ALY_OSS_ACCESS_ID,
+  accessKeySecret: process.env.ALY_OSS_ACCESS_KEY,
+  region: 'oss-cn-shenzhen',
+  bucket: 'rishiqing-client',
+})
 
-const copyObject = function (obj) {
-  return new Promise(function (resolve, reject) {
-    oss.copyObject(Object.assign({
-      Bucket: 'rishiqing-client'
-    }, obj), function (err, data) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-const getObject = function (obj) {
-  return new Promise(function (resolve, reject) {
-    oss.getObject(Object.assign({
-      Bucket: 'rishiqing-client'
-    }, obj), function (err, data) {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(data);
-      }
-    });
-  });
-};
-
-const deal = async function () {
-  const infoList = [];
-  for (let item of sourceList) {
-    try {
-      const result = await getObject({
-        Key: item.key
-      });
-      infoList.push({
+const deal = async () => {
+  const infoList = await Promise.all(
+    sourceList.map(async (item) => {
+      let result = {}
+      try {
+        result = await oss.get(item.key)
+      } catch (e) {}
+      return {
         type: item.type,
-        data: JSON.parse(result.Body.toString())
-      });
-    } catch (e) {}
-  }
+        data: result.res ? JSON.parse(result.res.data.toString()) : {},
+      }
+    }),
+  )
 
   for (let item of infoList) {
-    if (item && item.data && item.data.version === pkg.version) {
-      const copyDetail = copySource[item.type];
-      if (!copyDetail) continue;
+    if (item && item.data && item.data.version === version) {
+      const copyDetail = copySource[item.type]
+      if (!copyDetail) continue
       for (let file of copyDetail.list) {
         if (/\.json|\.yml$/.test(file)) {
-          const result = path.parse(file);
-          const base = result.name + '_' + (new Date()).getTime() + result.ext
-          await copyObject({
-            CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'release', file).replace(/\\/g, '/'),
-            Key: path.join(copyDetail.prefix, 'release', base).replace(/\\/g, '/') // 这个地方不能以 '/' 开头，不然会报签名错误
-          });
+          const result = path.parse(file)
+          const base = result.name + '_' + new Date().getTime() + result.ext
+
+          const beforeFilePath = path.join(copyDetail.prefix, 'release', file)
+          const afterFilePath = path.join(copyDetail.prefix, 'release', base)
+          try {
+            await oss.head(beforeFilePath)
+            await oss.copy(afterFilePath, beforeFilePath)
+          } catch (e) {}
         }
-        await copyObject({
-          CopySource: path.join('/rishiqing-client', copyDetail.prefix, 'check', file).replace(/\\/g, '/'),
-          Key: path.join(copyDetail.prefix, 'release', file).replace(/\\/g, '/')
-        });
+
+        const checkFilePath = path.join(copyDetail.prefix, 'check', file)
+        const releaseFilePath = path.join(copyDetail.prefix, 'release', file)
+        try {
+          await oss.copy(releaseFilePath, checkFilePath)
+        } catch (e) {}
       }
     }
   }
 }
 
-deal();
-
-
+deal()

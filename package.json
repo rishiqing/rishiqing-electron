@@ -13,7 +13,14 @@
     "dev": "vite",
     "build-pre": "vue-tsc && cross-env CHANNEL=beta vite build",
     "build": "vue-tsc && cross-env CHANNEL=release vite build",
+    "deploy-pre": "rishiqing-deploy --env=pre",
+    "deploy-check": "rishiqing-deploy --env=check",
+    "deploy": "node ./remoteCopy.js",
     "preview": "vite preview"
+  },
+  "dependencies": {
+    "ali-oss": "^6.19.0",
+    "rishiqing-deploy": "^11.3.24"
   },
   "devDependencies": {
     "@types/lodash-es": "^4.17.12",
@@ -22,7 +29,6 @@
     "@typescript-eslint/parser": "^6.17.0",
     "@vitejs/plugin-vue": "^4.5.2",
     "@vue/eslint-config-typescript": "^12.0.0",
-    "aliyun-sdk": "^1.12.10",
     "cross-env": "^7.0.3",
     "electron": "^28.1.1",
     "electron-builder": "^24.9.1",
@@ -37,8 +43,7 @@
     "lodash-es": "^4.17.21",
     "portfinder": "^1.0.32",
     "prettier": "^3.1.1",
-    "proxy-chain": "^2.4.0",
-    "rishiqing-deploy": "^11.3.24",
+    "proxy-chain": "2.4.0",
     "sass": "^1.69.7",
     "sass-loader": "^13.3.3",
     "typescript": "^5.2.2",

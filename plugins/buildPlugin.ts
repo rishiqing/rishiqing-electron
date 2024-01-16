@@ -39,7 +39,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
       appId: 'release.rishiqing.electron',
       publish: {
         provider: 'generic',
-        url: 'https://download.timetask.cn/pc-autoupdate/${os}/${env.CHANNEL}',
+        url: 'https://download.timetask.cn/pc-autoupdate-v4/${os}/${env.CHANNEL}',
         channel: '${env.CHANNEL}'
       },
       mac: {
@@ -78,8 +78,8 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         icon: 'resources/img/rishiqing.ico',
         publish: {
           provider: 'generic',
-          url: "https://download.timetask.cn/pc-autoupdate/${os}/${arch}/${env.CHANNEL}",
-          channel: '${env.CHANNEL}',
+          url: "https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}",
+          channel: '${arch}-${env.CHANNEL}',
         },
       },
       linux: {
@@ -130,7 +130,7 @@ const buildInstaller = async () => {
   // win
   await build(createBuilderOptions('win'))
   // mac
-  // await build(createBuilderOptions('mac'))
+  await build(createBuilderOptions('mac'))
   // // linux
   // await build(createBuilderOptions('linux'))
 }

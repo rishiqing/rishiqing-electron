@@ -1,0 +1,267 @@
+pre:
+  convert:
+    # win 32
+    - target: package-win-beta/ia32-beta.yml
+      dest: package-win-beta/ia32-beta.json
+    # win 64
+    - target: package-win-beta/x64-beta.yml
+      dest: package-win-beta/x64-beta.json
+    # mac
+    - target: package-mac-beta/beta-mac.yml
+      dest: package-mac-beta/beta-mac.json
+  resource:
+  # win 32
+    - dist: 'package-win-beta'
+      ignore:
+        - 'win-ia32-unpacked'
+        - 'win-unpacked'
+        - '/.json/'
+        - '/.yaml$/'
+        - '/.yml$/'
+        - '/.blockmap$/'
+        - '/rishiqing-win-beta-/'
+        - '/rishiqing-win-x64-beta-/'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/beta'
+    # win 64
+    - dist: 'package-win-beta'
+      ignore:
+        - 'win-ia32-unpacked'
+        - 'win-unpacked'
+        - '/.json/'
+        - '/.yaml$/'
+        - '/.yml$/'
+        - '/.blockmap$/'
+        - '/rishiqing-win-beta-/'
+        - '/rishiqing-win-ia32-beta-/'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/beta'
+    # mac
+    - dist: 'package-mac-beta'
+      ignore:
+        - 'mac-universal'
+        - '/.yml$/'
+        - '/.yaml$/'
+        - '/.json/'
+        - '/.blockmap$/'
+      upload: 
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/beta'
+  fileReplace:
+    # win 32 yml
+    - dist: 'package-win-beta/ia32-beta.yml'
+      target: 'beta.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/beta'
+    # win 32 json
+    - dist: 'package-win-beta/ia32-beta.json'
+      target: 'beta.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/beta'
+    # win 64 yml
+    - dist: 'package-win-beta/x64-beta.yml'
+      target: 'beta.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/beta'
+    # win 64 json
+    - dist: 'package-win-beta/x64-beta.json'
+      target: 'beta.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/beta'
+    # mac yml
+    - dist: 'package-mac-beta/beta-mac.yml'
+      target: 'beta.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/beta'
+    # mac json
+    - dist: 'package-mac-beta/beta-mac.json'
+      target: 'beta.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/beta'
+
+check:
+  convert:
+    # win 32
+    - target: package-win-release/ia32-release.yml
+      dest: package-win-release/ia32-release.json
+    # win 64
+    - target: package-win-release/x64-release.yml
+      dest: package-win-release/x64-release.json
+    # mac
+    - target: package-mac-release/release-mac.yml
+      dest: package-mac-release/release-mac.json
+  resource:
+  # win 32
+    - dist: 'package-win-release'
+      ignore:
+        - 'win-ia32-unpacked'
+        - 'win-unpacked'
+        - '/.json/'
+        - '/.yaml$/'
+        - '/.yml$/'
+        - '/.blockmap$/'
+        - '/rishiqing-win-release-/'
+        - '/rishiqing-win-x64-release-/'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/check'
+    # win 64
+    - dist: 'package-win-release'
+      ignore:
+        - 'win-ia32-unpacked'
+        - 'win-unpacked'
+        - '/.json/'
+        - '/.yaml$/'
+        - '/.yml$/'
+        - '/.blockmap$/'
+        - '/rishiqing-win-release-/'
+        - '/rishiqing-win-ia32-release-/'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/check'
+    # mac
+    - dist: 'package-mac-release'
+      ignore:
+        - 'mac-universal'
+        - '/.yml$/'
+        - '/.yaml$/'
+        - '/.json/'
+        - '/.blockmap$/'
+      upload: 
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/check'
+  fileReplace:
+    # win 32 yml
+    - dist: 'package-win-release/ia32-release.yml'
+      target: 'release.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/check'
+    # win 32 json
+    - dist: 'package-win-release/ia32-release.json'
+      target: 'release.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/ia32/check'
+    # win 64 yml
+    - dist: 'package-win-release/x64-release.yml'
+      target: 'release.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/check'
+    # win 64 json
+    - dist: 'package-win-release/x64-release.json'
+      target: 'release.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/win/x64/check'
+    # mac yml
+    - dist: 'package-mac-release/release-mac.yml'
+      target: 'release.yml'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/check'
+    # mac json
+    - dist: 'package-mac-release/release-mac.json'
+      target: 'release.json'
+      upload:
+        - type: 'aliyunOss'
+          param:
+            accessKeyId: ${ALY_OSS_ACCESS_ID}
+            secretAccessKey: ${ALY_OSS_ACCESS_KEY}
+            bucket: 'rishiqing-client'
+            endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
+            prefix: 'pc-autoupdate-v4/mac/check'

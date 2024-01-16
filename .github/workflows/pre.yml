@@ -20,21 +20,24 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: '3.10'
-      # step3: install node env
+      # step3: install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
+      # step4: install node env
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 16.x
-      # step4: pnpm
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-      - run: pnpm config set registry https://npm.timetask.cn/
-      - run: echo  ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
-      - run: pnpm install
-      # step5: build
+          cache: pnpm
+      # step5: install dependencies
+      - name: Install dependencies
+        run: pnpm install --only dev
+      # step6: build
       - name: Build pre
         run: pnpm run build-pre
-      # step6: upload artifact
+      # step7: upload artifact
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
@@ -43,28 +46,51 @@ jobs:
             package-linux-beta
             package-mac-beta
             package-win-beta
-    
+
   release :
     name: release pre-rishiqing-pc
     needs: pre-build
     runs-on: ubuntu-latest
     steps:
-      # step1: download artifact
+      # step1: check out repository
+      - name: Check out git repository
+        uses: actions/checkout@v4
+      # step2: install pnpm
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+      - run: pnpm config set registry https://npm.timetask.cn/
+      - run: echo ${{ secrets.NPM_TOKEN }} >> ~/.npmrc
+      # step3: install node env
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 16.x
+          cache: pnpm
+      # step4: download artifact
       - name: Download Artifact
         uses: actions/download-artifact@v4
         with:
           name: dist
           path: ./
-      # step2: release
-      - name: release
+      # step5: release
+      - name: Release
         uses: softprops/action-gh-release@v1
         if: startsWith(github.ref, 'refs/tags/')
         with:
           files: |
            package-mac-beta/*.!(yml)
+           package-x64-beta/*.!(yml)
            package-win-beta/*.!(yml)
-           package-linux-beta/*.!(yml)
           draft: true
           prerelease: true
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+      # step6: install dependencies
+      - name: Install dependencies
+        run: pnpm install --only prod
+      # step7: deploy
+      - name: Deploy
+        run: pnpm run deploy-pre 
+        env:
+          ALY_OSS_ACCESS_ID: ${{ secrets.ALY_OSS_ACCESS_ID }}
+          ALY_OSS_ACCESS_KEY: ${{ secrets.ALY_OSS_ACCESS_KEY }}
