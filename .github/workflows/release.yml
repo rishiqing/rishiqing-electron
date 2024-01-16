@@ -24,6 +24,9 @@ jobs:
         with:
           node-version: 16.x
           cache: pnpm
+      # step4: install dependencies
+      - name: Install dependencies
+        run: pnpm install ali-oss
       # step5: release
       - name: Release
         run: pnpm run deploy 

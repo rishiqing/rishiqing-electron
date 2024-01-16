@@ -87,7 +87,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
       # step6: install dependencies
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install rishiqing-deploy
       # step7: deploy
       - name: Deploy
         run: pnpm run deploy-pre 
