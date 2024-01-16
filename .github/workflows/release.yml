@@ -26,7 +26,7 @@ jobs:
           cache: pnpm
       # step4: install dependencies
       - name: Install dependencies
-        run: pnpm install ali-oss
+        run: pnpm install
       # step5: release
       - name: Release
         run: pnpm run deploy 
