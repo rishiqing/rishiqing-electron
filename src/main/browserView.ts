@@ -10,7 +10,6 @@ import { ViewEvent } from './utils/eventMessage'
 
 let view: BrowserView
 
-let canAutoLogin = true
 
 export const createMainBrowserView = async (
   mainWindow: BrowserWindow,
@@ -148,14 +147,12 @@ export const createMainBrowserView = async (
   })
 
   view.webContents.on('ipc-message', (_, channel, message) => {
-    if (channel === 'can_auto_login' && !message && canAutoLogin) {
-      canAutoLogin = message
+    if (channel === 'can_auto_login' && !message ) {
       mainWindow.removeBrowserView(view)
       view.webContents.closeDevTools()
     }
 
     if (channel === 'on_logout') {
-      canAutoLogin = false
       mainWindow.removeBrowserView(view)
       view.webContents.closeDevTools()
     }
