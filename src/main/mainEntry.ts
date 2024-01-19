@@ -40,14 +40,15 @@ const windowSize = store.get('windowSize')
 if (process.platform !== 'darwin')
   app.setAppUserModelId('release.rishiqing.electron')
 
+const disableHardwareAcceleration = store.get('disableHardwareAcceleration')
+if (disableHardwareAcceleration) {
+  // win 7 关闭硬件加速
+  app.disableHardwareAcceleration()
+  log.info('disableHardwareAcceleration')
+}
+
 app.whenReady().then(() => {
   log.info('app ready')
-  const disableHardwareAcceleration = store.get('disableHardwareAcceleration')
-  if (disableHardwareAcceleration) {
-    // win 7 关闭硬件加速
-    app.disableHardwareAcceleration()
-    log.info('disableHardwareAcceleration')
-  }
 
   // 初始化快捷键
   intiHotkey()

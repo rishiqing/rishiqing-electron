@@ -31,10 +31,20 @@ export const createMainBrowserView = async (
   view.setAutoResize({
     width: true,
   })
+
+  // electron bug，不同平台，y坐标不同 25版本之后修复
+  // https://github.com/electron/electron/pull/38981
+  const getY = (newBounds: Electron.Rectangle) => {
+    if (process.platform === 'darwin') {
+      return newBounds.y - mainWindow.getBounds().y
+    }
+    return 0
+  }
+
   mainWindow.setBrowserView(view)
   view.setBounds({
     x: 0,
-    y: mainWindow.getBounds().height - mainWindow.getContentSize()[1],
+    y: getY(mainWindow.getContentBounds()),
     width: mainWindow.getBounds().width,
     height: mainWindow.getContentSize()[1],
   })
@@ -55,7 +65,7 @@ export const createMainBrowserView = async (
     let newBounds = mainWindow.getBounds()
     view.setBounds({
       x: 0,
-      y: newBounds.height - mainWindow.getContentSize()[1],
+      y: getY(newBounds),
       width: newBounds.width,
       height: mainWindow.getContentSize()[1],
     })

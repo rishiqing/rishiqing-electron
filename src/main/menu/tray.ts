@@ -15,9 +15,9 @@ export const getImage = () => {
   let tray_icon
   if (process.platform === 'darwin') {
     if (nativeTheme.shouldUseDarkColors) {
-      tray_icon = '/resources/img/tray_mac_drak_mode@2x.png'
+      tray_icon = '/resources/img/tray_mac_dark_mode.png'
     } else {
-      tray_icon = '/resources/img/tray_mac@2x.png'
+      tray_icon = '/resources/img/tray_mac.png'
     }
   } else {
     tray_icon = '/resources/img/rishiqing.png'
@@ -25,7 +25,7 @@ export const getImage = () => {
   return nativeImage.createFromPath(path.join(__dirname, tray_icon))
 }
 export const getPressedImage = () => {
-  const tray_icon_pressed = '/resources/img/tray_mac_drak_mode@2x.png'
+  const tray_icon_pressed = '/resources/img/tray_mac_dark_mode.png'
   return nativeImage.createFromPath(path.join(__dirname, tray_icon_pressed))
 }
 
