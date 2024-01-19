@@ -75,7 +75,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
             arch: ['x64', 'ia32'],
           },
         ],
-        icon: 'resources/img/rishiqing.png',
+        icon: 'resources/img/rishiqing_win.png',
         publish: {
           provider: 'generic',
           url: "https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}",

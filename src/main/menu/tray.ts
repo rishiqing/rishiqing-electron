@@ -13,6 +13,7 @@ import { autoLaunchEnable } from '../utils/autoLaunch'
 
 export const getImage = () => {
   let tray_icon
+  let size = 16
   if (process.platform === 'darwin') {
     if (nativeTheme.shouldUseDarkColors) {
       tray_icon = '/resources/img/tray_mac_dark_mode.png'
@@ -20,13 +21,18 @@ export const getImage = () => {
       tray_icon = '/resources/img/tray_mac.png'
     }
   } else {
-    tray_icon = '/resources/img/rishiqing.png'
+    tray_icon = '/resources/img/rishiqing_win.png'
+    size = 64
   }
-  return nativeImage.createFromPath(path.join(__dirname, tray_icon))
+  return nativeImage
+    .createFromPath(path.join(__dirname, tray_icon))
+    .resize({ width: size, height: size })
 }
 export const getPressedImage = () => {
   const tray_icon_pressed = '/resources/img/tray_mac_dark_mode.png'
-  return nativeImage.createFromPath(path.join(__dirname, tray_icon_pressed))
+  return nativeImage
+    .createFromPath(path.join(__dirname, tray_icon_pressed))
+    .resize({ width: 16, height: 16 })
 }
 
 let currentTray: Tray | null = null
