@@ -10,7 +10,6 @@ import { ViewEvent } from './utils/eventMessage'
 
 let view: BrowserView
 
-
 export const createMainBrowserView = async (
   mainWindow: BrowserWindow,
   url: string,
@@ -32,9 +31,10 @@ export const createMainBrowserView = async (
   view.setAutoResize({
     width: true,
   })
+  mainWindow.setBrowserView(view)
   view.setBounds({
     x: 0,
-    y: 0,
+    y: mainWindow.getBounds().height - mainWindow.getContentSize()[1],
     width: mainWindow.getBounds().width,
     height: mainWindow.getContentSize()[1],
   })
@@ -55,7 +55,7 @@ export const createMainBrowserView = async (
     let newBounds = mainWindow.getBounds()
     view.setBounds({
       x: 0,
-      y: 0,
+      y: newBounds.height - mainWindow.getContentSize()[1],
       width: newBounds.width,
       height: mainWindow.getContentSize()[1],
     })
@@ -147,20 +147,23 @@ export const createMainBrowserView = async (
   })
 
   view.webContents.on('ipc-message', (_, channel, message) => {
-    if (channel === 'can_auto_login' && !message ) {
+    if (channel === 'can_auto_login' && !message) {
+      view.webContents.close()
+      //实际上上页面不会真正的销毁，反而因为没有登录态反复刷新，重复执行preload，因此这里直接跳走
+      view.webContents.loadURL('about:blank')
       mainWindow.removeBrowserView(view)
       view.webContents.closeDevTools()
     }
 
     if (channel === 'on_logout') {
+      view.webContents.close()
+      view.webContents.loadURL('about:blank')
       mainWindow.removeBrowserView(view)
       view.webContents.closeDevTools()
     }
   })
 
   view.setBackgroundColor('#ffffff')
-
-  mainWindow.setBrowserView(view)
 
   eventEmitter.on(ViewEvent.reload, () => {
     view.webContents.reload()

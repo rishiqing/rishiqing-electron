@@ -35,7 +35,7 @@ export class CustomScheme {
   }
   //注册自定义app协议
   static registerScheme() {
-    protocol.handle('app', (request) => {
+    protocol.registerStreamProtocol('app', (request, callback) => {
       let { pathname, host } = new URL(request.url)
       let extension = path.extname(pathname).toLowerCase()
       // 默认的请求到index.html
@@ -46,11 +46,12 @@ export class CustomScheme {
       // 如果结尾不是html，那么没必要根据host区分
       if (extension !== '.html') host = ''
       const tarFile = path.join(__dirname, host, pathname)
-      return new Response(fs.readFileSync(tarFile), {
+      callback({
+        statusCode: 200,
         headers: {
           'content-type': this.getMimeType(extension),
         },
-        status: 200,
+        data: fs.createReadStream(tarFile),
       })
     })
   }
