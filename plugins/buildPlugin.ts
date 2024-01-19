@@ -79,7 +79,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         publish: {
           provider: 'generic',
           url: "https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}",
-          channel: '${arch}-${env.CHANNEL}',
+          channel: '${env.CHANNEL}-win-${arch}',
         },
       },
       linux: {
@@ -131,7 +131,7 @@ const buildInstaller = async () => {
   await build(createBuilderOptions('win'))
   // mac
   await build(createBuilderOptions('mac'))
-  // // linux
+  // linux
   // await build(createBuilderOptions('linux'))
 }
 

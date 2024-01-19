@@ -3,9 +3,9 @@ const OSS = require('ali-oss')
 const path = require('node:path')
 
 const sourceList = [
-  { type: 'mac', key: 'pc-autoupdate-v4/mac/check/release.json' },
-  { type: 'ia32', key: 'pc-autoupdate-v4/win/ia32/check/release.json' },
-  { type: 'x64', key: 'pc-autoupdate-v4/win/x64/check/release.json' },
+  { type: 'mac', key: 'pc-autoupdate-v4/mac/check/release-mac.json' },
+  { type: 'ia32', key: 'pc-autoupdate-v4/win/ia32/check/release-win-ia32.json' },
+  { type: 'x64', key: 'pc-autoupdate-v4/win/x64/check/release-win-x64.json' },
 ]
 
 const copySource = {
@@ -13,24 +13,24 @@ const copySource = {
     prefix: 'pc-autoupdate-v4/mac',
     list: [
       `rishiqing-mac-release-${version}.dmg`,
-      `release.json`,
-      `release.yml`,
+      `release-mac.json`,
+      `release-mac.yml`,
     ],
   },
   ia32: {
     prefix: 'pc-autoupdate-v4/win/ia32',
     list: [
       `rishiqing-win-ia32-release-${version}.exe`,
-      `release.json`,
-      `release.yml`,
+      `release-win-ia32.json`,
+      `release-win-ia32.yml`,
     ],
   },
   x64: {
     prefix: 'pc-autoupdate-v4/win/x64',
     list: [
       `rishiqing-win-x64-release-${version}.exe`,
-      `release.json`,
-      `release.yml`,
+      `release-win-ia64.json`,
+      `release-win-ia64.yml`,
     ],
   },
 }

@@ -1,11 +1,11 @@
 pre:
   convert:
     # win 32
-    - target: package-win-beta/ia32-beta.yml
-      dest: package-win-beta/ia32-beta.json
+    - target: package-win-beta/beta-win-ia32.yml
+      dest: package-win-beta/beta-win-ia32.json
     # win 64
-    - target: package-win-beta/x64-beta.yml
-      dest: package-win-beta/x64-beta.json
+    - target: package-win-beta/beta-win-x64.yml
+      dest: package-win-beta/beta-win-x64.json
     # mac
     - target: package-mac-beta/beta-mac.yml
       dest: package-mac-beta/beta-mac.json
@@ -66,8 +66,8 @@ pre:
             prefix: 'pc-autoupdate-v4/mac/beta'
   fileReplace:
     # win 32 yml
-    - dist: 'package-win-beta/ia32-beta.yml'
-      target: 'beta.yml'
+    - dist: 'package-win-beta/beta-win-ia32.yml'
+      target: 'beta-win-ia32.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -77,8 +77,8 @@ pre:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/ia32/beta'
     # win 32 json
-    - dist: 'package-win-beta/ia32-beta.json'
-      target: 'beta.json'
+    - dist: 'package-win-beta/beta-win-ia32.json'
+      target: 'beta-win-ia32.json'
       upload:
         - type: 'aliyunOss'
           param:
@@ -88,8 +88,8 @@ pre:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/ia32/beta'
     # win 64 yml
-    - dist: 'package-win-beta/x64-beta.yml'
-      target: 'beta.yml'
+    - dist: 'package-win-beta/beta-win-x64.yml'
+      target: 'beta-win-x64.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -99,8 +99,8 @@ pre:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/x64/beta'
     # win 64 json
-    - dist: 'package-win-beta/x64-beta.json'
-      target: 'beta.json'
+    - dist: 'package-win-beta/beta-win-x64.json'
+      target: 'beta-win-x64.json'
       upload:
         - type: 'aliyunOss'
           param:
@@ -111,7 +111,7 @@ pre:
             prefix: 'pc-autoupdate-v4/win/x64/beta'
     # mac yml
     - dist: 'package-mac-beta/beta-mac.yml'
-      target: 'beta.yml'
+      target: 'beta-mac.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -122,7 +122,7 @@ pre:
             prefix: 'pc-autoupdate-v4/mac/beta'
     # mac json
     - dist: 'package-mac-beta/beta-mac.json'
-      target: 'beta.json'
+      target: 'beta-mac.json'
       upload:
         - type: 'aliyunOss'
           param:
@@ -135,11 +135,11 @@ pre:
 check:
   convert:
     # win 32
-    - target: package-win-release/ia32-release.yml
-      dest: package-win-release/ia32-release.json
+    - target: package-win-release/release-win-ia32.yml
+      dest: package-win-release/release-win-ia32.json
     # win 64
-    - target: package-win-release/x64-release.yml
-      dest: package-win-release/x64-release.json
+    - target: package-win-release/release-win-x64.yml
+      dest: package-win-release/release-win-x64.json
     # mac
     - target: package-mac-release/release-mac.yml
       dest: package-mac-release/release-mac.json
@@ -200,8 +200,8 @@ check:
             prefix: 'pc-autoupdate-v4/mac/check'
   fileReplace:
     # win 32 yml
-    - dist: 'package-win-release/ia32-release.yml'
-      target: 'release.yml'
+    - dist: 'package-win-release/release-win-ia32.yml'
+      target: 'release-win-ia32.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -211,8 +211,8 @@ check:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/ia32/check'
     # win 32 json
-    - dist: 'package-win-release/ia32-release.json'
-      target: 'release.json'
+    - dist: 'package-win-release/release-win-ia32.json'
+      target: 'release-win-ia32.json'
       upload:
         - type: 'aliyunOss'
           param:
@@ -222,8 +222,8 @@ check:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/ia32/check'
     # win 64 yml
-    - dist: 'package-win-release/x64-release.yml'
-      target: 'release.yml'
+    - dist: 'package-win-release/release-win-x64.yml'
+      target: 'release-win-x64.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -233,8 +233,8 @@ check:
             endpoint: 'http://oss-cn-shenzhen.aliyuncs.com'
             prefix: 'pc-autoupdate-v4/win/x64/check'
     # win 64 json
-    - dist: 'package-win-release/x64-release.json'
-      target: 'release.json'
+    - dist: 'package-win-release/release-win-x64.json'
+      target: 'release-win-x64.json'
       upload:
         - type: 'aliyunOss'
           param:
@@ -245,7 +245,7 @@ check:
             prefix: 'pc-autoupdate-v4/win/x64/check'
     # mac yml
     - dist: 'package-mac-release/release-mac.yml'
-      target: 'release.yml'
+      target: 'release-mac.yml'
       upload:
         - type: 'aliyunOss'
           param:
@@ -256,7 +256,7 @@ check:
             prefix: 'pc-autoupdate-v4/mac/check'
     # mac json
     - dist: 'package-mac-release/release-mac.json'
-      target: 'release.json'
+      target: 'release-mac.json'
       upload:
         - type: 'aliyunOss'
           param:
