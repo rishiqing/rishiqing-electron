@@ -29,8 +29,8 @@ const copySource = {
     prefix: 'pc-autoupdate-v4/win/x64',
     list: [
       `rishiqing-win-x64-release-${version}.exe`,
-      `release-win-ia64.json`,
-      `release-win-ia64.yml`,
+      `release-win-x64.json`,
+      `release-win-x64.yml`,
     ],
   },
 }
