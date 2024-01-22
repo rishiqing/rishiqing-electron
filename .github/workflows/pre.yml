@@ -7,7 +7,7 @@ on:
 
 jobs:
   pre-build:
-    name: build and releasepre-rishiqing-pc
+    name: build and release pre-rishiqing-pc
     runs-on: macos-11
 
     # create steps
