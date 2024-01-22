@@ -15,6 +15,7 @@ const zh_CN = `
 `
 
 const createBuilderOptions = (platform = 'win'): CliOptions => {
+  const pre = process.env.CHANNEL === 'beta'
   let targets
   let output = `package-${process.env.CHANNEL}`
   if (platform === 'win') {
@@ -40,7 +41,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
       publish: {
         provider: 'generic',
         url: 'https://download.timetask.cn/pc-autoupdate-v4/${os}/${env.CHANNEL}',
-        channel: '${env.CHANNEL}'
+        channel: '${env.CHANNEL}',
       },
       mac: {
         category: 'public.app-category.productivity', //放到生产效率类
@@ -50,6 +51,9 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           arch: 'universal',
           target: 'dmg',
         },
+        gatekeeperAssess: false,
+        hardenedRuntime: true,
+        identity: pre ? null : undefined,
       },
       dmg: {
         artifactName: 'rishiqing-mac-${env.CHANNEL}-${version}.${ext}',
@@ -67,6 +71,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           },
         ],
         background: 'resources/img/background.png',
+        sign: false,
       },
       win: {
         target: [
@@ -78,7 +83,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         icon: 'resources/img/rishiqing_win.png',
         publish: {
           provider: 'generic',
-          url: "https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}",
+          url: 'https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}',
           channel: '${env.CHANNEL}-win-${arch}',
         },
       },
@@ -108,6 +113,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           console.error('写入文件时出错:', err)
         }
       },
+      afterSign: 'resources/common/notarize.js',
     },
     targets,
   }
@@ -128,7 +134,7 @@ const buildMain = () => {
 
 const buildInstaller = async () => {
   // win
-  await build(createBuilderOptions('win'))
+  // await build(createBuilderOptions('win'))
   // mac
   await build(createBuilderOptions('mac'))
   // linux

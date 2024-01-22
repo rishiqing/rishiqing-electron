@@ -36,6 +36,12 @@ jobs:
       # step6: build
       - name: Build check
         run: pnpm run build
+        env:
+          CSC_LINK: ${{ secrets.CSC_LINK }}
+          CSC_KEY_PASSWORD: ${{ secrets.CSC_KEY_PASSWORD }}
+          XCODE_APP_LOADER_EMAIL: ${{ secrets.XCODE_APP_LOADER_EMAIL }}
+          XCODE_APP_LOADER_PASSWORD: ${{ secrets.XCODE_APP_LOADER_PASSWORD }}
+          XCODE_APP_LOADER_TEAM_ID: ${{ secrets.XCODE_APP_LOADER_TEAM_ID }}
         # step7: release
       - name: Release
         uses: softprops/action-gh-release@v1
