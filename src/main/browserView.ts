@@ -178,4 +178,8 @@ export const createMainBrowserView = async (
   eventEmitter.on(ViewEvent.reload, () => {
     view.webContents.reload()
   })
+
+  eventEmitter.on(ViewEvent.clientFocus, (focus) => {
+    view.webContents.send('client_focus',focus)    
+  })
 }

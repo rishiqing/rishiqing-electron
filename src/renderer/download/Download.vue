@@ -70,11 +70,9 @@ const getFileTypeImageUrl = (file: FileType) => {
 }
 
 const openItem = (file: FileType) => {
-  // shell.openPath(file.savePath)
   ipcRenderer.send(IpcEvent.openPath, file.savePath)
 }
 const openInFolder = (file: FileType) => {
-  // shell.showItemInFolder(file.savePath)
   ipcRenderer.send(IpcEvent.openInFolder, file.savePath)
 }
 const cancel = (file: FileType) => {

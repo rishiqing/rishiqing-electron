@@ -4,6 +4,7 @@ const package_json = require('../../package.json')
 const EVENTS = {
   Preload_Can_Auto_Login: 'can_auto_login',
   Preload_On_Logout: 'on_logout',
+  Client_Focus: 'client_focus',
 }
 
 function dealLogin(canAutoLogin) {
@@ -41,3 +42,7 @@ window.onload = () => {
     ipcRenderer.send(EVENTS.Preload_On_Logout)
   }
 }
+
+ipcRenderer.on(EVENTS.Client_Focus, (_, client_focus) => {
+  if (window) window.Client_Focus = client_focus
+})

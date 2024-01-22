@@ -12,6 +12,8 @@ import {
 } from './autoLaunch'
 import { eventEmitter } from './eventEmitter'
 import { testProxy } from './proxy'
+import fs from 'node:fs'
+import path from 'node:path'
 
 export const registerIpcMain = (mainWindow: BrowserWindow) => {
   ipcMain.on(IpcEvent.openLogDirectory, () => {
@@ -121,11 +123,30 @@ export const registerIpcMain = (mainWindow: BrowserWindow) => {
     store.clear()
   })
 
-  ipcMain.on(IpcEvent.openPath, (_,path) => {
-    shell.openPath(path)
+  ipcMain.on(IpcEvent.openPath, (event, openPath) => {
+    const win = BrowserWindow.fromWebContents(event.sender)!
+    if (fs.existsSync(openPath)) {
+      shell.openPath(openPath)
+    } else {
+      dialog.showMessageBox(win, {
+        type: 'error',
+        message: '文件不存在',
+      })
+    }
   })
 
-  ipcMain.on(IpcEvent.openInFolder, (_,path) => {
-    shell.showItemInFolder(path)
+  ipcMain.on(IpcEvent.openInFolder, (event, openInFolder) => {
+    const win = BrowserWindow.fromWebContents(event.sender)!
+    const folder = path.dirname(openInFolder)
+    if (fs.existsSync(openInFolder)) {
+      shell.showItemInFolder(openInFolder)
+    } else if (fs.existsSync(folder)) {
+      shell.openPath(folder)
+    } else {
+      dialog.showMessageBox(win, {
+        type: 'error',
+        message: '文件夹不存在',
+      })
+    }
   })
 }

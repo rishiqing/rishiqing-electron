@@ -58,6 +58,8 @@ export enum ViewEvent {
   'proxyConfigChange' = 'proxy-config-change',
   /** 下载位置变动 */
   'downloadConfigChange' = 'download-config-change',
+  /** 焦点是否在应用本身 */
+  'clientFocus' = 'client-focus',
 }
 
 export enum DownloadEvent {

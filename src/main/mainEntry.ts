@@ -171,6 +171,13 @@ const viewInit = () => {
   app.on('window-all-closed', app.quit)
 
   app.on('before-quit', () => app.exit(0))
+
+  app.on('browser-window-focus',() => {
+    eventEmitter.emit(ViewEvent.clientFocus, true)
+  })
+  app.on('browser-window-blur',() => {
+    eventEmitter.emit(ViewEvent.clientFocus, false)
+  })
 }
 
 const gotTheLock = app.requestSingleInstanceLock()

@@ -32,6 +32,7 @@ const sign = async () => {
 }
 const show = ref(true)
 const openUrl = async (type: 'login' | 'sign') => {
+  if (loading.value) return
   show.value = false
   let url
   if (type === 'login') {
@@ -52,13 +53,24 @@ const openUrl = async (type: 'login' | 'sign') => {
   show.value = true
 }
 
+const loading = ref(false)
+
 onMounted(async () => {
-  const { serverUrl, baseUrl } = await getUrl()
-  const mainUrl = url.resolve(serverUrl, baseUrl)
-  const result = await ipcRenderer.invoke(IpcEvent.testServer, serverUrl)
-  if (result.alive) {
-    await ipcRenderer.invoke(IpcEvent.showUrl, mainUrl)
+  loading.value = true
+  try {
+    const { serverUrl, baseUrl } = await getUrl()
+    const mainUrl = url.resolve(serverUrl, baseUrl)
+    const result = await ipcRenderer.invoke(IpcEvent.testServer, serverUrl)
+    if (result.alive) {
+      await ipcRenderer.invoke(IpcEvent.showUrl, mainUrl)
+    }
+  } finally {
+    loading.value = false
   }
+
+  setTimeout(() => {
+    loading.value = false
+  }, 2500)
 })
 </script>
 
@@ -68,8 +80,11 @@ onMounted(async () => {
       <img src="../assets/welcome.png" draggable="false" />
       <div class="main">
         <img src="../../../resources/img/rishiqing.png" draggable="false" />
-        <span>欢迎使用日事清！</span>
-        <div class="login" @click="openUrl('login')">登录</div>
+        <span class="welcome-text">欢迎使用日事清！</span>
+        <div class="login" :class="{ loading }" @click="openUrl('login')">
+          <img v-if="loading" src="../assets/loading.svg" />
+          <span class="text">登录</span>
+        </div>
         <div class="sign" @click="openUrl('sign')">注册</div>
       </div>
     </div>
@@ -77,6 +92,19 @@ onMounted(async () => {
 </template>
 
 <style lang="scss" scoped>
+@keyframes load-loop {
+  from {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
 .welcome {
   width: 100vw;
   height: 100vh;
@@ -94,7 +122,7 @@ onMounted(async () => {
       width: 128px;
       height: 128px;
     }
-    span {
+    &-text {
       color: #333;
       font-family: Noto Sans CJK SC;
       font-size: 20px;
@@ -123,6 +151,21 @@ onMounted(async () => {
         width 0.2s ease-in;
       &:hover {
         background: #1a66d9;
+      }
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      span {
+        margin-left: 4px;
+      }
+    }
+    .loading {
+      background-color: #7dbeff !important;
+      cursor: not-allowed;
+      img {
+        animation: load-loop 1s linear infinite;
+        width: 16px;
+        height: 16px;
       }
     }
     .sign {
