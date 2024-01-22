@@ -134,7 +134,7 @@ const buildMain = () => {
 
 const buildInstaller = async () => {
   // win
-  // await build(createBuilderOptions('win'))
+  await build(createBuilderOptions('win'))
   // mac
   await build(createBuilderOptions('mac'))
   // linux
