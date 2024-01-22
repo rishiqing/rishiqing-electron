@@ -22,7 +22,7 @@ const main = async (context) => {
     return
   }
 
-  console.log('Starting Apple notarization.')
+  console.log('开始签名')
   await notarize({
     appBundleId: 'release.rishiqing.electron',
     appPath: path.join(appOutDir, 'rishiqing.app'),
