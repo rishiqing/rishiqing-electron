@@ -47,13 +47,26 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
         category: 'public.app-category.productivity', //放到生产效率类
         icon: 'resources/img/rishiqing.icns',
         type: 'distribution',
-        target: {
-          arch: 'universal',
-          target: 'dmg',
-        },
+        target: [
+          {
+            arch: 'universal',
+            target: 'zip',
+          },
+          {
+            arch: 'universal',
+            target: 'dmg',
+          }
+        ],
         gatekeeperAssess: false,
         hardenedRuntime: true,
         identity: pre ? null : undefined,
+        extendInfo: {
+          NSAppTransportSecurity: {
+            NSAllowsArbitraryLoads: true,
+          },
+        },
+        entitlementsInherit: 'resources/common/entitlements.mac.plist',
+        entitlements: 'resources/common/entitlements.mac.plist',
       },
       dmg: {
         artifactName: 'rishiqing-mac-${env.CHANNEL}-${version}.${ext}',
