@@ -12,7 +12,7 @@ const copySource = {
   mac: {
     prefix: 'pc-autoupdate-v4/mac',
     list: [
-      `rishiqing-${version}-universal-mac.zip`
+      `rishiqing-${version}-universal-mac.zip`,
       `rishiqing-mac-release-${version}.dmg`,
       `release-mac.json`,
       `release-mac.yml`,
