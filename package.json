@@ -2,7 +2,7 @@
   "name": "rishiqing-electron",
   "packageManager": "pnpm@8.14.0",
   "private": true,
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "rishiqing pc",
   "homepage": "https://www.rishiqing.com",
   "author": {
