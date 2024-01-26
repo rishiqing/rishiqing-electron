@@ -1,5 +1,10 @@
-const { ipcRenderer } = require('electron')
-const package_json = require('../../package.json')
+window.nodeRequire = require;
+delete window.require;
+delete window.exports;
+delete window.module;
+
+const { ipcRenderer } = nodeRequire('electron')
+const package_json = nodeRequire('../../package.json')
 
 const EVENTS = {
   Preload_Can_Auto_Login: 'can_auto_login',

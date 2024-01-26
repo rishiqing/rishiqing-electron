@@ -131,7 +131,9 @@ const viewInit = () => {
 
     // 打开开发者工具
     eventEmitter.on(ViewEvent.openDevTools, () => {
-      mainWindow.webContents.openDevTools()
+      mainWindow.webContents.openDevTools({
+        mode: 'undocked',
+      })
     })
 
     // 回到首页
@@ -172,10 +174,10 @@ const viewInit = () => {
 
   app.on('before-quit', () => app.exit(0))
 
-  app.on('browser-window-focus',() => {
+  app.on('browser-window-focus', () => {
     eventEmitter.emit(ViewEvent.clientFocus, true)
   })
-  app.on('browser-window-blur',() => {
+  app.on('browser-window-blur', () => {
     eventEmitter.emit(ViewEvent.clientFocus, false)
   })
 }
