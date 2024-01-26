@@ -3,11 +3,13 @@ import { autoUpdater } from 'electron-updater'
 import log from 'electron-log/main'
 const setAutoUpdate = () => {
   autoUpdater.on('update-downloaded', (info) => {
-    const notify = new Notification({
-      title: `日事清V${info.version} 已准备就绪！`,
-      body: `请退出当前应用，以便完成更新！`,
-    })
-    notify.show()
+    setTimeout(() => {
+      const notify = new Notification({
+        title: `日事清V${info.version} 已准备就绪！`,
+        body: `请退出当前应用，以便完成更新！`,
+      })
+      notify.show()
+    }, 2500)
   })
   autoUpdater.on('error', (error) => {
     const notify = new Notification({
