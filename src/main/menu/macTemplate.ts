@@ -1,8 +1,9 @@
-import { shell, app, type MenuItemConstructorOptions } from 'electron'
+import { shell, app, dialog, type MenuItemConstructorOptions } from 'electron'
 import { eventEmitter } from '../utils/eventEmitter'
 import { ViewEvent } from '../utils/eventMessage'
 import preference from '../preference'
 import download from '../download'
+import { version } from '../../../package.json'
 
 const list: MenuItemConstructorOptions[] = [
   {
@@ -123,6 +124,15 @@ const list: MenuItemConstructorOptions[] = [
         accelerator: 'Shift+Command+C',
         click: () => {
           eventEmitter.emit(ViewEvent.openDevTools)
+        },
+      },
+      {
+        label: '关于',
+        click: () => {
+          dialog.showMessageBox({
+            type: 'none',
+            message: version,
+          })
         },
       },
     ],

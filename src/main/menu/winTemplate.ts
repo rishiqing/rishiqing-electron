@@ -1,9 +1,10 @@
-import { app, type MenuItemConstructorOptions } from 'electron'
+import { app, dialog, type MenuItemConstructorOptions } from 'electron'
 import { eventEmitter } from '../utils/eventEmitter'
 import { ViewEvent } from '../utils/eventMessage'
 import { hideWindow, showWindow } from '../utils/helper'
 import preference from '../preference'
 import download from '../download'
+import { version } from '../../../package.json'
 
 const list: MenuItemConstructorOptions[] = [
   { label: 'Item2', type: 'separator' },
@@ -44,11 +45,19 @@ const list: MenuItemConstructorOptions[] = [
       eventEmitter.emit(ViewEvent.contentBack)
     },
   },
-
   {
     label: '开发者工具',
     click: () => {
       eventEmitter.emit(ViewEvent.openDevTools)
+    },
+  },
+  {
+    label: '关于',
+    click: () => {
+      dialog.showMessageBox({
+        type: 'none',
+        message: version,
+      })
     },
   },
   { label: 'Item2', type: 'separator' },
