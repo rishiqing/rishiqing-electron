@@ -55,8 +55,9 @@ const list: MenuItemConstructorOptions[] = [
     label: '关于',
     click: () => {
       dialog.showMessageBox({
-        type: 'none',
+        type: 'info',
         message: version,
+        title: '关于',
       })
     },
   },

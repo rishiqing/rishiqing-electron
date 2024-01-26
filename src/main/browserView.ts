@@ -45,7 +45,7 @@ export const createMainBrowserView = async (
   view.setBounds({
     x: 0,
     y: getY(mainWindow.getContentBounds()),
-    width: mainWindow.getBounds().width,
+    width: mainWindow.getContentBounds().width,
     height: mainWindow.getContentSize()[1],
   })
   view.webContents.loadURL(url, {
@@ -62,7 +62,7 @@ export const createMainBrowserView = async (
 `)
 
   mainWindow.on('resize', () => {
-    let newBounds = mainWindow.getBounds()
+    let newBounds = mainWindow.getContentBounds()
     view.setBounds({
       x: 0,
       y: getY(newBounds),

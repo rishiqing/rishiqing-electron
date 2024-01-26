@@ -56,11 +56,11 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           {
             arch: 'universal',
             target: 'dmg',
-          }
+          },
         ],
         gatekeeperAssess: false,
         hardenedRuntime: true,
-        identity: pre ? null : undefined,
+        identity: platform === 'mac' && !pre ? undefined : null,
         extendInfo: {
           NSAppTransportSecurity: {
             NSAllowsArbitraryLoads: true,
@@ -100,6 +100,7 @@ const createBuilderOptions = (platform = 'win'): CliOptions => {
           url: 'https://download.timetask.cn/pc-autoupdate-v4/${os}/${arch}/${env.CHANNEL}',
           channel: '${env.CHANNEL}-win-${arch}',
         },
+        verifyUpdateCodeSignature: false,
       },
       linux: {
         target: {
