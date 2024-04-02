@@ -4,9 +4,11 @@ import {
   app,
   Menu,
   MenuItemConstructorOptions,
+  shell,
 } from 'electron'
 import { eventEmitter } from './utils/eventEmitter'
 import { ViewEvent } from './utils/eventMessage'
+import whiteList from './utils/whiteList'
 
 let view: BrowserView
 
@@ -156,7 +158,7 @@ export const createMainBrowserView = async (
     }
   })
 
-  view.webContents.on('ipc-message', (_, channel, message) => {
+  view.webContents.on('ipc-message', async (_, channel, message) => {
     if (channel === 'can_auto_login' && !message) {
       view.webContents.close()
       //实际上上页面不会真正的销毁，反而因为没有登录态反复刷新，重复执行preload，因此这里直接跳走
@@ -166,11 +168,23 @@ export const createMainBrowserView = async (
     }
 
     if (channel === 'on_logout') {
+      view.webContents.session.clearStorageData({
+        storages: ['cookies', 'localstorage', 'cachestorage'],
+      })
       view.webContents.close()
       view.webContents.loadURL('about:blank')
       mainWindow.removeBrowserView(view)
       view.webContents.closeDevTools()
     }
+  })
+
+  view.webContents.setWindowOpenHandler(({ url }) => {
+    const { host } = new URL(url)
+    const key = host.split('.')[1]
+    // 如果在白名单，窗口内打开
+    if (key && whiteList.includes(key)) return { action: 'allow' }
+    shell.openExternal(url)
+    return { action: 'deny' }
   })
 
   view.setBackgroundColor('#ffffff')
@@ -180,6 +194,6 @@ export const createMainBrowserView = async (
   })
 
   eventEmitter.on(ViewEvent.clientFocus, (focus) => {
-    view.webContents.send('client_focus',focus)    
+    view.webContents.send('client_focus', focus)
   })
 }
